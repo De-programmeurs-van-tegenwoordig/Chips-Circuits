@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 
 def plot(x_coordinates, y_coordinates, x_max, y_max):
+    ''' makes plot with x ad y inputs (list) '''
     plt.plot(x_coordinates, y_coordinates, 'ro')
     plt.axis([0, x_max + 1, 0, y_max + 1])
     plt.show()
