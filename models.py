@@ -14,5 +14,3 @@ class Chip():
             return True
         else:
             return False
-
-
