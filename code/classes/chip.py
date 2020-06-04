@@ -14,3 +14,9 @@ class Chip():
             return True
         else:
             return False
+
+    def get_coordinates(self):
+        coordinates = []
+        coordinates.append(self.coordinate_x)
+        coordinates.append(self.coordinate_y)
+        return coordinates
