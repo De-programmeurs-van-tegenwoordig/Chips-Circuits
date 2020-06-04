@@ -1,41 +1,35 @@
 import matplotlib.pyplot as plt
-from models import *
-
-def plot_grid(x_coordinates, y_coordinates, x_max, y_max):
-    plt.plot(x_coordinates, y_coordinates, 'ro')
-    plt.axis([0, x_max + 1, 0, y_max + 1])
-    plt.grid(linestyle='-', linewidth=0.5)
-
-
-def Read(file_name):
-    """ reads the file """
-    with open (file_name) as f:
-        lines = f.read().splitlines()
-    for i in range (len(lines)):
-        lines[i] = lines[i].split(',')
-    return(lines)
+from code.function import plot_grid
+from code.classes import chip
+from code.classes import grid
+import csv
 
 if __name__ == '__main__':
-    print_0 = Read("gates&netlists/chip_0/print_0.csv")
-    netlist_1 = Read("gates&netlists/chip_0/netlist_1.csv")
+    print_0 = grid.Grid("data/chip_0/print_0.csv")
+    # netlist_1 = Read("data/chip_0/netlist_1.csv")
+
+    
     x = []
     y = []
     chips = {}
     counter = 1
 
+    print(print_0)
+
+
     for i in range (len(print_0)):
         if i == 0:
             continue
-        x_coordinate = int(print_0[i][1])
-        y_coordinate = int(print_0[i][2])
+        x_coordinate = int(print_0[i].coordinate_x)
+        y_coordinate = int(print_0[i].coordinate_y)
 
-        chip = Chip(counter, x_coordinate, y_coordinate)
-        chips[int(counter)] = chip
+        new_chip = chip.Chip(counter, x_coordinate, y_coordinate)
+        chips[int(counter)] = new_chip
 
-        x.append(int(print_0[i][1]))
-        y.append(int(print_0[i][2]))
+        x.append(x_coordinate)
+        y.append(y_coordinate)
         counter += 1
-    plot_grid(x,y,6,6)
+    plot_grid.plot_grid(x,y,6,6)
 
     net_needed = 0
     line_from = []
