@@ -1,4 +1,4 @@
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 def plot_grid(x_coordinates, y_coordinates, x_max, y_max):
     plt.plot(x_coordinates, y_coordinates, 'ro')
