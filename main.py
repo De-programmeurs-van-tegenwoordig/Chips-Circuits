@@ -5,24 +5,34 @@ from code.classes import grid
 import csv
 
 if __name__ == '__main__':
-    print_0 = grid.Grid("data/chip_0/print_0.csv")
-    # netlist_1 = Read("data/chip_0/netlist_1.csv")
-
+    print_0 = grid.Grid("data/chip_0/print_0.csv", "data/chip_0/netlist_1.csv")
+    
     x = []
     y = []
     chips = {}
     counter = 1
 
-    print(print_0)
+    print(print_0.chips)
+    print(print_0.netlists)
+
+    for i in (print_0.chips):
+        coordinates = i.get_coordinates()
+        x_coordinate = int(coordinates[0])
+        y_coordinate = int(coordinates[1])
+
+        x.append(x_coordinate)
+        y.append(y_coordinate)
+
+    plot_grid.plot_grid(x,y,6,6)
+    plt.show()
 
     net_needed = 0
     line_from = []
     line_to = []
 
-    for i in range (len(netlist_1)):
-        if i == 0:
-            continue
-        
+    for i in range (print_0.chips):
+
+        print(i)
         origin = int(netlist_1[i][0])
         destination = int(netlist_1[i][1])
 
