@@ -1,7 +1,6 @@
 import csv
 from .chip import Chip
 
-
 def Read(file_name):
     """ Reads the file """
     with open(file_name, 'r') as input_file:

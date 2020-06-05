@@ -4,8 +4,6 @@ from code.classes import chip
 from code.classes import grid
 import csv
 
-
-
 if __name__ == '__main__':
     print_0 = grid.Read("data/chip_0/print_0.csv")
     # netlist_1 = Read("data/chip_0/netlist_1.csv")
