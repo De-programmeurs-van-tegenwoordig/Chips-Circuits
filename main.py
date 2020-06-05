@@ -8,28 +8,12 @@ if __name__ == '__main__':
     print_0 = grid.Grid("data/chip_0/print_0.csv")
     # netlist_1 = Read("data/chip_0/netlist_1.csv")
 
-    
     x = []
     y = []
     chips = {}
     counter = 1
 
     print(print_0)
-
-
-    for i in range (len(print_0)):
-        if i == 0:
-            continue
-        x_coordinate = int(print_0[i].coordinate_x)
-        y_coordinate = int(print_0[i].coordinate_y)
-
-        new_chip = chip.Chip(counter, x_coordinate, y_coordinate)
-        chips[int(counter)] = new_chip
-
-        x.append(x_coordinate)
-        y.append(y_coordinate)
-        counter += 1
-    plot_grid.plot_grid(x,y,6,6)
 
     net_needed = 0
     line_from = []
