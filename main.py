@@ -82,6 +82,10 @@ if __name__ == '__main__':
         line_from.append([destination_x, origin_y])
         line_to.append([destination_x, destination_y])
 
+        for count, x in enumerate(list_of_nets):
+            print(x)
+            print(x.get_coordinates_from)
+        print(count)
         for i in range(len(line_from)):
             a = []
             b = []
