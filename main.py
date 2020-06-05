@@ -7,12 +7,10 @@ import csv
 
 if __name__ == '__main__':
     test_grid = grid.Grid("data/chip_0/print_0.csv", "data/chip_0/netlist_1.csv")
-    
-    x = []
-    y = []
 
     chips = test_grid.get_chips()
-
+    x = []
+    y = []
     for i in chips:
         coordinates = chips[i].get_coordinates()
         x_coordinate = int(coordinates[0])
@@ -50,6 +48,8 @@ if __name__ == '__main__':
 
         coordinates_from = (origin_x, origin_y)
         current_x = origin_x
+        current_y = origin_y
+        
 
         if delta_x > 0:
             for i in range(delta_x):
@@ -67,21 +67,33 @@ if __name__ == '__main__':
                 new_netlist = net.Net(coordinates_from, coordinates_to)
                 coordinates_from = coordinates_to
                 list_of_nets.append(new_netlist)
+            
+        if delta_y > 0:
+            for i in range(delta_y):
+                coordinates_to = (current_x, current_y + 1)
+                current_y += 1
+
+                new_netlist = net.Net(coordinates_from, coordinates_to)
+                coordinates_from = coordinates_to
+                list_of_nets.append(new_netlist)
+        else:
+            for i in range(abs(delta_y)):
+                coordinates_to = (current_x, current_y - 1)
+                current_y -= 1
+
+                new_netlist = net.Net(coordinates_from, coordinates_to)
+                coordinates_from = coordinates_to
+                list_of_nets.append(new_netlist)
 
         net_needed += (abs(destination_x - origin_x))
         net_needed += (abs(destination_y - origin_y))
 
         for x in list_of_nets:
-            print(x.get_coordinates_from())
-
             a = x.get_coordinates_from()
             b = x.get_coordinates_to()
 
-            c = [a[0], b[0]]
-            d = [a[1], b[1]]
-            print("a", a)
-            print("b", b)
-
+            c = (a[0], b[0])
+            d = (a[1], b[1])
             plt.plot(c, d, color='b')
 
     print("hoi", net_needed)
