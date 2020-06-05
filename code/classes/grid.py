@@ -1,7 +1,6 @@
 import csv
 from .chip import Chip
 
-
 class Grid():
     def __init__(self, chip_file, netlist_file):
         self.chips = self.load_chips(chip_file)
@@ -9,7 +8,7 @@ class Grid():
 
     def load_chips(self, chip_file):
         """ Reads the file """
-        chips={}
+        chips = {}
 
         with open(chip_file, 'r') as input_file:
             reader = csv.DictReader(input_file)
@@ -32,6 +31,6 @@ class Grid():
                 new_connection = [row['chip_a'], row['chip_b']]
                 netlists.append(new_connection)
         return netlists
-    
+
     def get_netlists(self):
         return self.netlists

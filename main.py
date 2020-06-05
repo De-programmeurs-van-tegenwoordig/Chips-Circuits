@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 from code.function import plot_grid
 from code.classes import chip
 from code.classes import grid
+from code.classes import net
 import csv
 
 if __name__ == '__main__':
@@ -26,6 +27,7 @@ if __name__ == '__main__':
     net_needed = 0
     line_from = []
     line_to = []
+    list_of_nets = []
 
     for netlist in netlists:
         origin = int(netlist[0])
@@ -43,21 +45,37 @@ if __name__ == '__main__':
         destination_x = int(coordinates_destination[0])
         destination_y = int(coordinates_destination[1])
 
+        delta_x = destination_x - origin_x
+        delta_y = destination_y - origin_y
+
+
+        coordinates_from = coordinates_origin
+        current_x = origin_x
+        
+
+        if delta_x > 0:
+            for i in range(delta_x):
+                coordinates_to = [current_x + 1, origin_y]
+                current_x += 1
+
+                new_netlist = net.Net(coordinates_from, coordinates_to)
+                coordinates_from = coordinates_to
+                list_of_nets.append(new_netlist)
+        else:
+            for i in range(abs(delta_x)):
+                coordinates_to = [current_x - 1, origin_y]
+                current_x -= 1
+
+                new_netlist = net.Net(coordinates_from, coordinates_to)
+                coordinates_from = coordinates_to
+                list_of_nets.append(new_netlist)
+
+        print(list_of_nets)
         net_needed += (abs(destination_x - origin_x))
         net_needed += (abs(destination_y - origin_y))
 
         line_from.append([origin_x, origin_y])
         line_to.append([destination_x, origin_y])
-
-        delta_x = destination_x - origin_x
-        if delta_x > 0:
-            coordinates_to = []
-            coordinates_from = []
-            for i in range (delta_x):
-                coordinate_to = [origin_x + i + 1, origin_y] 
-                coordinate_from_x = [origin_x + i, origin_y]
-                coordinates_to.append(coordinate_to)
-                coordinates_from.append(coordinate_from)
 
 
 
