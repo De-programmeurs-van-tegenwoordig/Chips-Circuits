@@ -31,12 +31,6 @@ class Grid():
                 new_connection = [row['chip_a'], row['chip_b']]
                 netlists.append(new_connection)
         return netlists
-<<<<<<< HEAD
 
-    def get_chips(self):
-        return self.chips
-=======
-    
     def get_netlists(self):
         return self.netlists
->>>>>>> a0717e6c009b60937ce54b6e54c24074404cd9ce
