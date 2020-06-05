@@ -5,39 +5,35 @@ from code.classes import grid
 import csv
 
 if __name__ == '__main__':
-    print_0 = grid.Grid("data/chip_0/print_0.csv")
-    # netlist_1 = Read("data/chip_0/netlist_1.csv")
-
+    print_0 = grid.Grid("data/chip_0/print_0.csv", "data/chip_0/netlist_1.csv")
+    
     x = []
     y = []
     chips = {}
     counter = 1
 
-    print(print_0)
+    print(print_0.chips)
 
-
-    for i in range (len(print_0)):
-        if i == 0:
-            continue
-        x_coordinate = int(print_0[i].coordinate_x)
-        y_coordinate = int(print_0[i].coordinate_y)
-
-        new_chip = chip.Chip(counter, x_coordinate, y_coordinate)
-        chips[int(counter)] = new_chip
+    chips = print_0.get_chips()
+    for i in chips:
+        coordinates = chips[i].get_coordinates()
+        print(coordinates)
+        x_coordinate = int(coordinates[0])
+        y_coordinate = int(coordinates[1])
 
         x.append(x_coordinate)
         y.append(y_coordinate)
-        counter += 1
+
     plot_grid.plot_grid(x,y,6,6)
+    plt.show()
 
     net_needed = 0
     line_from = []
     line_to = []
 
+    netlist_1 = print_0.netlists
+
     for i in range (len(netlist_1)):
-        if i == 0:
-            continue
-        
         origin = int(netlist_1[i][0])
         destination = int(netlist_1[i][1])
 
@@ -53,6 +49,29 @@ if __name__ == '__main__':
         destination_x = int(coordinates_destination[0])
         destination_y = int(coordinates_destination[1])
 
+        delta_x = destination_x - origin_x
+        delta_y = destination_y - origin_y
+
+
+
+
+        coordinates_from = coordinates_origin
+        current_x = origin_x
+
+        if delta_x > 0:
+            for i in range (delta_x):
+                coordinates_to = [current_x + 1, origin_y]
+                current_x += 1
+
+                new_netlist = Netlist(coordinates_from, coordinates_to)
+                coordinates_from = coordinates_to
+        else:
+            pass
+
+        
+        
+        
+        
         net_needed += (abs(destination_x - origin_x))
         net_needed += (abs(destination_y - origin_y))
 
