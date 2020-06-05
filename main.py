@@ -5,18 +5,15 @@ from code.classes import grid
 import csv
 
 if __name__ == '__main__':
-    print_0 = grid.Grid("data/chip_0/print_0.csv", "data/chip_0/netlist_1.csv")
+    test_grid = grid.Grid("data/chip_0/print_0.csv", "data/chip_0/netlist_1.csv")
     
     x = []
     y = []
-    chips = {}
-    counter = 1
 
-    print(print_0.chips)
-    print(print_0.netlists)
+    chips = test_grid.get_chips()
 
-    for i in (print_0.chips):
-        coordinates = i.get_coordinates()
+    for i in chips:
+        coordinates = chips[i].get_coordinates()
         x_coordinate = int(coordinates[0])
         y_coordinate = int(coordinates[1])
 
@@ -24,17 +21,15 @@ if __name__ == '__main__':
         y.append(y_coordinate)
 
     plot_grid.plot_grid(x,y,6,6)
-    plt.show()
 
+    netlists = test_grid.get_netlists()
     net_needed = 0
     line_from = []
     line_to = []
 
-    for i in range (print_0.chips):
-
-        print(i)
-        origin = int(netlist_1[i][0])
-        destination = int(netlist_1[i][1])
+    for netlist in netlists:
+        origin = int(netlist[0])
+        destination = int(netlist[1])
 
         chip_origin = chips[origin]
         chip_destination = chips[destination]
@@ -54,6 +49,18 @@ if __name__ == '__main__':
         line_from.append([origin_x, origin_y])
         line_to.append([destination_x, origin_y])
 
+        delta_x = destination_x - origin_x
+        if delta_x > 0:
+            coordinates_to = []
+            coordinates_from = []
+            for i in range (delta_x):
+                coordinate_to = [origin_x + i + 1, origin_y] 
+                coordinate_from_x = [origin_x + i, origin_y]
+                coordinates_to.append(coordinate_to)
+                coordinates_from.append(coordinate_from)
+
+
+
         line_from.append([destination_x, origin_y])
         line_to.append([destination_x, destination_y])
 
@@ -71,31 +78,3 @@ if __name__ == '__main__':
 
     print("hoi", net_needed)
     plt.show()
-
-
-
-
-
-        
-
-        
-
-        
-
-
-
-        
-
-        
-
-
-
-
-
-
-
-
-    
-
-    
-    plt = plot(x,y,6,6)    
