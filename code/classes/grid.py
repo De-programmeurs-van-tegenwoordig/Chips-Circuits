@@ -1,16 +1,19 @@
 import csv
 from .chip import Chip
 
-def Read(file_name):
-    """ Reads the file """
-    with open(file_name, 'r') as input_file:
-        reader = csv.DictReader(input_file)
+class Grid():
+    def __init__(self, chip_file):
+        self.chips = self.load_chips(chip_file)
+
+    def load_chips(self, chip_file):
+        """ Reads the file """
         chips={}
 
-        counter = 1
-        for row in reader:
-            # print(row)
-            new_chip = Chip(counter, row['x'], row['y'])
-            chips[int(counter)] = new_chip
-            counter += 1
-    return chips
+        with open(chip_file, 'r') as input_file:
+            reader = csv.DictReader(input_file)
+            
+            for count, row in enumerate(reader, 1):
+                new_chip = Chip(count, row['x'], row['y'])
+                chips[int(count)] = new_chip
+
+        return chips
