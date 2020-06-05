@@ -4,9 +4,11 @@ from code.classes import chip
 from code.classes import grid
 from code.classes import net
 import csv
+import random
 
 if __name__ == '__main__':
     test_grid = grid.Grid("data/chip_0/print_0.csv", "data/chip_0/netlist_1.csv")
+    size = 7
 
     chips = test_grid.get_chips()
     x = []
@@ -19,7 +21,7 @@ if __name__ == '__main__':
         x.append(x_coordinate)
         y.append(y_coordinate)
 
-    plot_grid.plot_grid(x,y,6,6)
+    plot_grid.plot_grid(x,y,10,10)
 
     netlists = test_grid.get_netlists()
     net_needed = 0
@@ -49,41 +51,77 @@ if __name__ == '__main__':
         coordinates_from = (origin_x, origin_y)
         current_x = origin_x
         current_y = origin_y
-        
-
-        if delta_x > 0:
-            for i in range(delta_x):
-                coordinates_to = (current_x + 1, origin_y)
-                current_x += 1
-
-                new_netlist = net.Net(coordinates_from, coordinates_to)
-                coordinates_from = coordinates_to
-                list_of_nets.append(new_netlist)    
-        else:
-            for i in range(abs(delta_x)):
-                coordinates_to = (current_x - 1, origin_y)
-                current_x -= 1
-
-                new_netlist = net.Net(coordinates_from, coordinates_to)
-                coordinates_from = coordinates_to
-                list_of_nets.append(new_netlist)
+         
+        directions = [(0,1), (1,0), (0,-1), (-1,0)]
+        while current_x != destination_x or current_y != destination_y:
+            count = 0
+            check = True
+            direction = random.choice(directions)
+            coordinates_to = (coordinates_from[0] + direction[0], coordinates_from[1] + direction[1])
+            print(coordinates_from)
             
-        if delta_y > 0:
-            for i in range(delta_y):
-                coordinates_to = (current_x, current_y + 1)
-                current_y += 1
-
+            if coordinates_to[0] > size  or coordinates_to[1] > size  or coordinates_to[0] < 0 or coordinates_to[1] < 0:
+                check = False
+            
+            for i in list_of_nets:
+                net_from = i.get_coordinates_from()
+                net_to = i.get_coordinates_to()
+                if coordinates_to == net_from or coordinates_to == net_to:
+                    count += 1
+                if coordinates_from == net_from and coordinates_to == net_to:
+                    check = False
+                    break
+                if coordinates_from == net_to and coordinates_to == net_from:
+                    check = False
+                    break
+                
+            if count == 2:
+                check = False
+            
+            if check:
                 new_netlist = net.Net(coordinates_from, coordinates_to)
-                coordinates_from = coordinates_to
                 list_of_nets.append(new_netlist)
-        else:
-            for i in range(abs(delta_y)):
-                coordinates_to = (current_x, current_y - 1)
-                current_y -= 1
+                coordinates_from = coordinates_to 
+                current_x = coordinates_to[0]
+                current_y = coordinates_to[1]
 
-                new_netlist = net.Net(coordinates_from, coordinates_to)
-                coordinates_from = coordinates_to
-                list_of_nets.append(new_netlist)
+
+
+
+
+        # if delta_x > 0:
+        #     for i in range(delta_x):
+        #         coordinates_to = (current_x + 1, origin_y)
+        #         current_x += 1
+
+        #         new_netlist = net.Net(coordinates_from, coordinates_to)
+        #         coordinates_from = coordinates_to
+        #         list_of_nets.append(new_netlist)    
+        # else:
+        #     for i in range(abs(delta_x)):
+        #         coordinates_to = (current_x - 1, origin_y)
+        #         current_x -= 1
+
+        #         new_netlist = net.Net(coordinates_from, coordinates_to)
+        #         coordinates_from = coordinates_to
+        #         list_of_nets.append(new_netlist)
+            
+        # if delta_y > 0:
+        #     for i in range(delta_y):
+        #         coordinates_to = (current_x, current_y + 1)
+        #         current_y += 1
+
+        #         new_netlist = net.Net(coordinates_from, coordinates_to)
+        #         coordinates_from = coordinates_to
+        #         list_of_nets.append(new_netlist)
+        # else:
+        #     for i in range(abs(delta_y)):
+        #         coordinates_to = (current_x, current_y - 1)
+        #         current_y -= 1
+
+        #         new_netlist = net.Net(coordinates_from, coordinates_to)
+        #         coordinates_from = coordinates_to
+        #         list_of_nets.append(new_netlist)
 
         net_needed += (abs(destination_x - origin_x))
         net_needed += (abs(destination_y - origin_y))
@@ -95,6 +133,7 @@ if __name__ == '__main__':
             c = (a[0], b[0])
             d = (a[1], b[1])
             plt.plot(c, d, color='b')
+        break
 
     print("hoi", net_needed)
     plt.show()
