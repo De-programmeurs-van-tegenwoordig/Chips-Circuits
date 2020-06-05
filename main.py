@@ -49,13 +49,14 @@ if __name__ == '__main__':
         delta_y = destination_y - origin_y
 
 
-        coordinates_from = coordinates_origin
+        coordinates_from = (origin_x,origin_y)
         current_x = origin_x
+        current_y = origin_y
         
 
         if delta_x > 0:
             for i in range(delta_x):
-                coordinates_to = [current_x + 1, origin_y]
+                coordinates_to = (current_x + 1, int(origin_y))
                 current_x += 1
 
                 new_netlist = net.Net(coordinates_from, coordinates_to)
@@ -63,36 +64,45 @@ if __name__ == '__main__':
                 list_of_nets.append(new_netlist)
         else:
             for i in range(abs(delta_x)):
-                coordinates_to = [current_x - 1, origin_y]
+                coordinates_to = (current_x - 1, int(origin_y))
                 current_x -= 1
 
                 new_netlist = net.Net(coordinates_from, coordinates_to)
                 coordinates_from = coordinates_to
                 list_of_nets.append(new_netlist)
+            
+        if delta_y > 0:
+            for i in range(delta_y):
+                coordinates_to = (current_x, current_y + 1)
+                current_y += 1
 
-        print(list_of_nets)
+                new_netlist = net.Net(coordinates_from, coordinates_to)
+                coordinates_from = coordinates_to
+                list_of_nets.append(new_netlist)
+        else:
+            for i in range(abs(delta_y)):
+                coordinates_to = (current_x, current_y - 1)
+                current_y -= 1
+
+                new_netlist = net.Net(coordinates_from, coordinates_to)
+                coordinates_from = coordinates_to
+                list_of_nets.append(new_netlist)
+
         net_needed += (abs(destination_x - origin_x))
         net_needed += (abs(destination_y - origin_y))
 
         line_from.append([origin_x, origin_y])
         line_to.append([destination_x, origin_y])
 
-
-
         line_from.append([destination_x, origin_y])
         line_to.append([destination_x, destination_y])
 
-        for i in range(len(line_from)):
-            a = []
-            b = []
-
-            a.append(int(line_from[i][0]))
-            a.append(int(line_to[i][0]))
-
-            b.append(int(line_from[i][1]))
-            b.append(int(line_to[i][1]))
-
-            plt.plot(a, b, color='b')
+        for x in list_of_nets:
+            a = x.get_coordinates_from()
+            b = x.get_coordinatesto()
+            c = (a[0], b[0])
+            d = (a[1], b[1])
+            plt.plot(c, d, color='b')
 
     print("hoi", net_needed)
     plt.show()
