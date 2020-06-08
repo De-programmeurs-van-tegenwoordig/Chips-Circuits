@@ -1,7 +1,7 @@
 import random
 from code.classes import net
 
-def random_solve(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, counter):
+def random_solve(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, counter, list_of_coordinates):
     tries = 0
     directions = [(0,1), (1,0), (0,-1), (-1,0)]
     nets = set()
@@ -35,7 +35,9 @@ def random_solve(origin_x, origin_y, destination_x,  destination_y, size, list_o
                 if (coordinates_from[0] == net_to[0] and coordinates_from[1] == net_to[1]) and (coordinates_to[0] == net_from[0] and coordinates_to[1] == net_from[1]):
                     check = False
                     break
-
+                if coordinates_to in list_of_coordinates and coordinates_to[0] != destination_x and coordinates_to[1] != destination_x:
+                    check = False
+                    break
                 # f.write(str(coordinates_from) + str(net_from) + str(check) + str(counter) + str(coordinates_to) + str(net_to) + "\n")
                 # print(coordinates_from,net_from, check, coordinates_to, net_to)
 
@@ -49,6 +51,9 @@ def random_solve(origin_x, origin_y, destination_x,  destination_y, size, list_o
                 check = False
                 break
             if (coordinates_from[0] == net_to[0] and coordinates_from[1] == net_to[1]) and (coordinates_to[0] == net_from[0] and coordinates_to[1] == net_from[1]):
+                check = False
+                break
+            if coordinates_to in list_of_coordinates and coordinates_to[0] != destination_x and coordinates_to[1] != destination_x:
                 check = False
                 break
 

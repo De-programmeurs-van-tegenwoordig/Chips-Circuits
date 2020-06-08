@@ -7,7 +7,6 @@ from code.algorithms import random_solve
 import csv
 import random
 from mpl_toolkits import mplot3d
-import numpy as np
 
 
 if __name__ == '__main__':
@@ -16,13 +15,17 @@ if __name__ == '__main__':
     checkpoint = 0
     tries = 0
     chips = test_grid.get_chips()
+    list_of_coordinates = []
     x = []
     y = []
     for i in chips:
         coordinates = chips[i].get_coordinates()
+        
         x_coordinate = int(coordinates[0])
         y_coordinate = int(coordinates[1])
+        coordinates = (x_coordinate, y_coordinate)
 
+        list_of_coordinates.append(coordinates)
         x.append(x_coordinate)
         y.append(y_coordinate)
 
@@ -55,7 +58,7 @@ if __name__ == '__main__':
 
         coordinates_from = (origin_x, origin_y)
          
-        result = random_solve.random_solve(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, counter)
+        result = random_solve.random_solve(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, counter, list_of_coordinates)
 
         list_of_nets[counter] = result[0]
         counter += 1
