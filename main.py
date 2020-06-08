@@ -3,6 +3,7 @@ from code.function import plot_grid
 from code.classes import chip
 from code.classes import grid
 from code.classes import net
+from code.algorithms import random_solve
 import csv
 import random
 
@@ -26,11 +27,10 @@ if __name__ == '__main__':
 
     netlists = test_grid.get_netlists()
     net_needed = 0
-    line_from = []
-    line_to = []
-    list_of_nets = []
-    tries = 0
-    checkpoint = 0
+    list_of_nets = {}
+
+    counter = 0
+
     for netlist in netlists:
         origin = int(netlist[0])
         destination = int(netlist[1])
@@ -51,43 +51,12 @@ if __name__ == '__main__':
         delta_y = destination_y - origin_y
 
         coordinates_from = (origin_x, origin_y)
-        current_x = origin_x
-        current_y = origin_y
-        
-        directions = [(0,1), (1,0), (0,-1), (-1,0)]
-        while current_x != destination_x or current_y != destination_y:
-            tries += 1
-            if tries == 2000:
-                break
-            count = 0
-            check = True
-            direction = random.choice(directions)
-            coordinates_to = (coordinates_from[0] + direction[0], coordinates_from[1] + direction[1])
+         
+        result = random_solve.random_solve(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, counter)
 
-            if coordinates_to[0] > size  or coordinates_to[1] > size  or coordinates_to[0] <= 0 or coordinates_to[1] <= 0:
-                check = False
-            
-            for i in list_of_nets:
-                net_from = i.get_coordinates_from()
-                net_to = i.get_coordinates_to()
-                if coordinates_to == net_from or coordinates_to == net_to:
-                    count += 1
-                if coordinates_from == net_from and coordinates_to == net_to:
-                    check = False
-                    break
-                if coordinates_from == net_to and coordinates_to == net_from:
-                    check = False
-                    break
-                
-            if count == 2:
-                check = False
-            
-            if check:
-                new_netlist = net.Net(coordinates_from, coordinates_to)
-                list_of_nets.append(new_netlist)
-                coordinates_from = coordinates_to 
-                current_x = coordinates_to[0]
-                current_y = coordinates_to[1]
+        list_of_nets[counter] = result[0]
+        counter += 1
+        tries = result[1]
 
         # if delta_x > 0:
         #     for i in range(delta_x):
@@ -126,19 +95,27 @@ if __name__ == '__main__':
         net_needed += (abs(destination_x - origin_x))
         net_needed += (abs(destination_y - origin_y))
 
-        for x in list_of_nets:
-            a = x.get_coordinates_from()
-            b = x.get_coordinates_to()
-            c = (a[0], b[0])
-            d = (a[1], b[1])
-            plt.plot(c, d, color=color)
-        color = "r"
-
-        
-        if tries == 2000 or checkpoint == 2:
-            break
-        
+        for count in range(len(list_of_nets)):
+            colors = ['b','r','g','bl']
+            nets = list_of_nets[count]
             
+            for x in nets:
+                a = x.get_coordinates_from()
+                b = x.get_coordinates_to()
+                c = (a[0], b[0])
+                d = (a[1], b[1])
+                plt.plot(c, d, color=colors[count])
+
+        checkpoint += 1
+        if checkpoint == 3:
+            break
+
+        # for x in list_of_nets:
+        #     a = x.get_coordinates_from()
+        #     b = x.get_coordinates_to()
+        #     c = (a[0], b[0])
+        #     d = (a[1], b[1])
+        #     plt.plot(c, d)
 
         checkpoint = checkpoint + 1
         check_list.append(checkpoint)
