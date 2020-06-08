@@ -7,10 +7,10 @@ import csv
 import random
 
 if __name__ == '__main__':
+    color = 'b'
+    check_list = []
     test_grid = grid.Grid("data/chip_0/print_0.csv", "data/chip_0/netlist_1.csv")
     size = 10
-    checkpoint = 0
-    tries = 0
     chips = test_grid.get_chips()
     x = []
     y = []
@@ -29,9 +29,9 @@ if __name__ == '__main__':
     line_from = []
     line_to = []
     list_of_nets = []
-
+    tries = 0
+    checkpoint = 0
     for netlist in netlists:
-
         origin = int(netlist[0])
         destination = int(netlist[1])
 
@@ -53,7 +53,7 @@ if __name__ == '__main__':
         coordinates_from = (origin_x, origin_y)
         current_x = origin_x
         current_y = origin_y
-         
+        
         directions = [(0,1), (1,0), (0,-1), (-1,0)]
         while current_x != destination_x or current_y != destination_y:
             tries += 1
@@ -63,8 +63,7 @@ if __name__ == '__main__':
             check = True
             direction = random.choice(directions)
             coordinates_to = (coordinates_from[0] + direction[0], coordinates_from[1] + direction[1])
-            print(coordinates_from)
-            
+
             if coordinates_to[0] > size  or coordinates_to[1] > size  or coordinates_to[0] <= 0 or coordinates_to[1] <= 0:
                 check = False
             
@@ -90,22 +89,59 @@ if __name__ == '__main__':
                 current_x = coordinates_to[0]
                 current_y = coordinates_to[1]
 
+        # if delta_x > 0:
+        #     for i in range(delta_x):
+        #         coordinates_to = (current_x + 1, origin_y)
+        #         current_x += 1
+
+        #         new_netlist = net.Net(coordinates_from, coordinates_to)
+        #         coordinates_from = coordinates_to
+        #         list_of_nets.append(new_netlist)    
+        # else:
+        #     for i in range(abs(delta_x)):
+        #         coordinates_to = (current_x - 1, origin_y)
+        #         current_x -= 1
+
+        #         new_netlist = net.Net(coordinates_from, coordinates_to)
+        #         coordinates_from = coordinates_to
+        #         list_of_nets.append(new_netlist)
+            
+        # if delta_y > 0:
+        #     for i in range(delta_y):
+        #         coordinates_to = (current_x, current_y + 1)
+        #         current_y += 1
+
+        #         new_netlist = net.Net(coordinates_from, coordinates_to)
+        #         coordinates_from = coordinates_to
+        #         list_of_nets.append(new_netlist)
+        # else:
+        #     for i in range(abs(delta_y)):
+        #         coordinates_to = (current_x, current_y - 1)
+        #         current_y -= 1
+
+        #         new_netlist = net.Net(coordinates_from, coordinates_to)
+        #         coordinates_from = coordinates_to
+        #         list_of_nets.append(new_netlist)
+
         net_needed += (abs(destination_x - origin_x))
         net_needed += (abs(destination_y - origin_y))
 
-        
-        print(checkpoint)
         for x in list_of_nets:
             a = x.get_coordinates_from()
             b = x.get_coordinates_to()
             c = (a[0], b[0])
             d = (a[1], b[1])
-            plt.plot(c, d, color='b')
+            plt.plot(c, d, color=color)
+        color = "r"
 
         
         if tries == 2000 or checkpoint == 2:
             break
-        checkpoint = checkpoint + 1
+        
+            
 
-    print("hoi", net_needed, checkpoint)
+        checkpoint = checkpoint + 1
+        check_list.append(checkpoint)
+    print(check_list, check_list.count(1), check_list.count(2), check_list.count(3), check_list.count(4), check_list.count(5) )
+    # print("hoi", net_needed, checkpoint)
     plt.show()
