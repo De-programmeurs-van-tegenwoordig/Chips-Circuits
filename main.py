@@ -6,12 +6,15 @@ from code.classes import net
 from code.algorithms import random_solve
 import csv
 import random
+from mpl_toolkits import mplot3d
+import numpy as np
+
 
 if __name__ == '__main__':
-    color = 'b'
-    check_list = []
     test_grid = grid.Grid("data/chip_0/print_0.csv", "data/chip_0/netlist_1.csv")
     size = 10
+    checkpoint = 0
+    tries = 0
     chips = test_grid.get_chips()
     x = []
     y = []
@@ -58,40 +61,6 @@ if __name__ == '__main__':
         counter += 1
         tries = result[1]
 
-        # if delta_x > 0:
-        #     for i in range(delta_x):
-        #         coordinates_to = (current_x + 1, origin_y)
-        #         current_x += 1
-
-        #         new_netlist = net.Net(coordinates_from, coordinates_to)
-        #         coordinates_from = coordinates_to
-        #         list_of_nets.append(new_netlist)    
-        # else:
-        #     for i in range(abs(delta_x)):
-        #         coordinates_to = (current_x - 1, origin_y)
-        #         current_x -= 1
-
-        #         new_netlist = net.Net(coordinates_from, coordinates_to)
-        #         coordinates_from = coordinates_to
-        #         list_of_nets.append(new_netlist)
-            
-        # if delta_y > 0:
-        #     for i in range(delta_y):
-        #         coordinates_to = (current_x, current_y + 1)
-        #         current_y += 1
-
-        #         new_netlist = net.Net(coordinates_from, coordinates_to)
-        #         coordinates_from = coordinates_to
-        #         list_of_nets.append(new_netlist)
-        # else:
-        #     for i in range(abs(delta_y)):
-        #         coordinates_to = (current_x, current_y - 1)
-        #         current_y -= 1
-
-        #         new_netlist = net.Net(coordinates_from, coordinates_to)
-        #         coordinates_from = coordinates_to
-        #         list_of_nets.append(new_netlist)
-
         net_needed += (abs(destination_x - origin_x))
         net_needed += (abs(destination_y - origin_y))
 
@@ -117,8 +86,5 @@ if __name__ == '__main__':
         #     d = (a[1], b[1])
         #     plt.plot(c, d)
 
-        checkpoint = checkpoint + 1
-        check_list.append(checkpoint)
-    print(check_list, check_list.count(1), check_list.count(2), check_list.count(3), check_list.count(4), check_list.count(5) )
-    # print("hoi", net_needed, checkpoint)
+    print("hoi", net_needed, checkpoint)
     plt.show()
