@@ -9,8 +9,8 @@ import random
 if __name__ == '__main__':
     test_grid = grid.Grid("data/chip_0/print_0.csv", "data/chip_0/netlist_1.csv")
     size = 10
-    PL = 1
-    LP = 0
+    checkpoint = 0
+    tries = 0
     chips = test_grid.get_chips()
     x = []
     y = []
@@ -56,8 +56,8 @@ if __name__ == '__main__':
          
         directions = [(0,1), (1,0), (0,-1), (-1,0)]
         while current_x != destination_x or current_y != destination_y:
-            LP += 1
-            if LP == 500:
+            tries += 1
+            if tries == 2000:
                 break
             count = 0
             check = True
@@ -132,6 +132,8 @@ if __name__ == '__main__':
         net_needed += (abs(destination_x - origin_x))
         net_needed += (abs(destination_y - origin_y))
 
+        
+        print(checkpoint)
         for x in list_of_nets:
             a = x.get_coordinates_from()
             b = x.get_coordinates_to()
@@ -139,9 +141,10 @@ if __name__ == '__main__':
             d = (a[1], b[1])
             plt.plot(c, d, color='b')
 
-        a = 1
-        if LP == 500 or a == 1:
+        
+        if tries == 2000 or checkpoint == 2:
             break
+        checkpoint = checkpoint + 1
 
-    print("hoi", net_needed, PL)
+    print("hoi", net_needed, checkpoint)
     plt.show()
