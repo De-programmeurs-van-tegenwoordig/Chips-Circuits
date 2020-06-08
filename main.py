@@ -8,8 +8,9 @@ import random
 
 if __name__ == '__main__':
     test_grid = grid.Grid("data/chip_0/print_0.csv", "data/chip_0/netlist_1.csv")
-    size = 7
-
+    size = 10
+    PL = 1
+    LP = 0
     chips = test_grid.get_chips()
     x = []
     y = []
@@ -30,6 +31,7 @@ if __name__ == '__main__':
     list_of_nets = []
 
     for netlist in netlists:
+
         origin = int(netlist[0])
         destination = int(netlist[1])
 
@@ -54,13 +56,16 @@ if __name__ == '__main__':
          
         directions = [(0,1), (1,0), (0,-1), (-1,0)]
         while current_x != destination_x or current_y != destination_y:
+            LP += 1
+            if LP == 500:
+                break
             count = 0
             check = True
             direction = random.choice(directions)
             coordinates_to = (coordinates_from[0] + direction[0], coordinates_from[1] + direction[1])
             print(coordinates_from)
             
-            if coordinates_to[0] > size  or coordinates_to[1] > size  or coordinates_to[0] < 0 or coordinates_to[1] < 0:
+            if coordinates_to[0] > size  or coordinates_to[1] > size  or coordinates_to[0] <= 0 or coordinates_to[1] <= 0:
                 check = False
             
             for i in list_of_nets:
@@ -84,6 +89,7 @@ if __name__ == '__main__':
                 coordinates_from = coordinates_to 
                 current_x = coordinates_to[0]
                 current_y = coordinates_to[1]
+        
 
 
 
@@ -129,14 +135,13 @@ if __name__ == '__main__':
         for x in list_of_nets:
             a = x.get_coordinates_from()
             b = x.get_coordinates_to()
-<<<<<<< HEAD
-=======
-
->>>>>>> b903421237a11c21980ce56774708abc7aec7155
             c = (a[0], b[0])
             d = (a[1], b[1])
             plt.plot(c, d, color='b')
-        break
 
-    print("hoi", net_needed)
+        a = 1
+        if LP == 500 or a == 1:
+            break
+
+    print("hoi", net_needed, PL)
     plt.show()
