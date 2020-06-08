@@ -22,7 +22,6 @@ def random_solve(origin_x, origin_y, destination_x,  destination_y, size, list_o
         if coordinates_to[0] > size  or coordinates_to[1] > size  or coordinates_to[0] <= 0 or coordinates_to[1] <= 0:
             check = False
 
-    
         for i in range(len(list_of_nets)):
             for x in list_of_nets[i]:
                 net_from = x.get_coordinates_from()
@@ -44,12 +43,12 @@ def random_solve(origin_x, origin_y, destination_x,  destination_y, size, list_o
             net_from = i.get_coordinates_from()
             net_to = i.get_coordinates_to()
 
-            if coordinates_to == net_from or coordinates_to == net_to:
-                count += 1
-            if coordinates_from == net_from and coordinates_to == net_to:
+            if (coordinates_to[0] == net_from[0] and coordinates_to[1] == net_from[1]) or (coordinates_to[0] == net_to[0] and coordinates_to[1] == net_to[1]):
+                    count += 1
+            if (coordinates_from[0] == net_from[0] and coordinates_from[1] == net_from[1]) and (coordinates_to[0] == net_to[0] and coordinates_to[1] == net_to[1]):
                 check = False
                 break
-            if coordinates_from == net_to and coordinates_to == net_from:
+            if (coordinates_from[0] == net_to[0] and coordinates_from[1] == net_to[1]) and (coordinates_to[0] == net_from[0] and coordinates_to[1] == net_from[1]):
                 check = False
                 break
 
