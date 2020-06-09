@@ -31,15 +31,14 @@ class Grid():
         return self.chips
 
     def load_netlists(self, netlist_file):
-        
         # Declare local variables
-        netlists=[]
+        netlists = set()
         
         # Opens netlist file and puts every netlist in list
         with open(netlist_file, 'r') as input_file:
             reader = csv.DictReader(input_file)
         
-            for count, row in enumerate(reader, 1):
+            for row in reader:
                 new_connection = [row['chip_a'], row['chip_b']]
                 netlists.append(new_connection)
         return netlists

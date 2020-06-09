@@ -1,5 +1,6 @@
 from code.classes import net
 from code.function import check_constraints
+import random
 
 def greedy(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, list_of_coordinates, counter):
     if counter == 5:
@@ -23,8 +24,12 @@ def greedy(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets
     # While line has not reached endpoint
     while current_x != destination_x or current_y != destination_y or current_z != destination_z:
         lowest_distance = 1000000
+        best_directions = []
+
+        # random.shuffle(directions)
 
         for direction in directions:
+            print(direction)
             coordinates_to = (coordinates_from[0] + direction[0], coordinates_from[1] + direction[1], coordinates_from[2] + direction[2])
             results = check_constraints.check_constraints(coordinates_from, coordinates_to, coordinates_destination, list_of_nets, nets, list_of_coordinates, size)
             check = results[0]
@@ -32,16 +37,19 @@ def greedy(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets
 
             if check:
                 distance = abs(coordinates_to[0] - coordinates_destination[0]) + abs(coordinates_to[1] - coordinates_destination[1]) + abs(coordinates_to[2] - coordinates_destination[2])
-                print("Dit is de distance:", distance, coordinates_to)
+                # print("Dit is de distance:", distance, coordinates_to)
                 if counter == 5:
                     f.write("distance:" + str(distance) + "  cross" + str(cross) + "  from" + str(coordinates_from) + "  to" + str(coordinates_to) + "\n")
 
                 if cross:
                     distance += 300
                 if distance < lowest_distance:
+                    best_directions.clear()
                     lowest_distance = distance
                     move_direction = direction
                     cross_lowest = cross
+                if distance == lowest_distance:
+                    best_directions.append(direction)
         
         coordinates_to = (coordinates_from[0] + move_direction[0], coordinates_from[1] + move_direction[1], coordinates_from[2] + move_direction[2])
         if cross_lowest:
