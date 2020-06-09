@@ -1,4 +1,3 @@
-
 def check_constraints(coordinates_from, coordinates_to, coordinates_destination, list_of_nets, nets, list_of_coordinates, size):
    # Checks if the line doesnt break rules
         count = 0
@@ -12,9 +11,9 @@ def check_constraints(coordinates_from, coordinates_to, coordinates_destination,
             for x in list_of_nets[i]:
                 net_from = x.get_coordinates_from()
                 net_to = x.get_coordinates_to()
-
                 if coordinates_to == net_from or coordinates_to == net_to:
-                    count += 1
+                    check = False 
+                    break 
                 if coordinates_from == net_from and coordinates_to == net_to:
                     check = False
                     break
@@ -30,7 +29,8 @@ def check_constraints(coordinates_from, coordinates_to, coordinates_destination,
             net_to = i.get_coordinates_to()
 
             if coordinates_to == net_from or coordinates_to == net_to:
-                    count += 1
+                check = False 
+                break               
             if coordinates_from == net_from and coordinates_to == net_to:
                 check = False
                 break
