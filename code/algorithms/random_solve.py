@@ -35,7 +35,7 @@ def random_solve(origin_x, origin_y, destination_x,  destination_y, size, list_o
                 if (coordinates_from[0] == net_to[0] and coordinates_from[1] == net_to[1]) and (coordinates_to[0] == net_from[0] and coordinates_to[1] == net_from[1]):
                     check = False
                     break
-                if coordinates_to in list_of_coordinates and coordinates_to[0] != destination_x and coordinates_to[1] != destination_x:
+                if coordinates_to in list_of_coordinates and coordinates_to[0] != destination_x and coordinates_to[1] != destination_y:
                     check = False
                     break
                 # f.write(str(coordinates_from) + str(net_from) + str(check) + str(counter) + str(coordinates_to) + str(net_to) + "\n")
@@ -53,7 +53,7 @@ def random_solve(origin_x, origin_y, destination_x,  destination_y, size, list_o
             if (coordinates_from[0] == net_to[0] and coordinates_from[1] == net_to[1]) and (coordinates_to[0] == net_from[0] and coordinates_to[1] == net_from[1]):
                 check = False
                 break
-            if coordinates_to in list_of_coordinates and coordinates_to[0] != destination_x and coordinates_to[1] != destination_x:
+            if coordinates_to in list_of_coordinates and coordinates_to[0] != destination_x and coordinates_to[1] != destination_y:
                 check = False
                 break
 
