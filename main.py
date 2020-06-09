@@ -14,7 +14,7 @@ if __name__ == '__main__':
     
     # Read multiple files
     chip_number = "0"
-    netlistfile = "netlist_1.csv"
+    netlistfile = "netlist_2.csv"
     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}")
     
     # Declare global variables
@@ -69,12 +69,12 @@ if __name__ == '__main__':
          
         # Perform the desired algoritm
         # result = random_solve.random_solve3D(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, counter, list_of_coordinates, 0)
-        result = greedy.greedy(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, list_of_coordinates)
+        result = greedy.greedy(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, list_of_coordinates, counter)
 
         # Calculate the amount of tries and net_needed
         list_of_nets[counter] = result[0]
         counter += 1
-        net_needed += result[1]
+        net_needed += result[1] + 300 * result[2]
 
         checkpoint += 1
         if checkpoint == 8:

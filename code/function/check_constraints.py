@@ -12,8 +12,30 @@ def check_constraints(coordinates_from, coordinates_to, coordinates_destination,
                 net_from = x.get_coordinates_from()
                 net_to = x.get_coordinates_to()
 
+                if coordinates_to == coordinates_destination:
+                    if coordinates_from == net_from:
+                        return check, cross
+                else:
+                    if coordinates_to == net_from or coordinates_to == net_to:
+                        cross = True
+                    if coordinates_from == net_from and coordinates_to == net_to:
+                        check = False
+                    elif coordinates_from == net_to and coordinates_to == net_from:
+                        check = False
+                    elif coordinates_to in list_of_coordinates and coordinates_to != coordinates_destination:
+                        check = False
+
+        for i in nets:
+            net_from = i.get_coordinates_from()
+            net_to = i.get_coordinates_to()
+
+            if coordinates_to == coordinates_destination:
+                if coordinates_from == net_from:
+                    check = False
+                    break
+            else:
                 if coordinates_to == net_from or coordinates_to == net_to:
-                    count = True
+                    cross = True
                 if coordinates_from == net_from and coordinates_to == net_to:
                     check = False
                     break
@@ -23,21 +45,5 @@ def check_constraints(coordinates_from, coordinates_to, coordinates_destination,
                 if coordinates_to in list_of_coordinates and coordinates_to != coordinates_destination:
                     check = False
                     break
-
-        for i in nets:
-            net_from = i.get_coordinates_from()
-            net_to = i.get_coordinates_to()
-
-            if coordinates_to == net_from or coordinates_to == net_to:
-                cross = True
-            if coordinates_from == net_from and coordinates_to == net_to:
-                check = False
-                break
-            if coordinates_from == net_to and coordinates_to == net_from:
-                check = False
-                break
-            if coordinates_to in list_of_coordinates and coordinates_to != coordinates_destination:
-                check = False
-                break
         
         return check, cross
