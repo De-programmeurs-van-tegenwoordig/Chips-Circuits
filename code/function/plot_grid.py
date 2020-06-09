@@ -2,7 +2,9 @@ import matplotlib.pyplot as plt
 from mpl_toolkits import mplot3d
 
 def plot_grid(x_coordinates, y_coordinates, size, list_of_nets):
-    # 3d plot
+    """ Plots the 3d graph """
+    
+    # Set all the variables up
     ax = plt.axes(projection="3d")
     ax.set_xlim3d(0, size)
     ax.set_ylim3d(0, size)
@@ -10,8 +12,11 @@ def plot_grid(x_coordinates, y_coordinates, size, list_of_nets):
     x_points = x_coordinates
     y_points = y_coordinates
     z_points = 0
+
+    # Form the graph
     ax.scatter3D(x_points, y_points, z_points, cmap='hsv', color="r")
 
+    # Get every line in the graph
     for count in range(len(list_of_nets)):
         colors = ['b','orange','g', 'purple', 'lightblue']
         nets = list_of_nets[count]
@@ -30,6 +35,7 @@ def plot_grid(x_coordinates, y_coordinates, size, list_of_nets):
             z.extend([a[2], b[2]])
             # z.append(b[2])
 
+            # Plot the line
             ax.plot3D(x, y, z, color=colors[count]) 
         
     # 2d plot

@@ -1,5 +1,8 @@
 class Chip():
     def __init__(self, chipnumber, coordinate_x, coordinate_y):
+        """ Declare chip class, consists of chipnumber, coordinates of the chip and the connections made"""
+
+        # Declare variables
         self.chip_number = chipnumber
         self.coordinates = (coordinate_x, coordinate_y, 0)
         self.connections = []

@@ -2,13 +2,18 @@ import random
 from code.classes import net
 
 def random_solve3D(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, counter, list_of_coordinates, restart):
+    """ Returns a random 3d solution of the given problem (netlist and chipset) """
+    
+    # Declaring local variables
     tries = 0
     directions = [(0,1,0), (1,0,0), (0,-1,0), (-1,0,0), (0,0,1), (0,0,-1)]
     nets = set()
 
+    # Set the beginning and endpoint up
     coordinates_from = (origin_x, origin_y, 0)
     coordinates_destination = (destination_x, destination_y, 0)
 
+    # Update the variables
     current_x = origin_x
     current_y = origin_y
     destination_z = 0
@@ -18,18 +23,25 @@ def random_solve3D(origin_x, origin_y, destination_x,  destination_y, size, list
     max_moves = 8
     restart += 1
 
+    # While line has not reached endpoint
     while current_x != destination_x or current_y != destination_y or current_z != destination_z:
+        
+        # Update tries and if amount tries exceed treshold restart line
         tries += 1
         if tries == 2000 or moves > max_moves:
             return random_solve3D(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, counter, list_of_coordinates, restart)
+
+        # Update variables
         count = 0
         check = True
         direction = random.choice(directions)
         coordinates_to = (coordinates_from[0] + direction[0], coordinates_from[1] + direction[1], coordinates_from[2] + direction[2])
         
+        # Checks if line exceeds boundaries
         if coordinates_to[0] > size  or coordinates_to[1] > size or coordinates_to[2] > size or coordinates_to[0] < 0 or coordinates_to[1] < 0 or coordinates_to[2] < 0:
             check = False
 
+        # Checks if the line doesnt break rules
         for i in range(len(list_of_nets)):
             for x in list_of_nets[i]:
                 net_from = x.get_coordinates_from()
@@ -66,6 +78,7 @@ def random_solve3D(origin_x, origin_y, destination_x,  destination_y, size, list
         if count == 2:
             check = False
         
+        # Append the line to the list if everything checks out
         if check:
             moves += 1
             new_netlist = net.Net(coordinates_from, coordinates_to)
@@ -75,6 +88,7 @@ def random_solve3D(origin_x, origin_y, destination_x,  destination_y, size, list
             current_y = coordinates_to[1]
             current_z = coordinates_to[2]
 
+    # Returns the list with lines and the amount of moves
     print(f"route {counter} needed {restart} restarts")
     return nets, moves
 
