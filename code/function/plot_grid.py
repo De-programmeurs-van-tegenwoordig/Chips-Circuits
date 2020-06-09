@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import random
 from mpl_toolkits import mplot3d
 
 def plot_grid(x_coordinates, y_coordinates, size, list_of_nets):
@@ -18,8 +19,12 @@ def plot_grid(x_coordinates, y_coordinates, size, list_of_nets):
 
     # Get every line in the graph
     for count in range(len(list_of_nets)):
-        colors = ['b','orange','g', 'purple', 'magenta', 'cyan', 'black', 'yellow']
+        # colors = ['b','orange','g', 'purple', 'magenta', 'cyan', 'black', 'yellow']
         nets = list_of_nets[count]
+        r = random.random()
+        b = random.random()
+        g = random.random()
+        color = (r, g, b)   
         
         for item in nets:
             x = []
@@ -33,7 +38,7 @@ def plot_grid(x_coordinates, y_coordinates, size, list_of_nets):
             z.extend([a[2], b[2]])
 
             # Plot the line
-            ax.plot3D(x, y, z, color=colors[count]) 
+            ax.plot3D(x, y, z, color=color) 
         
     # 2d plot
     # plt.plot(x_coordinates, y_coordinates, 'ro')
