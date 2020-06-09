@@ -19,3 +19,5 @@ class Chip():
 
     def get_coordinates(self):
         return self.coordinates
+
+    "lol"
