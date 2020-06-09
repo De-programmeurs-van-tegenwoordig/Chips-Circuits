@@ -77,7 +77,7 @@ if __name__ == '__main__':
         net_needed += result[1] + 300 * result[2]
 
         checkpoint += 1
-        if checkpoint == 8:
+        if checkpoint == 20:
             break
 
     # Plot the graph
