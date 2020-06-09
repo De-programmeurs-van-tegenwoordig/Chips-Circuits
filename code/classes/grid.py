@@ -39,8 +39,8 @@ class Grid():
             reader = csv.DictReader(input_file)
         
             for row in reader:
-                new_connection = [row['chip_a'], row['chip_b']]
-                netlists.append(new_connection)
+                new_connection = (row['chip_a'], row['chip_b'])
+                netlists.add(new_connection)
         return netlists
         
     def get_netlists(self):
