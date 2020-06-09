@@ -15,7 +15,7 @@ if __name__ == '__main__':
     checkpoint = 0
     tries = 0
     chips = test_grid.get_chips()
-    
+
     list_of_coordinates = []
     x = []
     y = []
@@ -37,7 +37,6 @@ if __name__ == '__main__':
         y.append(y_coordinate)
 
     counter = 0
-
 
     for netlist in netlists:
         origin = int(netlist[0])
