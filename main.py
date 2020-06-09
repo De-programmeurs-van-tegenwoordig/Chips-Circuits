@@ -13,12 +13,12 @@ from mpl_toolkits import mplot3d
 if __name__ == '__main__':
     
     # Read multiple files
-    chip_number = "0"
-    netlistfile = "netlist_2.csv"
+    chip_number = "1"
+    netlistfile = "netlist_4.csv"
     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}")
     
     # Declare global variables
-    size = 7
+    size = 17
     checkpoint = 0
     tries = 0
     counter = 0
@@ -77,7 +77,7 @@ if __name__ == '__main__':
         net_needed += result[1] + 300 * result[2]
 
         checkpoint += 1
-        if checkpoint == 8:
+        if checkpoint == 20:
             break
 
     # Plot the graph
