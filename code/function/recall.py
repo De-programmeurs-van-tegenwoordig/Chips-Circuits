@@ -1,6 +1,5 @@
 from code.classes import net
 from code.function import check_constraints
-from code.function import recall
 import random
 
 def greedy(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, list_of_coordinates, counter):
@@ -46,8 +45,6 @@ def greedy(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets
                 if distance == lowest_distance:
                     best_directions.append([direction, cross])
         
-        if best_directions == []:
-            break
         move_direction = random.choice(best_directions)
         while move_direction[1]:
             ran = random.randint(0,101)
@@ -69,7 +66,7 @@ def greedy(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets
         current_z = coordinates_to[2]
 
     # Returns the list with lines and the amount of moves
-    return nets, moves, cross_counter
+    return best_directions
         
         
         
