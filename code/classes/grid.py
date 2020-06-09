@@ -12,7 +12,6 @@ class Grid():
         self.netlists = self.load_netlists(netlist_file)
 
     def load_chips(self, chip_file):
-        
         # Declare local variable
         chips = {}
 

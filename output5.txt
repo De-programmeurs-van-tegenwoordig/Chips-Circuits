@@ -1,11 +1,54 @@
-distance:3  crossFalse  from(2, 4, 0)  to(2, 4, 1)
-distance:1  crossFalse  from(2, 4, 0)  to(2, 3, 0)
-distance:3  crossTrue  from(2, 4, 0)  to(2, 5, 0)
-distance:3  crossTrue  from(2, 4, 0)  to(1, 4, 0)
-beweging  from(2, 4, 0)  to(2, 3, 0)  lowest1
+beweging  from(12, 9, 0)  to(12, 8, 0)  lowest12
 
-distance:2  crossFalse  from(2, 3, 0)  to(2, 3, 1)
-distance:0  crossFalse  from(2, 3, 0)  to(2, 2, 0)
-distance:2  crossFalse  from(2, 3, 0)  to(3, 3, 0)
-beweging  from(2, 3, 0)  to(2, 2, 0)  lowest0
+beweging  from(12, 8, 0)  to(12, 7, 0)  lowest11
+
+beweging  from(12, 7, 0)  to(12, 6, 0)  lowest12
+
+beweging  from(12, 6, 0)  to(11, 6, 0)  lowest11
+
+beweging  from(11, 6, 0)  to(10, 6, 0)  lowest10
+
+beweging  from(10, 6, 0)  to(10, 7, 0)  lowest9
+
+beweging  from(10, 7, 0)  to(9, 7, 0)  lowest8
+
+beweging  from(9, 7, 0)  to(9, 6, 0)  lowest9
+
+beweging  from(9, 6, 0)  to(9, 5, 0)  lowest10
+
+beweging  from(9, 5, 0)  to(10, 5, 0)  lowest11
+
+beweging  from(10, 5, 0)  to(10, 4, 0)  lowest12
+
+beweging  from(10, 4, 0)  to(10, 4, 1)  lowest13
+
+beweging  from(10, 4, 1)  to(9, 4, 1)  lowest12
+
+beweging  from(9, 4, 1)  to(8, 4, 1)  lowest11
+
+beweging  from(8, 4, 1)  to(7, 4, 1)  lowest10
+
+beweging  from(7, 4, 1)  to(6, 4, 1)  lowest9
+
+beweging  from(6, 4, 1)  to(5, 4, 1)  lowest8
+
+beweging  from(5, 4, 1)  to(4, 4, 1)  lowest7
+
+beweging  from(4, 4, 1)  to(4, 4, 0)  lowest6
+
+beweging  from(4, 4, 0)  to(3, 4, 0)  lowest5
+
+beweging  from(3, 4, 0)  to(3, 4, 1)  lowest6
+
+beweging  from(3, 4, 1)  to(3, 5, 1)  lowest5
+
+beweging  from(3, 5, 1)  to(3, 6, 1)  lowest4
+
+beweging  from(3, 6, 1)  to(3, 6, 0)  lowest3
+
+beweging  from(3, 6, 0)  to(3, 7, 0)  lowest2
+
+beweging  from(3, 7, 0)  to(2, 7, 0)  lowest1
+
+beweging  from(2, 7, 0)  to(1, 7, 0)  lowest0
 
