@@ -41,22 +41,22 @@ def greedy(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets
                     best_directions.append([direction, cross])
                 if distance == lowest_distance:
                     best_directions.append([direction, cross])
-
+        
         if best_directions == []:
             return greedy(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, list_of_coordinates, counter)
-        else:
-            move_direction = random.choice(best_directions)
-            while move_direction[1]:
-                ran = random.randint(0,101)
-                if ran < 30:
-                    cross_counter += 1
-                    break
-                else:
-                    move_direction = random.choice(best_directions)
+        
+        move_direction = random.choice(best_directions)
+        while move_direction[1]:
+            ran = random.randint(0,101)
+            if ran < 30:
+                cross_counter += 1
+                break
+            else:
+                move_direction = random.choice(best_directions)
 
         coordinates_to = (coordinates_from[0] + move_direction[0][0], coordinates_from[1] + move_direction[0][1], coordinates_from[2] + move_direction[0][2])
 
-        # print("beweging", coordinates_to, lowest_distance)
+
         moves += 1
         new_netlist = net.Net(coordinates_from, coordinates_to)
         nets.add(new_netlist)
