@@ -4,6 +4,7 @@ from code.classes import chip
 from code.classes import grid
 from code.classes import net
 from code.algorithms import random_solve
+from code.algorithms import greedy
 import csv
 import random
 from mpl_toolkits import mplot3d
@@ -12,9 +13,9 @@ from mpl_toolkits import mplot3d
 if __name__ == '__main__':
     
     # Read multiple files
-    chip_number = 0
+    chip_number = "0"
     netlistfile = "netlist_1.csv"
-    test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}", f"data/chip_{chip_number}/{netlistfile}")
+    test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}")
     
     # Declare global variables
     size = 7
@@ -67,7 +68,8 @@ if __name__ == '__main__':
         destination_y = int(coordinates_destination[1])
          
         # Perform the desired algoritm
-        result = random_solve.random_solve3D(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, counter, list_of_coordinates, 0)
+        # result = random_solve.random_solve3D(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, counter, list_of_coordinates, 0)
+        result = greedy.greedy(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, list_of_coordinates)
 
         # Calculate the amount of tries and net_needed
         list_of_nets[counter] = result[0]
@@ -75,7 +77,7 @@ if __name__ == '__main__':
         net_needed += result[1]
 
         checkpoint += 1
-        if checkpoint == 5:
+        if checkpoint == 8:
             break
 
     # Plot the graph
