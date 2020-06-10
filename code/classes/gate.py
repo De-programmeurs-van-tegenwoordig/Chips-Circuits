@@ -1,9 +1,9 @@
-class Chip():
-    def __init__(self, chipnumber, coordinate_x, coordinate_y):
-        """ Declare chip class, consists of chipnumber, coordinates of the chip and the connections made"""
+class Gate():
+    def __init__(self, gatenumber, coordinate_x, coordinate_y):
+        """ Declare gate class, consists of gatenumber, coordinates of the gate and the connections made"""
 
         # Declare variables
-        self.chip_number = chipnumber
+        self.gate_number = gatenumber
         self.coordinates = (coordinate_x, coordinate_y, 0)
         self.connections = []
 

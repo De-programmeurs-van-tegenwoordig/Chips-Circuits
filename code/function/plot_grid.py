@@ -1,17 +1,33 @@
 import matplotlib.pyplot as plt
 import random
 from mpl_toolkits import mplot3d
+from code.classes import grid
 
-def plot_grid(x_coordinates, y_coordinates, size, list_of_nets):
+def plot_grid(grid_file):
     """ Plots the 3d graph """
-    
+    list_of_nets = grid_file.get_list_of_nets()
+    size = grid_file.get_size()
+
+    x = []
+    y = []
+
+    coordinates_gates = grid_file.get_coordinates_gates()
+
+    for item in coordinates_gates:
+        x_coordinate = int(item[0])
+        y_coordinate = int(item[1])
+
+        x.append(x_coordinate)
+        y.append(y_coordinate)
+
+
     # Set all the variables up
     ax = plt.axes(projection="3d")
     ax.set_xlim3d(0, size)
     ax.set_ylim3d(0, size)
     ax.set_zlim3d(0, 7)
-    x_points = x_coordinates
-    y_points = y_coordinates
+    x_points = x
+    y_points = y
     z_points = 0
 
     # Form the graph
@@ -34,14 +50,13 @@ def plot_grid(x_coordinates, y_coordinates, size, list_of_nets):
             b = item.get_coordinates_to()
 
             x.extend([a[0], b[0]])
-            # x.append(b[0])
             y.extend([a[1], b[1]])
-            # y.append(b[1])
             z.extend([a[2], b[2]])
-            # z.append(b[2])
 
             # Plot the line
             ax.plot3D(x, y, z, color=color) 
+    
+    plt.show()
         
     # 2d plot
     # plt.plot(x_coordinates, y_coordinates, 'ro')
