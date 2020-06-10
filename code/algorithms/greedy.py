@@ -47,8 +47,8 @@ def greedy2(grid_file, cross_counter, netlist, count):
 
                 if check:
                     distance = abs(coordinates_to[0] - coordinates_destination[0]) + abs(coordinates_to[1] - coordinates_destination[1]) + abs(coordinates_to[2] - coordinates_destination[2])
-                    if cross:
-                        distance += 300
+                    # if cross:
+                    #     distance += 300
                     if distance < lowest_distance:
                         best_directions.clear()
                         lowest_distance = distance
@@ -91,8 +91,6 @@ def greedy2(grid_file, cross_counter, netlist, count):
 
         # Returns the list with lines and the amount of moves
         # return moves, cross_counter
-        
-        
         
             
             
