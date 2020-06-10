@@ -55,7 +55,6 @@ def random_solve3D(origin_x, origin_y, destination_x,  destination_y, size, list
             current_x = coordinates_to[0]
             current_y = coordinates_to[1]
             current_z = coordinates_to[2]
-            print(check[1])
             if check[1]:
                 crosses += 1
 
