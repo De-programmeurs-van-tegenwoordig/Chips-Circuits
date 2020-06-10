@@ -19,3 +19,5 @@ class Gate():
 
     def get_coordinates(self):
         return self.coordinates
+
+    "lol"

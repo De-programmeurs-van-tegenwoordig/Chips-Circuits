@@ -16,7 +16,10 @@ def check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_d
         net_to = i.get_coordinates_to()
 
         if coordinates_to == coordinates_destination:
-            if coordinates_from == net_from:
+            if coordinates_from == net_from and net_to == coordinates_to:
+                check = False
+                return check, cross
+            elif net_from == coordinates_to and net_to == coordinates_from:
                 check = False
                 return check, cross
         else:
@@ -38,7 +41,11 @@ def check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_d
             net_to = x.get_coordinates_to()
 
             if coordinates_to == coordinates_destination:
-                if coordinates_from == net_from:
+                if coordinates_from == net_from and net_to == coordinates_to:
+                    check = False
+                    return check, cross
+                elif net_from == coordinates_to and net_to == coordinates_from:
+                    check = False
                     return check, cross
             else:
                 if coordinates_to == net_from or coordinates_to == net_to:

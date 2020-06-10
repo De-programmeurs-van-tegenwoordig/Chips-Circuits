@@ -5,11 +5,12 @@ import random
 def greedy(grid_file):
     cross_counter = 0
     count = 0
+    reset = 1
     netlist = grid_file.get_new_netlist()
 
-    greedy2(grid_file, cross_counter, netlist, count)
+    greedy2(grid_file, cross_counter, netlist, count, reset)
 
-def greedy2(grid_file, cross_counter, netlist, count):
+def greedy2(grid_file, cross_counter, netlist, count, reset):
     while netlist is not None:
         origin_x = netlist[0]
         origin_y = netlist[1]
@@ -46,8 +47,8 @@ def greedy2(grid_file, cross_counter, netlist, count):
 
                 if check:
                     distance = abs(coordinates_to[0] - coordinates_destination[0]) + abs(coordinates_to[1] - coordinates_destination[1]) + abs(coordinates_to[2] - coordinates_destination[2])
-                    # if cross:
-                    #     distance += 300
+                    if cross:
+                        distance += 300
                     if distance < lowest_distance:
                         best_directions.clear()
                         lowest_distance = distance
@@ -56,12 +57,15 @@ def greedy2(grid_file, cross_counter, netlist, count):
                         best_directions.append([direction, cross])
             
             if best_directions == []:
-                return greedy2(grid_file, cross_counter, netlist, count)
+                print(f"reset {reset}")
+                reset += 1
+                return greedy2(grid_file, cross_counter, netlist, count, reset)
             
             move_direction = random.choice(best_directions)
             while move_direction[1]:
                 ran = random.randint(0,101)
-                if ran < 30:
+                if ran < 10 * reset:
+                    # print(f"hoi {reset}")
                     cross_counter += 1
                     break
                 else:
@@ -76,9 +80,6 @@ def greedy2(grid_file, cross_counter, netlist, count):
             current_x = coordinates_to[0]
             current_y = coordinates_to[1]
             current_z = coordinates_to[2]
-
-            # wanneer de route klaar is doen we dit:
-            # add route to list of netlists
         
         grid_file.add_netlist(nets, cross_counter)
         netlist = grid_file.get_new_netlist()
@@ -87,8 +88,6 @@ def greedy2(grid_file, cross_counter, netlist, count):
         count += 1
     
     print("The total cost of the net is: ", grid_file.cost_of_route())
-        
-        
         
             
             
