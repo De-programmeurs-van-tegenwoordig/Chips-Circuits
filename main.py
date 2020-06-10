@@ -23,6 +23,5 @@ if __name__ == '__main__':
 
     # greedy.greedy(test_grid)
 
-
     # Plot the graph
     plot_grid.plot_grid(test_grid)
