@@ -3,37 +3,57 @@ from code.function import plot_grid
 from code.classes import chip
 from code.classes import grid
 from code.classes import net
+from code.algorithms import random_solve
+from code.algorithms import greedy
 import csv
 import random
+from mpl_toolkits import mplot3d
 
 if __name__ == '__main__':
-    check_list = []
-    test_grid = grid.Grid("data/chip_0/print_0.csv", "data/chip_0/netlist_1.csv")
-    size = 10
+    
+    # Read multiple files
+    chip_number = "0"
+    netlistfile = "netlist_1.csv"
+    test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}")
+    
+    # Declare global variables
+    size = 17
+    checkpoint = 0
+    tries = 0
+    counter = 0
+    
+    # Get coordinates chips
     chips = test_grid.get_chips()
+    
+    # Declare global lists
+    list_of_coordinates = []
     x = []
     y = []
-    for i in chips:
-        coordinates = chips[i].get_coordinates()
+
+    # Get netlist from the file
+    netlists = test_grid.get_netlists()
+    net_needed = 0
+    list_of_nets = {}
+
+    # All coordinates in multiple lists
+    for item in chips:
+        coordinates = chips[item].get_coordinates()
+        
         x_coordinate = int(coordinates[0])
         y_coordinate = int(coordinates[1])
+        coordinates = (x_coordinate, y_coordinate, 0)
 
+        list_of_coordinates.append(coordinates)
         x.append(x_coordinate)
         y.append(y_coordinate)
 
-    plot_grid.plot_grid(x,y,10,10)
-
-    netlists = test_grid.get_netlists()
-    net_needed = 0
-    line_from = []
-    line_to = []
-    list_of_nets = []
-    tries = 0
-    checkpoint = 0
+    # For every netlist form the connections
     for netlist in netlists:
+        
+        # Get local variables
         origin = int(netlist[0])
         destination = int(netlist[1])
-
+        
         chip_origin = chips[origin]
         chip_destination = chips[destination]
 
@@ -45,106 +65,24 @@ if __name__ == '__main__':
 
         destination_x = int(coordinates_destination[0])
         destination_y = int(coordinates_destination[1])
+         
+        # Perform the desired algoritm
+        result = random_solve.random_solve(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, counter, list_of_coordinates)
+        # result = greedy.greedy(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, list_of_coordinates, counter)
 
-        delta_x = destination_x - origin_x
-        delta_y = destination_y - origin_y
+        # Calculate the amount of tries and net_needed
+        list_of_nets[counter] = result[0]
+        counter += 1
+        net_needed += result[1]
 
-        coordinates_from = (origin_x, origin_y)
-        current_x = origin_x
-        current_y = origin_y
-        
-        directions = [(0,1), (1,0), (0,-1), (-1,0)]
-        while current_x != destination_x or current_y != destination_y:
-            tries += 1
-            if tries == 2000:
-                break
-            count = 0
-            check = True
-            direction = random.choice(directions)
-            coordinates_to = (coordinates_from[0] + direction[0], coordinates_from[1] + direction[1])
-
-            if coordinates_to[0] > size  or coordinates_to[1] > size  or coordinates_to[0] <= 0 or coordinates_to[1] <= 0:
-                check = False
-            
-            for i in list_of_nets:
-                net_from = i.get_coordinates_from()
-                net_to = i.get_coordinates_to()
-                if coordinates_to == net_from or coordinates_to == net_to:
-                    count += 1
-                if coordinates_from == net_from and coordinates_to == net_to:
-                    check = False
-                    break
-                if coordinates_from == net_to and coordinates_to == net_from:
-                    check = False
-                    break
-                
-            if count == 2:
-                check = False
-            
-            if check:
-                new_netlist = net.Net(coordinates_from, coordinates_to)
-                list_of_nets.append(new_netlist)
-                coordinates_from = coordinates_to 
-                current_x = coordinates_to[0]
-                current_y = coordinates_to[1]
-
-        # if delta_x > 0:
-        #     for i in range(delta_x):
-        #         coordinates_to = (current_x + 1, origin_y)
-        #         current_x += 1
-
-        #         new_netlist = net.Net(coordinates_from, coordinates_to)
-        #         coordinates_from = coordinates_to
-        #         list_of_nets.append(new_netlist)    
-        # else:
-        #     for i in range(abs(delta_x)):
-        #         coordinates_to = (current_x - 1, origin_y)
-        #         current_x -= 1
-
-        #         new_netlist = net.Net(coordinates_from, coordinates_to)
-        #         coordinates_from = coordinates_to
-        #         list_of_nets.append(new_netlist)
-            
-        # if delta_y > 0:
-        #     for i in range(delta_y):
-        #         coordinates_to = (current_x, current_y + 1)
-        #         current_y += 1
-
-        #         new_netlist = net.Net(coordinates_from, coordinates_to)
-        #         coordinates_from = coordinates_to
-        #         list_of_nets.append(new_netlist)
-        # else:
-        #     for i in range(abs(delta_y)):
-        #         coordinates_to = (current_x, current_y - 1)
-        #         current_y -= 1
-
-        #         new_netlist = net.Net(coordinates_from, coordinates_to)
-        #         coordinates_from = coordinates_to
-        #         list_of_nets.append(new_netlist)
-
-        net_needed += (abs(destination_x - origin_x))
-        net_needed += (abs(destination_y - origin_y))
-
-        for x in list_of_nets:
-            a = x.get_coordinates_from()
-            b = x.get_coordinates_to()
-            c = (a[0], b[0])
-            d = (a[1], b[1])
-            plt.plot(c, d, color='b')
-
-        
-        if tries == 2000 or checkpoint == 5:
-            if checkpoint == 5:
-                check_list.append("full")
-                plt.show()
+        checkpoint += 1
+        if checkpoint == 5:
             break
-        color =
-        if checkpoint == 1:
-            pass
-            
 
-        checkpoint = checkpoint + 1
-        check_list.append(checkpoint)
-    print(check_list, check_list.count(1), check_list.count(2), check_list.count(3), check_list.count(4), check_list.count(5) )
-    # print("hoi", net_needed, checkpoint)
+    # Plot the graph
+    plot_grid.plot_grid(x, y, size, list_of_nets)
+
+    # Show the net_needed
+    print("Cost of routes", net_needed)
+
     plt.show()
