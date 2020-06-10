@@ -21,7 +21,8 @@ def random_solve3D(origin_x, origin_y, destination_x,  destination_y, size, list
     current_z = 0
     
     moves = 0
-    max_moves = 8
+    crosses = 0
+    max_moves = 50
     restart += 1
 
     # While line has not reached endpoint
@@ -46,7 +47,7 @@ def random_solve3D(origin_x, origin_y, destination_x,  destination_y, size, list
             check = False
         
         # Append the line to the list if everything checks out
-        if check:
+        if check[0]:
             moves += 1
             new_netlist = net.Net(coordinates_from, coordinates_to)
             nets.add(new_netlist)
@@ -54,10 +55,13 @@ def random_solve3D(origin_x, origin_y, destination_x,  destination_y, size, list
             current_x = coordinates_to[0]
             current_y = coordinates_to[1]
             current_z = coordinates_to[2]
+            print(check[1])
+            if check[1]:
+                crosses += 1
 
     # Returns the list with lines and the amount of moves
     print(f"route {counter} needed {restart} restarts")
-    return nets, moves
+    return nets, moves, crosses
 
 def random_solve(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, counter, list_of_coordinates):
     tries = 0
