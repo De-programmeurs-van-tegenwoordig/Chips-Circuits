@@ -2,65 +2,78 @@ import random
 from code.classes import net
 from code.function  import check_constraints
 
-def random_solve3D(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, counter, list_of_coordinates, restart):
+def random_solve3D(grid_file):
+    cross_counter = 0
+    count = 0
+    netlist = grid_file.get_new_netlist()
+
+    random_solve3D2(grid_file, cross_counter, netlist, count)
+
+def random_solve3D2(grid_file, cross_counter, netlist, count):
     """ Returns a random 3d solution of the given problem (netlist and chipset) """
-    
-    # Declaring local variables
-    tries = 0
-    directions = [(0,1,0), (1,0,0), (0,-1,0), (-1,0,0), (0,0,1), (0,0,-1)]
-    nets = set()
 
-    # Set the beginning and endpoint up
-    coordinates_from = (origin_x, origin_y, 0)
-    coordinates_destination = (destination_x, destination_y, 0)
+    while netlist is not None:
+        origin_x = netlist[0]
+        origin_y = netlist[1]
+        destination_x = netlist[2]
+        destination_y = netlist[3]
 
-    # Update the variables
-    current_x = origin_x
-    current_y = origin_y
-    destination_z = 0
-    current_z = 0
-    
-    moves = 0
-    crosses = 0
-    max_moves = 50
-    restart += 1
+        # Declaring local variables
+        tries = 0
+        directions = [(0,1,0), (1,0,0), (0,-1,0), (-1,0,0), (0,0,1), (0,0,-1)]
+        nets = set()
 
-    # While line has not reached endpoint
-    while current_x != destination_x or current_y != destination_y or current_z != destination_z:
+        # Set the beginning and endpoint up
+        coordinates_from = (origin_x, origin_y, 0)
+        coordinates_destination = (destination_x, destination_y, 0)
+
+        # Update the variables
+        current_x = origin_x
+        current_y = origin_y
+        destination_z = 0
+        current_z = 0
         
-        # Update tries and if amount tries exceed treshold restart line
-        tries += 1
-        if tries == 2000 or moves > max_moves:
-            return random_solve3D(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, counter, list_of_coordinates, restart)
+        moves = 0
+        max_moves = 8
 
-        # Update variables
-        count = 0
-        check = True
-        direction = random.choice(directions)
-        coordinates_to = (coordinates_from[0] + direction[0], coordinates_from[1] + direction[1], coordinates_from[2] + direction[2])
+        # While line has not reached endpoint
+        while current_x != destination_x or current_y != destination_y or current_z != destination_z:
+            
+            # Update tries and if amount tries exceed treshold restart line
+            tries += 1
+            if tries == 2000 or moves > max_moves:
+                return random_solve3D2(grid_file, cross_counter, netlist, count)
+
+            # Update variables
+            check = True
+            direction = random.choice(directions)
+            coordinates_to = (coordinates_from[0] + direction[0], coordinates_from[1] + direction[1], coordinates_from[2] + direction[2])
+            
+
+            # Checks if line is good
+            check = check_constraints.check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_destination, nets)
+
+            # Append the line to the list if everything checks out
+            if check[0]:
+                moves += 1
+                new_netlist = net.Net(coordinates_from, coordinates_to)
+                nets.add(new_netlist)
+                coordinates_from = coordinates_to 
+                current_x = coordinates_to[0]
+                current_y = coordinates_to[1]
+                current_z = coordinates_to[2]
+                if check[1]:
+                    cross_counter += 1
+
+        grid_file.add_netlist(nets, cross_counter)
+        netlist = grid_file.get_new_netlist()
+        coordinates_origin = (origin_x, origin_y, 0)
+        print("route connected:", coordinates_origin, coordinates_destination, count)
+        print(cross_counter)
+        count += 1
         
+    print("The total cost of the net is: ", grid_file.cost_of_route())
 
-        # Checks if line is good
-        check = check_constraints.check_constraints(coordinates_from, coordinates_to, coordinates_destination, list_of_nets, nets, list_of_coordinates, size)
-
-        if count == 2:
-            check = False
-        
-        # Append the line to the list if everything checks out
-        if check[0]:
-            moves += 1
-            new_netlist = net.Net(coordinates_from, coordinates_to)
-            nets.add(new_netlist)
-            coordinates_from = coordinates_to 
-            current_x = coordinates_to[0]
-            current_y = coordinates_to[1]
-            current_z = coordinates_to[2]
-            if check[1]:
-                crosses += 1
-
-    # Returns the list with lines and the amount of moves
-    print(f"route {counter} needed {restart} restarts")
-    return nets, moves, crosses
 
 def random_solve(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, counter, list_of_coordinates):
     tries = 0
