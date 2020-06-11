@@ -9,33 +9,12 @@ def check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_d
     if coordinates_to[0] > size  or coordinates_to[1] > size or coordinates_to[2] > 7 or coordinates_to[0] < 0 or coordinates_to[1] < 0 or coordinates_to[2] < 0:
         check = False
 
-    list_of_nets = grid_file.get_list_of_nets()
-
-    gates_zones = {}
-    gatess_zone = []
-    gg = []
-    for gate in coordinates_gates:
-        gate_zone = []
-        gate[0] = int(gate[0])
-        gate[1] = int(gate[1])
-        gate[2] = int(gate[2])
-        gg.append((gate[0], gate[1], gate[2]))
-        gate_zone.append((gate[0] + 1, gate[1], gate[2]))
-        gate_zone.append((gate[0] - 1, gate[1], gate[2]))
-        gate_zone.append((gate[0], gate[1] + 1, gate[2]))
-        gate_zone.append((gate[0], gate[1] - 1, gate[2]))
-        gate_zone.append((gate[0], gate[1], gate[2] + 1))
-        gatess_zone.append((gate[0] + 1, gate[1], gate[2]))
-        gatess_zone.append((gate[0] - 1, gate[1], gate[2]))
-        gatess_zone.append((gate[0], gate[1] + 1, gate[2]))
-        gatess_zone.append((gate[0], gate[1] - 1, gate[2]))
-        gatess_zone.append((gate[0], gate[1], gate[2] + 1))
-        gates_zones[(gate[0], gate[1], gate[2])] = gate_zone
-
+    list_of_routes = grid_file.get_list_of_routes()
+    
     for i in nets:
         net_from = i.get_coordinates_from()
         net_to = i.get_coordinates_to()
-       
+
         if coordinates_to == coordinates_destination:
             if coordinates_from == net_from and net_to == coordinates_to:
                 check = False
@@ -48,19 +27,16 @@ def check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_d
                 cross = True
             if coordinates_from == net_from and coordinates_to == net_to:
                 check = False
-                #print("False, co_to == net_from and co_to == net_to")
                 return check, cross
             if coordinates_from == net_to and coordinates_to == net_from:
                 check = False
-                #print("False, co_from -- net_to and co_to == net_from")
                 return check, cross
-            if coordinates_to in gatess_zone and coordinates_to not in gates_zones[coordinates_destination] and coordinates_from in gg:
+            if coordinates_to in coordinates_gates and coordinates_to != coordinates_destination:
                 check = False
-                #print("False")
                 return check, cross
-    
-    for i in range(len(list_of_nets)):
-        for x in list_of_nets[i]:
+
+    for i in range(len(list_of_routes)):
+        for x in list_of_routes[i]:
             net_from = x.get_coordinates_from()
             net_to = x.get_coordinates_to()
 
@@ -80,7 +56,7 @@ def check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_d
                 elif coordinates_from == net_to and coordinates_to == net_from:
                     check = False
                     return check, cross
-                elif coordinates_to in gatess_zone and coordinates_to not in gates_zones[coordinates_destination] and coordinates_from in gg:
+                elif coordinates_to in coordinates_gates and coordinates_to != coordinates_destination:
                     check = False
     
     return check, cross

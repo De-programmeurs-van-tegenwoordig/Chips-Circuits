@@ -23,7 +23,6 @@ def random_solve3D2(grid_file, cross_counter, netlist, count):
         tries = 0
         directions = [(0,1,0), (1,0,0), (0,-1,0), (-1,0,0), (0,0,1), (0,0,-1)]
         
-
         # Set the beginning and endpoint up
         coordinates_from = (origin_x, origin_y, 0)
         coordinates_destination = (destination_x, destination_y, 0)
