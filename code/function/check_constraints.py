@@ -9,7 +9,7 @@ def check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_d
     if coordinates_to[0] > size  or coordinates_to[1] > size or coordinates_to[2] > 7 or coordinates_to[0] < 0 or coordinates_to[1] < 0 or coordinates_to[2] < 0:
         check = False
 
-    list_of_nets = grid_file.get_list_of_nets()
+    list_of_routes = grid_file.get_list_of_routes()
 
     for i in nets:
         net_from = i.get_coordinates_from()
@@ -35,8 +35,8 @@ def check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_d
                 check = False
                 return check, cross
 
-    for i in range(len(list_of_nets)):
-        for x in list_of_nets[i]:
+    for i in range(len(list_of_routes)):
+        for x in list_of_routes[i]:
             net_from = x.get_coordinates_from()
             net_to = x.get_coordinates_to()
 
