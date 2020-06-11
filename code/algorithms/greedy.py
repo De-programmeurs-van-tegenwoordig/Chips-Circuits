@@ -62,7 +62,7 @@ def greedy2(grid_file, cross_counter, netlist, count):
             move_direction = random.choice(best_directions)
             while move_direction[1]:
                 ran = random.randint(0,101)
-                if ran < 30:
+                if ran < 10:
                     cross_counter += 1
                     break
                 else:
