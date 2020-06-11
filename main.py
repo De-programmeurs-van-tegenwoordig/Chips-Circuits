@@ -11,27 +11,27 @@ from mpl_toolkits import mplot3d
 
 if __name__ == '__main__':
     # Read multiple files
-    chip_number = "0"
-    netlistfile = "netlist_1.csv"
+    chip_number = "2"
+    netlistfile = "netlist_9.csv"
     size = 17
     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}", size)
 
-    # test = (1, 5, 1)
-    # test2 = (1, 5, 1)
-    # if test == test2:
-    #     print("het kan gwn")
-
-    # --------------------------------------------------------Perform the desired algoritm--------------------------------------------------------------
-    # random_solve.random_solve3D(test_grid)
     output = open("output.csv", "w")
     output.write("net,wires\n")
 
-    greedy = gr.Greedy(test_grid)
-    greedy.run(output)
+    # --------------------------------------------Perform the desired algoritm--------------------------------------------------------------
+    
+    # random_solve.random_solve3D(test_grid)
+    
+    # greedy = gr.Greedy(test_grid)
+    # greedy.run(output)
+
+    pop_greedy = gr.PopulationGreedy(test_grid)
+    pop_greedy.run(output)
 
     cost = test_grid.cost_of_route()
 
-    output.write(f"chip_0_net_1,{cost}")
+    output.write(f"chip_{0}_net_{1},{cost}")
     output.close()
 
     # Plot the graph

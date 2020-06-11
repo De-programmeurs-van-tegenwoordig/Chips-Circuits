@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import random
-from mpl_toolkits import mplot3d
 from code.classes import grid
 
 def plot_grid(grid_file):

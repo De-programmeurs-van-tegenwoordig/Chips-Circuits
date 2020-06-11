@@ -1,5 +1,5 @@
 output.txt
-./code/algorithms/greedyFUNC.py
+greedyFUNC.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

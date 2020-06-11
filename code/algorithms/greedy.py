@@ -4,18 +4,24 @@ import random
 
 class Greedy:
     def __init__(self, grid_file):
+        """
+        The Greedy class looks for the cheapest possible path between two gates
+        """
         self.grid_file = grid_file
         self.cross_counter = 0
         self.count = 1
 
-    def get_next_net(self):
-        self.netlist = self.grid_file.get_new_netlist()
-        return self.netlist
-
-    def get_populated_net(self):
-        pass
+    def get_netlists(self, gridfile):
+        """
+        Returns the netlist in random order
+        """
+        netlists = list(self.grid_file.get_netlists())
+        return netlists
 
     def get_current_gate_number(self, coordinate_x, coordinate_y):
+        """
+        Used for the output file to track which net is being written
+        """
         gates = self.grid_file.get_gates()
 
         for i in range(1, len(gates)+1):
@@ -23,16 +29,18 @@ class Greedy:
             x = int(coordinates[0])
             y = int(coordinates[1])
 
-            print(coordinates, coordinate_x, coordinate_y)
-
             if x == coordinate_x and y == coordinate_y:
                 return gates[i].get_gate_number()
 
-
     def run(self, output):
-        netlist = self.get_next_net()
+        """
+        Greedily chooses cheapest paths to get to his destination
+        """
+        netlists = self.get_netlists(self.grid_file)
 
-        while netlist is not None:
+        while len(netlists) != 0:
+            netlist = self.grid_file.get_coordinates_netlist(netlists[0])
+            netlists.pop(0)
             reset = 1
 
             while reset != 20:
@@ -55,10 +63,21 @@ class Greedy:
                 current_z = 0
 
                 moves = 0
+                # max_moves = 70
+                # move_reset = 0
 
                 # While line has not reached endpoint
                 while current_x != destination_x or current_y != destination_y or current_z != destination_z:
-                    lowest_distance = 1000000
+                    # werkt nog niet maar snap niet hoezo
+                    # if moves > max_moves:
+                    #     move_reset += 1
+                    #     nets = []
+                    #     current_x = origin_x
+                    #     current_y = origin_y
+                    #     current_z = 0
+                    #     moves = 0
+
+                    lowest_distance = 10000000
                     best_directions = []
 
                     for direction in directions:
@@ -81,7 +100,7 @@ class Greedy:
                                 best_directions.append([direction, cross])
                     
                     if best_directions == []:
-                        print(f"reset {reset}")
+                        # print(f"reset {reset}")
                         reset += 1
                         break
                     
@@ -108,36 +127,63 @@ class Greedy:
                 
                 self.grid_file.add_route(nets, self.cross_counter)
 
-                netlist = self.grid_file.get_new_netlist()
                 coordinates_origin = (origin_x, origin_y, 0)
-                print("route connected:", coordinates_origin, coordinates_destination, self.count)
+                # print("route connected:", coordinates_origin, coordinates_destination, self.count)
                 self.count += 1
                 break
 
+            # output_coordinates = []
+            # for count, item in enumerate(nets, 1):
+            #     if count == 1:
+            #         coordinates = item.get_coordinates_from()
+            #         x = coordinates[0]
+            #         y = coordinates[1]
 
-            output_coordinates = []
-            for count, item in enumerate(nets, 1):
-                print(count)
-                if count == 1:
-                    coordinates = item.get_coordinates_from()
-                    x = coordinates[0]
-                    y = coordinates[1]
-
-                    gate_a = self.get_current_gate_number(x, y)
-                    print(gate_a)
-                    output_coordinates.append(coordinates)
+            #         gate_a = self.get_current_gate_number(x, y)
+            #         output_coordinates.append(coordinates)
                 
-                output_coordinates.append(item.get_coordinates_to())
+            #     output_coordinates.append(item.get_coordinates_to())
 
-            coordinates = output_coordinates[-1]
-            x = coordinates[0]
-            y = coordinates[1]
-            gate_b = self.get_current_gate_number(x, y)
+            # coordinates = output_coordinates[-1]
+            # x = coordinates[0]
+            # y = coordinates[1]
+            # gate_b = self.get_current_gate_number(x, y)
 
-            gate = (gate_a, gate_b)
+            # gate = (gate_a, gate_b)
 
-            output.write(f'{str(gate)},"{str(output_coordinates)}"\n')
-
-
+            # output.write(f'{str(gate)},"{str(output_coordinates)}"\n')
 
         print("The total cost of the net is: ", self.grid_file.cost_of_route())
+
+class PopulationGreedy(Greedy):
+    """
+    The PopulationGreedy Class sorts the gates by most connections,
+    The gate with the most connections is first.
+    """
+    def get_netlists(self, grid_file):
+        """
+        Counts how many connections each chip has and returns the order from high to low.
+        """
+        netlists = list(grid_file.get_netlists())
+        counting = {}
+
+        for item in netlists:
+            counting[int(item[0])] = 0
+            counting[int(item[1])] = 0
+        for item in netlists:
+            counting[int(item[0])] += 1
+            counting[int(item[1])] += 1
+
+        populated_netlists = []
+
+        while len(counting) != 0:
+            gate_max = max(counting, key=lambda key: counting[key])
+            del counting[gate_max]
+
+            for item in netlists:
+                if int(item[0]) == gate_max or int(item[1]) == gate_max:
+                    populated_netlists.append(item)
+                    netlists.remove(item)
+
+        print(populated_netlists)
+        return populated_netlists

@@ -78,6 +78,24 @@ class Grid():
 
         return origin_x, origin_y, destination_x, destination_y
 
+    def get_coordinates_netlist(self, netlist):
+        origin = int(netlist[0])
+        destination = int(netlist[1])
+        
+        gate_origin = self.gates[origin]
+        gate_destination = self.gates[destination]
+
+        coordinates_origin = gate_origin.get_coordinates()
+        coordinates_destination = gate_destination.get_coordinates()
+
+        origin_x = int(coordinates_origin[0])
+        origin_y = int(coordinates_origin[1])
+
+        destination_x = int(coordinates_destination[0])
+        destination_y = int(coordinates_destination[1])
+
+        return origin_x, origin_y, destination_x, destination_y
+
     def add_route(self, nets, amount_of_crosses):
         self.list_of_nets[self.key] = nets
         self.key += 1
