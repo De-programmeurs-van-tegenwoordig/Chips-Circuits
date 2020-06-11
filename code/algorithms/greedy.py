@@ -121,12 +121,20 @@ class Greedy:
 
             # output_coordinates = []
             # for count, item in enumerate(nets, 1):
+<<<<<<< HEAD
+=======
+            #     print(count)
+>>>>>>> b4472bb8c6df9f50b4585cd755b752f0a81cf0ab
             #     if count == 1:
             #         coordinates = item.get_coordinates_from()
             #         x = coordinates[0]
             #         y = coordinates[1]
 
             #         gate_a = self.get_current_gate_number(x, y)
+<<<<<<< HEAD
+=======
+            #         print(gate_a)
+>>>>>>> b4472bb8c6df9f50b4585cd755b752f0a81cf0ab
             #         output_coordinates.append(coordinates)
                 
             #     output_coordinates.append(item.get_coordinates_to())
