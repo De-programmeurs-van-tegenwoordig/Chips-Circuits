@@ -5,7 +5,7 @@ from code.classes import grid
 
 def plot_grid(grid_file):
     """ Plots the 3d graph """
-    list_of_nets = grid_file.get_list_of_nets()
+    list_of_nets = grid_file.get_list_of_routes()
     size = grid_file.get_size()
 
     x = []

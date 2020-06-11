@@ -4,7 +4,7 @@ class Gate():
 
         # Declare variables
         self.gate_number = gatenumber
-        self.coordinates = (coordinate_x, coordinate_y, 0)
+        self.coordinates = (coordinate_x,coordinate_y,0)
         self.connections = []
 
     # hier doen we nog niks mee, zouden we mee bij kunnen houden vanaf welke kant een chip al een connectie heeft
@@ -20,4 +20,5 @@ class Gate():
     def get_coordinates(self):
         return self.coordinates
 
-    "lol"
+    def get_gate_number(self):
+        return self.gate_number

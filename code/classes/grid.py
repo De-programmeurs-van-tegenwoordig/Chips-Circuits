@@ -78,19 +78,21 @@ class Grid():
 
         return origin_x, origin_y, destination_x, destination_y
 
-    def add_netlist(self, nets, amount_of_crosses):
+    def add_route(self, nets, amount_of_crosses):
         self.list_of_nets[self.key] = nets
         self.key += 1
         self.amount_of_crosses += amount_of_crosses
     
-    def get_list_of_nets(self):
+    def get_list_of_routes(self):
         return self.list_of_nets
 
     def cost_of_route(self):
         cost = 0
 
-        for i in range(len(self.list_of_nets)):
-            cost += len(self.list_of_nets[i])
+        list_of_routes = self.get_list_of_routes()
+
+        for i in range(len(list_of_routes)):
+            cost += len(list_of_routes[i])
         
         cost += (300 * self.amount_of_crosses)
         return cost
