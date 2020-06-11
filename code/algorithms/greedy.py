@@ -13,25 +13,29 @@ class Greedy:
         return self.netlist
 
     def get_populated_net(self):
-        pass
+        netlists = self.grid_file.get_netlists()
+        counting = {}
+        for item in netlists:
+            counting[item[0]] = 0
+            counting[item[1]] = 0
+        for item in netlists:
+            counting[item[0]] += 1 
+            counting[item[1]] += 1
 
     def get_current_gate_number(self, coordinate_x, coordinate_y):
         gates = self.grid_file.get_gates()
-
         for i in range(1, len(gates)+1):
             coordinates = gates[i].get_coordinates()
             x = int(coordinates[0])
             y = int(coordinates[1])
-
-            print(coordinates, coordinate_x, coordinate_y)
 
             if x == coordinate_x and y == coordinate_y:
                 return gates[i].get_gate_number()
 
 
     def run(self, output):
+        self.get_populated_net()
         netlist = self.get_next_net()
-
         while netlist is not None:
             reset = 1
 
@@ -115,28 +119,26 @@ class Greedy:
                 break
 
 
-            output_coordinates = []
-            for count, item in enumerate(nets, 1):
-                print(count)
-                if count == 1:
-                    coordinates = item.get_coordinates_from()
-                    x = coordinates[0]
-                    y = coordinates[1]
+            # output_coordinates = []
+            # for count, item in enumerate(nets, 1):
+            #     if count == 1:
+            #         coordinates = item.get_coordinates_from()
+            #         x = coordinates[0]
+            #         y = coordinates[1]
 
-                    gate_a = self.get_current_gate_number(x, y)
-                    print(gate_a)
-                    output_coordinates.append(coordinates)
+            #         gate_a = self.get_current_gate_number(x, y)
+            #         output_coordinates.append(coordinates)
                 
-                output_coordinates.append(item.get_coordinates_to())
+            #     output_coordinates.append(item.get_coordinates_to())
 
-            coordinates = output_coordinates[-1]
-            x = coordinates[0]
-            y = coordinates[1]
-            gate_b = self.get_current_gate_number(x, y)
+            # coordinates = output_coordinates[-1]
+            # x = coordinates[0]
+            # y = coordinates[1]
+            # gate_b = self.get_current_gate_number(x, y)
 
-            gate = (gate_a, gate_b)
+            # gate = (gate_a, gate_b)
 
-            output.write(f'{str(gate)},"{str(output_coordinates)}"\n')
+            # output.write(f'{str(gate)},"{str(output_coordinates)}"\n')
 
 
 
