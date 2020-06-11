@@ -9,7 +9,6 @@ def greedy(grid_file):
 
     greedy2(grid_file, cross_counter, netlist, count)
 
-
 def greedy2(grid_file, cross_counter, netlist, count):
     while netlist is not None:
         origin_x = netlist[0]
@@ -47,8 +46,8 @@ def greedy2(grid_file, cross_counter, netlist, count):
 
                 if check:
                     distance = abs(coordinates_to[0] - coordinates_destination[0]) + abs(coordinates_to[1] - coordinates_destination[1]) + abs(coordinates_to[2] - coordinates_destination[2])
-                    if cross:
-                        distance += 300
+                    # if cross:
+                    #     distance += 300
                     if distance < lowest_distance:
                         best_directions.clear()
                         lowest_distance = distance
@@ -62,7 +61,7 @@ def greedy2(grid_file, cross_counter, netlist, count):
             move_direction = random.choice(best_directions)
             while move_direction[1]:
                 ran = random.randint(0,101)
-                if ran < 30:
+                if ran < 10:
                     cross_counter += 1
                     break
                 else:

@@ -19,9 +19,9 @@ if __name__ == '__main__':
 
 
     # --------------------------------------------------------Perform the desired algoritm--------------------------------------------------------------
-    random_solve.random_solve3D(test_grid)
+    # random_solve.random_solve3D(test_grid)
 
-    # greedy.greedy(test_grid)
+    greedy.greedy(test_grid)
 
     # Plot the graph
     plot_grid.plot_grid(test_grid)
