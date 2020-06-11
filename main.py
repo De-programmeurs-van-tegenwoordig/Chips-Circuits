@@ -9,14 +9,18 @@ import csv
 import random
 from mpl_toolkits import mplot3d
 
-
 if __name__ == '__main__':
     # Read multiple files
-    chip_number = "0"
-    netlistfile = "netlist_3.csv"
-    size = 7
+    chip_number = "2"
+    netlistfile = "netlist_7.csv"
+    size = 17
     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}", size)
 
+    # test = (1, 5, 1)
+    # test2 = (1, 5, 1)
+
+    # if test == test2:
+    #     print("het kan gwn")
 
     # --------------------------------------------------------Perform the desired algoritm--------------------------------------------------------------
     # random_solve.random_solve3D(test_grid)
