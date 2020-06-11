@@ -12,7 +12,6 @@ def random_solve3D(grid_file):
 def random_solve3D2(grid_file, cross_counter, netlist, count):
     """ Returns a random 3d solution of the given problem (netlist and chipset) """
     cross_counter = 0
-
     while netlist is not None:
         origin_x = netlist[0]
         origin_y = netlist[1]
@@ -27,7 +26,7 @@ def random_solve3D2(grid_file, cross_counter, netlist, count):
         # Set the beginning and endpoint up
         coordinates_from = (origin_x, origin_y, 0)
         coordinates_destination = (destination_x, destination_y, 0)
-
+ 
         # Update the variables
         current_x = origin_x
         current_y = origin_y
@@ -35,7 +34,7 @@ def random_solve3D2(grid_file, cross_counter, netlist, count):
         current_z = 0
         
         moves = 0
-        max_moves = 8
+        max_moves = 15
 
         # While line has not reached endpoint
         while current_x != destination_x or current_y != destination_y or current_z != destination_z:
@@ -50,10 +49,9 @@ def random_solve3D2(grid_file, cross_counter, netlist, count):
             direction = random.choice(directions)
             coordinates_to = (coordinates_from[0] + direction[0], coordinates_from[1] + direction[1], coordinates_from[2] + direction[2])
             
-
             # Checks if line is good
             check = check_constraints.check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_destination, nets)
-
+            
             # Append the line to the list if everything checks out
             if check[0]:
                 moves += 1

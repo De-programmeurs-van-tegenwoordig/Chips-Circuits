@@ -128,7 +128,7 @@ class Greedy:
                 self.grid_file.add_route(nets, self.cross_counter)
 
                 coordinates_origin = (origin_x, origin_y, 0)
-                # print("route connected:", coordinates_origin, coordinates_destination, self.count)
+                print("route connected:", coordinates_origin, coordinates_destination, self.count)
                 self.count += 1
                 break
 
@@ -178,6 +178,7 @@ class PopulationGreedy(Greedy):
 
         while len(counting) != 0:
             gate_max = max(counting, key=lambda key: counting[key])
+            print(gate_max)
             del counting[gate_max]
 
             for item in netlists:
@@ -186,4 +187,5 @@ class PopulationGreedy(Greedy):
                     netlists.remove(item)
 
         print(populated_netlists)
+        print(len(populated_netlists))
         return populated_netlists
