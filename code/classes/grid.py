@@ -8,6 +8,8 @@ class Grid():
         self.amount_of_crosses = 0
         self.coordinates_gates = []
         self.zones = {}
+        self.total_zones = []
+        self.total_gates = []
         
         # Read the gates file
         self.gates = self.load_gates(gate_file)
@@ -24,12 +26,13 @@ class Grid():
         # Opens gate file and puts every gate in dictionary
         with open(gate_file, 'r') as input_file:
             reader = csv.DictReader(input_file)
-            
             for count, row in enumerate(reader, 1):
                 zone = []
                 new_gate = Gate(count, row['x'], row['y'])
                 gates[int(count)] = new_gate
                 self.coordinates_gates.append([row['x'], row['y'], 0])
+                
+                self.total_gates.append((int(row['x']), int(row['y']), 0))
 
                 zone.append((int(row['x']) + 1, int(row['y']), 0))
                 zone.append((int(row['x']) - 1, int(row['y']), 0))
@@ -37,12 +40,24 @@ class Grid():
                 zone.append((int(row['x']), int(row['y']) - 1, 0))
                 zone.append((int(row['x']), int(row['y']), 1))
 
+                self.total_zones.append((int(row['x']) + 1, int(row['y']), 0))
+                self.total_zones.append((int(row['x']) - 1, int(row['y']), 0))
+                self.total_zones.append((int(row['x']), int(row['y']) + 1, 0))
+                self.total_zones.append((int(row['x']), int(row['y']) - 1, 0))
+                self.total_zones.append((int(row['x']), int(row['y']), 1))
+
                 self.zones[count] = zone
 
         return gates
 
-    def get_zones(self):
-        return self.zones
+    def get_total_zones(self):
+        return self.total_zones
+
+    def get_total_gates(self):
+        return self.total_gates
+
+    def get_zone(self,chip_number):
+        return self.zones[chip_number]
     
     def get_gates(self):
         """Returns all gates"""
