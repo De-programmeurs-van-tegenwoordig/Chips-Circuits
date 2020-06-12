@@ -13,7 +13,7 @@ if __name__ == '__main__':
     # Read multiple files
     chip_number = "0"
     netlistfile = "netlist_3.csv"
-    size = 17
+    size = 7
     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}", size)
 
     output = open("chip2netlist9.csv", "a")
@@ -46,7 +46,7 @@ if __name__ == '__main__':
     reset = False
     counter = 0
 
-    while counter != 50:
+    while counter != 1:
         
         while not reset:
             test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}", size)
@@ -57,9 +57,10 @@ if __name__ == '__main__':
         output.write(f"Greedy,{cost},{counter}\n")
         counter += 1
         reset = False
-
+        
     output.write("\n\n")
     print("normal greedy done")
+    pg.plot_grid(test_grid)
 
 
 
