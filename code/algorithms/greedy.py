@@ -106,14 +106,12 @@ class Greedy:
                     current_y = coordinates_to[1]
                     current_z = coordinates_to[2]
 
-                    # print(f"{current_x}, {current_y}, {current_z}.......{destination_x}, {destination_y}, {destination_z}")
-
                 if coordinates_to == coordinates_destination:
                     break
             
             self.grid_file.add_route(nets, self.cross_counter)
             coordinates_origin = (origin_x, origin_y, 0)
-            print("route connected:", coordinates_origin, coordinates_destination, self.count)
+            # print("route connected:", coordinates_origin, coordinates_destination, self.count)
             self.count += 1
 
             # output_coordinates = []
@@ -175,3 +173,30 @@ class PopulationGreedy(Greedy):
         # print(populated_netlists)
         # print(len(populated_netlists))
         return populated_netlists
+
+class LengthGreedy(Greedy):
+    def get_netlists(self, grid_file):
+        netlists = list(grid_file.get_netlists())
+
+        netlist_distance = {}
+
+        for item in netlists:
+            coordinates_gates = grid_file.get_coordinates_netlist(item)
+            distance = abs(coordinates_gates[0] - coordinates_gates[2]) + abs(coordinates_gates[1] - coordinates_gates[3])
+            netlist_distance[item] = distance
+
+        length_netlists = []
+
+        while len(netlist_distance) != 0:
+            min_distance = min(netlist_distance, key=lambda key: netlist_distance[key])
+            length_netlists.append(min_distance)
+            del netlist_distance[min_distance]
+        
+        return length_netlists
+
+        
+
+
+
+
+
