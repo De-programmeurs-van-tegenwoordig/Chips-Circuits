@@ -53,8 +53,11 @@ def plot_grid(grid_file):
             z.extend([a[2], b[2]])
 
             # Plot the line
-            ax.plot3D(x, y, z, color=color) 
-    
+            ax.plot3D(x, y, z, color=color)
+
+    ax.set_xlabel('X', fontsize = 10)
+    ax.set_ylabel('Y', fontsize = 10)
+    ax.set_zlabel('Z', fontsize = 10)
     plt.show()
         
     # 2d plot

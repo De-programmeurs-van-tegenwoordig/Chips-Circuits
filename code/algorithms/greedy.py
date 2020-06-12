@@ -16,34 +16,24 @@ class Greedy:
         Returns the netlist in random order
         """
         netlists = list(self.grid_file.get_netlists())
+        random.shuffle(netlists)
         return netlists
-
-    def get_current_gate_number(self, coordinate_x, coordinate_y):
-        """
-        Used for the output file to track which net is being written
-        """
-        gates = self.grid_file.get_gates()
-
-        for i in range(1, len(gates)+1):
-            coordinates = gates[i].get_coordinates()
-            x = int(coordinates[0])
-            y = int(coordinates[1])
-
-            if x == coordinate_x and y == coordinate_y:
-                return gates[i].get_gate_number()
 
     def run(self, output):
         """
         Greedily chooses cheapest paths to get to his destination
         """
         netlists = self.get_netlists(self.grid_file)
+        print(netlists)
 
         while len(netlists) != 0:
             netlist = self.grid_file.get_coordinates_netlist(netlists[0])
             netlists.pop(0)
             reset = 1
 
-            while reset != 20:
+            while reset != 200:
+                if reset == 199:
+                    return False
                 origin_x = netlist[0]
                 origin_y = netlist[1]
                 destination_x = netlist[2]
@@ -53,7 +43,8 @@ class Greedy:
                 nets = []
 
                 # Set the beginning and endpoint up
-                coordinates_from = (origin_x, origin_y, 0)
+                coordinates_origin = (origin_x, origin_y, 0)
+                coordinates_from = coordinates_origin
                 coordinates_destination = (destination_x, destination_y, 0)
 
                 # Update the variables
@@ -63,25 +54,14 @@ class Greedy:
                 current_z = 0
 
                 moves = 0
-                # max_moves = 70
-                # move_reset = 0
 
                 # While line has not reached endpoint
                 while current_x != destination_x or current_y != destination_y or current_z != destination_z:
-                    # werkt nog niet maar snap niet hoezo
-                    # if moves > max_moves:
-                    #     move_reset += 1
-                    #     nets = []
-                    #     current_x = origin_x
-                    #     current_y = origin_y
-                    #     current_z = 0
-                    #     moves = 0
 
                     lowest_distance = 10000000
                     best_directions = []
 
                     for direction in directions:
-
                         coordinates_to = (coordinates_from[0] + direction[0], coordinates_from[1] + direction[1], coordinates_from[2] + direction[2])
                         results = check_constraints.check_constraints(self.grid_file, coordinates_from, coordinates_to, coordinates_destination, nets)
 
@@ -93,7 +73,9 @@ class Greedy:
                             if cross:
                                 distance += 300
                             if distance < lowest_distance:
+                                # print("k", best_directions)
                                 best_directions.clear()
+                                # print("n", best_directions)
                                 lowest_distance = distance
                                 best_directions.append([direction, cross])
                             if distance == lowest_distance:
@@ -124,13 +106,17 @@ class Greedy:
                     current_x = coordinates_to[0]
                     current_y = coordinates_to[1]
                     current_z = coordinates_to[2]
-                
-                self.grid_file.add_route(nets, self.cross_counter)
 
-                coordinates_origin = (origin_x, origin_y, 0)
-                print("route connected:", coordinates_origin, coordinates_destination, self.count)
-                self.count += 1
-                break
+                    # print(f"{current_x}, {current_y}, {current_z}.......{destination_x}, {destination_y}, {destination_z}")
+
+                if coordinates_to == coordinates_destination:
+                    break
+            
+            self.grid_file.add_route(nets, self.cross_counter)
+            coordinates_origin = (origin_x, origin_y, 0)
+            # print("doeiiiiiiiiiiii")
+            print("route connected:", coordinates_origin, coordinates_destination, self.count)
+            self.count += 1
 
             # output_coordinates = []
             # for count, item in enumerate(nets, 1):
@@ -139,7 +125,7 @@ class Greedy:
             #         x = coordinates[0]
             #         y = coordinates[1]
 
-            #         gate_a = self.get_current_gate_number(x, y)
+            #         gate_a = grid_file.get_current_gate_number(x, y)
             #         output_coordinates.append(coordinates)
                 
             #     output_coordinates.append(item.get_coordinates_to())
@@ -154,6 +140,7 @@ class Greedy:
             # output.write(f'{str(gate)},"{str(output_coordinates)}"\n')
 
         print("The total cost of the net is: ", self.grid_file.cost_of_route())
+        return True
 
 class PopulationGreedy(Greedy):
     """
@@ -178,7 +165,6 @@ class PopulationGreedy(Greedy):
 
         while len(counting) != 0:
             gate_max = max(counting, key=lambda key: counting[key])
-            print(gate_max)
             del counting[gate_max]
 
             for item in netlists:
@@ -186,6 +172,6 @@ class PopulationGreedy(Greedy):
                     populated_netlists.append(item)
                     netlists.remove(item)
 
-        print(populated_netlists)
-        print(len(populated_netlists))
+        # print(populated_netlists)
+        # print(len(populated_netlists))
         return populated_netlists

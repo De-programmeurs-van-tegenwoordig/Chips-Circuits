@@ -7,6 +7,7 @@ class Grid():
         self.size = size
         self.amount_of_crosses = 0
         self.coordinates_gates = []
+        self.zones = {}
         
         # Read the gates file
         self.gates = self.load_gates(gate_file)
@@ -25,10 +26,23 @@ class Grid():
             reader = csv.DictReader(input_file)
             
             for count, row in enumerate(reader, 1):
+                zone = []
                 new_gate = Gate(count, row['x'], row['y'])
                 gates[int(count)] = new_gate
                 self.coordinates_gates.append([row['x'], row['y'], 0])
+
+                zone.append((int(row['x']) + 1, int(row['y']), 0))
+                zone.append((int(row['x']) - 1, int(row['y']), 0))
+                zone.append((int(row['x']), int(row['y']) + 1, 0))
+                zone.append((int(row['x']), int(row['y']) - 1, 0))
+                zone.append((int(row['x']), int(row['y']), 1))
+
+                self.zones[count] = zone
+
         return gates
+
+    def get_zones(self):
+        return self.zones
     
     def get_gates(self):
         """Returns all gates"""
@@ -47,9 +61,24 @@ class Grid():
         
             for row in reader:
                 new_connection = (row['chip_a'], row['chip_b'])
-                netlists.add(new_connection)
+                netlists.add(new_connection)   
         return netlists
         
+    def get_current_gate_number(self, coordinate_x, coordinate_y):
+        """
+        Used for the output file to track which net is being written
+        """
+        gates = self.get_gates()
+
+        for i in range(1, len(gates)+1):
+            coordinates = gates[i].get_coordinates()
+            x = int(coordinates[0])
+            y = int(coordinates[1])
+
+            if x == coordinate_x and y == coordinate_y:
+                return gates[i].get_gate_number()
+
+
     def get_netlists(self):
         # Returns all netlists
         return self.netlists
