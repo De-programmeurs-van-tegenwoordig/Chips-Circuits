@@ -11,12 +11,12 @@ from mpl_toolkits import mplot3d
 
 if __name__ == '__main__':
     # Read multiple files
-    chip_number = "2"
-    netlistfile = "netlist_9.csv"
+    chip_number = "1"
+    netlistfile = "netlist_6.csv"
     size = 17
     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}", size)
 
-    output = open("chip2netlist9.csv", "a")
+    output = open("chip1netlist6.csv", "a")
     output.write("versie,cost,counter\n")
 
     # --------------------------------------------Perform the desired algoritm--------------------------------------------------------------
@@ -46,7 +46,7 @@ if __name__ == '__main__':
     reset = False
     counter = 0
 
-    while counter != 50:
+    while counter != 1:
         
         while not reset:
             test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}", size)
@@ -66,7 +66,7 @@ if __name__ == '__main__':
     reset = False
     counter = 0
     
-    while counter != 50:
+    while counter != 1:
 
         while not reset:
             test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}", size)
@@ -85,7 +85,7 @@ if __name__ == '__main__':
     reset = False
     counter = 0
 
-    while counter != 50:
+    while counter != 1:
 
         while not reset:
             test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}", size)
