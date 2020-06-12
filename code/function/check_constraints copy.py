@@ -1,8 +1,5 @@
-from code.function import zone_heurestiek
-
 def check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_destination, nets):
-
-    # Checks if the line doesnt break rules
+   # Checks if the line doesnt break rules
     size = grid_file.get_size()
     coordinates_gates = grid_file.get_coordinates_gates()
     check = True
@@ -13,9 +10,11 @@ def check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_d
         check = False
 
     list_of_routes = grid_file.get_list_of_routes()
+    
     for i in nets:
         net_from = i.get_coordinates_from()
         net_to = i.get_coordinates_to()
+
         if coordinates_to == coordinates_destination:
             if coordinates_from == net_from and net_to == coordinates_to:
                 check = False
@@ -30,9 +29,6 @@ def check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_d
                 check = False
                 return check, cross
             if coordinates_from == net_to and coordinates_to == net_from:
-                check = False
-                return check, cross
-            if zone_heurestiek.zone_heurestiek(grid_file, coordinates_from, coordinates_to, coordinates_destination):
                 check = False
                 return check, cross
             if coordinates_to in coordinates_gates and coordinates_to != coordinates_destination:

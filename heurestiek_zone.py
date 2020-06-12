@@ -19,17 +19,21 @@ def check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_d
         gate[0] = int(gate[0])
         gate[1] = int(gate[1])
         gate[2] = int(gate[2])
+
         gg.append((gate[0], gate[1], gate[2]))
+
         gate_zone.append((gate[0] + 1, gate[1], gate[2]))
         gate_zone.append((gate[0] - 1, gate[1], gate[2]))
         gate_zone.append((gate[0], gate[1] + 1, gate[2]))
         gate_zone.append((gate[0], gate[1] - 1, gate[2]))
         gate_zone.append((gate[0], gate[1], gate[2] + 1))
+
         gatess_zone.append((gate[0] + 1, gate[1], gate[2]))
         gatess_zone.append((gate[0] - 1, gate[1], gate[2]))
         gatess_zone.append((gate[0], gate[1] + 1, gate[2]))
         gatess_zone.append((gate[0], gate[1] - 1, gate[2]))
         gatess_zone.append((gate[0], gate[1], gate[2] + 1))
+        
         gates_zones[(gate[0], gate[1], gate[2])] = gate_zone
 
     for i in nets:
