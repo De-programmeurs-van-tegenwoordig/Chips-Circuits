@@ -64,7 +64,7 @@ def random_solve3D2(grid_file, cross_counter, netlist, count):
                 if check[1]:
                     cross_counter += 1
 
-        grid_file.add_netlist(nets, cross_counter)
+        grid_file.add_route(nets, cross_counter)
         netlist = grid_file.get_new_netlist()
         coordinates_origin = (origin_x, origin_y, 0)
         print("route connected:", coordinates_origin, coordinates_destination, count)

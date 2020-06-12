@@ -24,15 +24,14 @@ class Greedy:
         Greedily chooses cheapest paths to get to his destination
         """
         netlists = self.get_netlists(self.grid_file)
-        print(netlists)
 
         while len(netlists) != 0:
             netlist = self.grid_file.get_coordinates_netlist(netlists[0])
             netlists.pop(0)
             reset = 1
 
-            while reset != 200:
-                if reset == 199:
+            while reset != 50:
+                if reset == 50:
                     return False
                 origin_x = netlist[0]
                 origin_y = netlist[1]
@@ -114,18 +113,19 @@ class Greedy:
             
             self.grid_file.add_route(nets, self.cross_counter)
             coordinates_origin = (origin_x, origin_y, 0)
-            # print("doeiiiiiiiiiiii")
             print("route connected:", coordinates_origin, coordinates_destination, self.count)
             self.count += 1
 
             # output_coordinates = []
             # for count, item in enumerate(nets, 1):
+            #     print(count)
             #     if count == 1:
             #         coordinates = item.get_coordinates_from()
             #         x = coordinates[0]
             #         y = coordinates[1]
-
             #         gate_a = grid_file.get_current_gate_number(x, y)
+            #         gate_a = self.get_current_gate_number(x, y)
+            #         print(gate_a)
             #         output_coordinates.append(coordinates)
                 
             #     output_coordinates.append(item.get_coordinates_to())
