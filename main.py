@@ -11,8 +11,8 @@ from mpl_toolkits import mplot3d
 
 if __name__ == '__main__':
     # Read multiple files
-    chip_number = "2"
-    netlistfile = "netlist_9.csv"
+    chip_number = "1"
+    netlistfile = "netlist_4.csv"
     size = 17
     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}", size)
 

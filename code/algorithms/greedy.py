@@ -35,7 +35,7 @@ class Greedy:
         while netlist is not None:
             reset = 1
 
-            while reset != 20:
+            while reset != 200:
                 origin_x = netlist[0]
                 origin_y = netlist[1]
                 destination_x = netlist[2]
@@ -58,7 +58,7 @@ class Greedy:
 
                 # While line has not reached endpoint
                 while current_x != destination_x or current_y != destination_y or current_z != destination_z:
-                    lowest_distance = 1000000
+                    lowest_distance = float("inf")
                     best_directions = []
 
                     for direction in directions:
@@ -81,7 +81,7 @@ class Greedy:
                                 best_directions.append([direction, cross])
                     
                     if best_directions == []:
-                        print(f"reset {reset}")
+                        # print(f"reset {reset}")
                         reset += 1
                         break
                     
@@ -108,10 +108,11 @@ class Greedy:
                 
                 self.grid_file.add_route(nets, self.cross_counter)
 
-                netlist = self.grid_file.get_new_netlist()
-                coordinates_origin = (origin_x, origin_y, 0)
-                print("route connected:", coordinates_origin, coordinates_destination, self.count)
-                self.count += 1
+                if current_x == destination_x and current_y == destination_y and current_z == destination_z:
+                    netlist = self.grid_file.get_new_netlist()
+                    coordinates_origin = (origin_x, origin_y, 0)
+                    print("route connected:", coordinates_origin, coordinates_destination, self.count)
+                    self.count += 1
                 break
 
 
