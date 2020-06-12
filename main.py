@@ -5,6 +5,7 @@ from code.classes import grid
 from code.classes import net
 from code.algorithms import random_solve
 from code.algorithms import greedy as gr
+from code.algorithms import hillclimber as hc
 import csv
 import random
 from mpl_toolkits import mplot3d
@@ -12,8 +13,8 @@ from mpl_toolkits import mplot3d
 if __name__ == '__main__':
     # Read multiple files
     chip_number = "0"
-    netlistfile = "netlist_3.csv"
-    size = 7
+    netlistfile = "netlist_2.csv"
+    size = 17
     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}", size)
 
     output = open("chip2netlist9.csv", "a")
@@ -42,11 +43,18 @@ if __name__ == '__main__':
 
     # --------------------------While loops to run till solution
     
-    
+
+hill_climber = hc.HillClimber(chip_number, netlistfile, size)
+
+results = hill_climber.Climb()
+
+print("netlists: ",results[0], " score: ", results[1])
+
+
     reset = False
     counter = 0
 
-    while counter != 1:
+    while counter != 50:
         
         while not reset:
             test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}", size)
@@ -57,10 +65,9 @@ if __name__ == '__main__':
         output.write(f"Greedy,{cost},{counter}\n")
         counter += 1
         reset = False
-        
+
     output.write("\n\n")
     print("normal greedy done")
-    pg.plot_grid(test_grid)
 
 
 
