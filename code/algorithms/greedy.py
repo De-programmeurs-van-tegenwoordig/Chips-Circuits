@@ -8,7 +8,7 @@ class Greedy:
         The Greedy class looks for the cheapest possible path between two gates
         """
         self.grid_file = grid_file
-        self.cross_counter = 0
+
         self.count = 1
 
     def get_netlists(self, gridfile):
@@ -28,9 +28,10 @@ class Greedy:
         while len(netlists) != 0:
             netlist = self.grid_file.get_coordinates_netlist(netlists[0])
             netlists.pop(0)
+            self.cross_counter = 0
             reset = 1
 
-            while reset != 50:
+            while reset <= 50:
                 if reset == 50:
                     return False
                 origin_x = netlist[0]

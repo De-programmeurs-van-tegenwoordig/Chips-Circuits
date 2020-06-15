@@ -58,10 +58,6 @@ class Grid():
 
     def get_zone(self,chip_number):
         return self.zones[chip_number]
-    
-    def get_gates(self):
-        """Returns all gates"""
-        return self.gates
 
     def get_coordinates_gates(self):
         return self.coordinates_gates
@@ -83,15 +79,15 @@ class Grid():
         """
         Used for the output file to track which net is being written
         """
-        gates = self.get_gates()
+        gates = self.get_total_gates()
 
-        for i in range(1, len(gates)+1):
-            coordinates = gates[i].get_coordinates()
+        for i in range(len(gates)):
+            coordinates = gates[i]
             x = int(coordinates[0])
             y = int(coordinates[1])
 
             if x == coordinate_x and y == coordinate_y:
-                return gates[i].get_gate_number()
+                return i + 1
 
 
     def get_netlists(self):
