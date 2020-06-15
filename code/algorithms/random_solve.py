@@ -32,7 +32,7 @@ def random_solve3D2(grid_file, cross_counter, netlist, count):
         current_y = origin_y
         destination_z = 0
         current_z = 0
-        
+
         moves = 0
         max_moves = 15
 

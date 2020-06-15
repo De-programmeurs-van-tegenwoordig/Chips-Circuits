@@ -8,7 +8,6 @@ class Greedy:
         The Greedy class looks for the cheapest possible path between two gates
         """
         self.grid_file = grid_file
-        self.cross_counter = 0
         self.count = 1
 
     def get_netlists(self, gridfile):
@@ -29,10 +28,12 @@ class Greedy:
             netlist = self.grid_file.get_coordinates_netlist(netlists[0])
             netlists.pop(0)
             reset = 1
+            cross_counter = 0
 
-            while reset != 50:
-                if reset == 50:
+            while reset <= 100:
+                if reset == 100:
                     return False
+                    
                 origin_x = netlist[0]
                 origin_y = netlist[1]
                 destination_x = netlist[2]
@@ -88,9 +89,9 @@ class Greedy:
                     move_direction = random.choice(best_directions)
                     while move_direction[1]:
                         ran = random.randint(0,101)
-                        if ran < 10 * reset:
+                        if ran < 5 * reset:
                             # print(f"hoi {reset}")
-                            self.cross_counter += 1
+                            cross_counter += 1
                             break
                         else:
                             move_direction = random.choice(best_directions)
@@ -109,9 +110,11 @@ class Greedy:
                 if coordinates_to == coordinates_destination:
                     break
             
-            self.grid_file.add_route(nets, self.cross_counter)
-            coordinates_origin = (origin_x, origin_y, 0)
-            # print("route connected:", coordinates_origin, coordinates_destination, self.count)
+            self.grid_file.add_route(nets, cross_counter)
+            if self.count > 40:
+                gate_a = self.grid_file.get_current_gate_number(origin_x, origin_y)
+                gate_b = self.grid_file.get_current_gate_number(destination_x, destination_y)
+                print(f"connected:{gate_a} to {gate_b} | Origin: {coordinates_origin}, destination: {coordinates_destination}, current: {coordinates_from}, reset: {reset}, count: {self.count}")
             self.count += 1
 
             # output_coordinates = []
