@@ -14,7 +14,7 @@ from mpl_toolkits import mplot3d
 if __name__ == '__main__':
     # Read multiple files
     chip_number = "2"
-    netlist_number = "9"
+    netlist_number = "8"
     size = 17
     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
 
@@ -50,11 +50,13 @@ if __name__ == '__main__':
     # output.write(f"chip_{0}_net_{1},{cost},{counter}")
     # output.close()
 
+    # astar = ast.Astar(test_grid)
+    # astar.run(output)
+    # cost = test_grid.cost_of_route()
+    # print(cost)
+
     # Plot the graph
     pg.plot_grid(test_grid, chip_number, netlist_number)
-
-    # astar = astar.Astar(test_grid)
-    # astar.run(output)
 
     # --------------------------While loops to run till solution
     
@@ -189,4 +191,4 @@ if __name__ == '__main__':
 
 #     output.close()
 
-    
+    # 

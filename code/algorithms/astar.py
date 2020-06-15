@@ -30,17 +30,18 @@ class Astar():
         netlists = self.get_netlists(self.grid_file)
         size = self.grid_file.get_size()
 
+        counter = 0
+
         while len(netlists) != 0:
             netlist = self.grid_file.get_coordinates_netlist(netlists[0])
             netlists.pop(0)
+            self.crosses = 0
 
             open_list = []
             closed_list = []
             coordinates_successor = {}
 
             directions = [(0,0,1), (0,0,-1), (0,-1,0), (1,0,0), (0,1,0), (-1,0,0)]
-
-
 
             origin_x = netlist[0]
             origin_y = netlist[1]
@@ -51,9 +52,9 @@ class Astar():
             coordinates_destination = (destination_x, destination_y,0)
 
             # Create start and end node
-            start_node = Node(None, coordinates_origin)
+            start_node = node.Node(None, coordinates_origin)
             start_node.g = start_node.h = start_node.f = 0
-            end_node = Node(None, coordinates_destination)
+            end_node = node.Node(None, coordinates_destination)
             end_node.g = end_node.h = end_node.f = 0
 
             open_list.append(start_node)
@@ -62,6 +63,7 @@ class Astar():
                 # Get the current node
                 current_node = open_list[0]
                 current_index = 0
+                nets = []
                 for index, item in enumerate(open_list):
                     if item.f < current_node.f:
                         current_node = item
@@ -72,13 +74,30 @@ class Astar():
                 closed_list.append(current_node)
                 
                 # Found the goal
-                if current_node == end_node:
-                    path = []
+                if counter >= 19:
+                    print(current_node.position, end_node.position)
+                if counter == 25:
+                    return True
+
+                if current_node.position == end_node.position:
+                    paths = []
+                    
                     current = current_node
                     while current is not None:
-                        path.append(current.position)
+                        paths.append(current.position)
                         current = current.parent
-                    return path[::-1] # Return reversed path`
+                    # print(paths[::-1]) # Return reversed path
+                    for i in range (len(paths)):
+                        if i != len(paths) - 1:
+                            new_netlist = net.Net(paths[i], paths[i+1])
+                            nets.append(new_netlist)
+                            cross = check_constraints.check_constraints(self.grid_file, paths[i], paths[i+1], coordinates_destination, nets)[1]
+                            if cross:
+                                self.crosses += 1
+                    self.grid_file.add_route(nets, self.crosses)
+                    counter += 1
+                    print(f"Route connected: {coordinates_origin}, {coordinates_destination}. Crosses: {self.crosses}. Nummer: {counter}")
+                    break
                 
                 # Generate children
                 children = []
@@ -89,14 +108,15 @@ class Astar():
                     if node_position[0] > size  or node_position[1] > size or node_position[2] > 7 or node_position[0] < 0 or node_position[1] < 0 or node_position[2] < 0:
                         continue
 
-                    new_node = Node(current_node, node_position)
-
-                    children.append(new_node)
+                    check = check_constraints.check_constraints(self.grid_file, current_node.position, node_position, coordinates_destination, nets)[0]
+                    if check:
+                        new_node = node.Node(current_node, node_position)
+                        children.append(new_node)
                 
                 for child in children:
 
                     for closed_child in closed_list:
-                        if child == closed_child:
+                        if child.position == closed_child.position:
                             continue
                         
                     child.g = current_node.g + 1
@@ -104,10 +124,12 @@ class Astar():
                     child.f = child.g + child.h
 
                     for open_node in open_list:
-                        if child == open_node and child.g > open_node.g:
+                        if child.position == open_node.position and child.g > open_node.g:
                             continue
                     
+
                     open_list.append(child)
+                
 
 
 

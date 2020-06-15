@@ -27,13 +27,14 @@ class Greedy:
         while len(netlists) != 0:
             netlist = self.grid_file.get_coordinates_netlist(netlists[0])
             netlists.pop(0)
+            self.cross_counter = 0
             reset = 1
             cross_counter = 0
 
             while reset <= 100:
                 if reset == 100:
                     return False
-                    
+
                 origin_x = netlist[0]
                 origin_y = netlist[1]
                 destination_x = netlist[2]
