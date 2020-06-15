@@ -19,7 +19,7 @@ class Greedy:
         random.shuffle(netlists)
         return netlists
 
-    def run(self, output, weigth):
+    def run(self, output):
         """
         Greedily chooses cheapest paths to get to his destination
         """
@@ -88,7 +88,7 @@ class Greedy:
                     move_direction = random.choice(best_directions)
                     while move_direction[1]:
                         ran = random.randint(0,101)
-                        if ran < weigth * reset:
+                        if ran < 5 * reset:
                             # print(f"hoi {reset}")
                             self.cross_counter += 1
                             break
