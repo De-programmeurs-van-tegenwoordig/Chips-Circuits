@@ -193,10 +193,3 @@ class LengthGreedy(Greedy):
             del netlist_distance[min_distance]
         
         return length_netlists
-
-        
-
-
-
-
-
