@@ -5,6 +5,7 @@ from code.classes import grid
 from code.classes import net
 from code.algorithms import random_solve
 from code.algorithms import greedy as gr
+from code.algorithms import astar as ast
 from code.algorithms import hillclimber as hc
 import csv
 import random
@@ -13,7 +14,7 @@ from mpl_toolkits import mplot3d
 if __name__ == '__main__':
     # Read multiple files
     chip_number = "2"
-    netlistfile = "netlist_9.csv"
+    netlistfile = "netlist_8.csv"
     size = 17
     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}", size)
 
@@ -41,56 +42,67 @@ if __name__ == '__main__':
     # Plot the graph
     # pg.plot_grid(test_grid)
 
+    # astar = ast.Astar(test_grid)
+    # astar.run(output)
+
     # --------------------------While loops to run till solution
     
 
+# hill_climber = hc.HillClimber(chip_number, netlistfile, size)
 
-    # hill_climber = hc.HillClimber(chip_number, netlistfile, size)
+# results = hill_climber.Climb()
 
-    # results = hill_climber.Climb()
-
-    # print("netlists: ",results[0], " score: ", results[1])
+# print("netlists: ",results[0], " score: ", results[1])
 
 
     reset = False
     counter = 0
 
-    # while counter != 50:
+#     output.write(f"Dit is greedy weigth 5\n")
+#     while counter != 100:
         
-    #     while not reset:
-    #         test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}", size)
-    #         greedy = gr.Greedy(test_grid)
-    #         reset = greedy.run(output)
+#         while not reset:
+#             test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}", size)
+#             greedy = gr.Greedy(test_grid)
+#             reset = greedy.run(output)
 
-    #     cost = test_grid.cost_of_route()
-    #     output.write(f"Greedy,{cost},{counter}\n")
-    #     counter += 1
-    #     reset = False
+#         cost = test_grid.cost_of_route()
+#         output.write(f"Greedy,{cost},{counter}\n")
+#         counter += 1
+#         print(counter)
+#         reset = False
 
-    # output.write("\n\n")
-    # print("normal greedy done")
+#     output.write("\n\n")
+#     print("normal greedy done")
+
+#         while not reset:
+#             test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}", size)
+#             greedy = gr.Greedy(test_grid)
+#             reset = greedy.run(output)
 
 
-
-    # reset = False
-    # counter = 0
+#     reset = False
+#     counter = 0
     
-    # while counter != 50:
-
-    # while not reset:
-    #     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}", size)
-    #     pop_greedy = gr.PopulationGreedy(test_grid)
-    #     reset = pop_greedy.run(output, 5, 0)
+#     output.write(f"Dit is greedy weigth 10\n")
+#     while counter != 100:
 
     while not reset:
+        print( f"reset = {counter}")
+        counter += 1
         test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}", size)
-        best_score = gr.BestScoreGreedy(test_grid)
-        reset = best_score.run(output, 5, 0)
+        pop_greedy = gr.LengthGreedy(test_grid)
+        reset = pop_greedy.run(output)
+    pg.plot_grid(test_grid)
 
-    # while not reset:
-    #     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}", size)
-    #     len_greedy = gr.LengthGreedy(test_grid)
-    #     reset = len_greedy.run(output, 5, 0)
+#         cost = test_grid.cost_of_route()
+#         output.write(f"GreedyPopulation,{cost},{counter}\n")
+#         counter += 1
+#         print(counter)
+#         reset = False
+
+#     output.write("\n\n")
+#     print("population klaar")
 
     #     cost = test_grid.cost_of_route()
     #     output.write(f"GreedyPopulation,{cost},{counter}\n")
@@ -100,24 +112,26 @@ if __name__ == '__main__':
     # output.write("\n\n")
     # print("population klaar")
 
+#     reset = False
+#     counter = 0
 
-    # reset = False
-    # counter = 0
+#     output.write(f"Dit is greedy weigth 20\n")
+#     while counter != 100:
 
-    # while counter != 50:
+#         while not reset:
+#             test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}", size)
+#             len_greedy = gr.LengthGreedy(test_grid)
+#             reset = len_greedy.run(output)
 
-    #     while not reset:
-    #         test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}", size)
-    #         len_greedy = gr.LengthGreedy(test_grid)
-    #         reset = len_greedy.run(output)
+#         cost = test_grid.cost_of_route()
+#         output.write(f"GreedyLength,{cost},{counter}\n")
+#         counter += 1
+#         print(counter)
+#         reset = False
 
-    #     cost = test_grid.cost_of_route()
-    #     output.write(f"GreedyLength,{cost},{counter}\n")
-    #     counter += 1
-    #     reset = False
+#     print("korste lengte eerst klaar")
 
-    # print("korste lengte eerst klaar")
+#     output.close()
 
-    # output.close()
 
     

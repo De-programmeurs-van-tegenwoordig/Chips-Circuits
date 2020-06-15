@@ -19,7 +19,7 @@ class Greedy:
         random.shuffle(netlists)
         return netlists
 
-    def run(self, output, weigth, best_net_score):
+    def run(self, output):
         """
         Greedily chooses cheapest paths to get to his destination
         """
@@ -33,7 +33,7 @@ class Greedy:
             # if self.grid_file.cost_of_route() > best_net_score:
             #     break
 
-            while reset != 50:
+            while reset <= 50:
                 if reset == 50:
                     return False
                 origin_x = netlist[0]
@@ -75,9 +75,7 @@ class Greedy:
                             if cross:
                                 distance += 300
                             if distance < lowest_distance:
-                                # print("k", best_directions)
                                 best_directions.clear()
-                                # print("n", best_directions)
                                 lowest_distance = distance
                                 best_directions.append([direction, cross])
                             if distance == lowest_distance:
@@ -114,7 +112,7 @@ class Greedy:
             
             self.grid_file.add_route(nets, self.cross_counter)
             coordinates_origin = (origin_x, origin_y, 0)
-            # print("route connected:", coordinates_origin, coordinates_destination, self.count)
+            print(f"Origin: {coordinates_origin}, destination: {coordinates_destination}, current: {coordinates_from}, reset: {reset}, count: {self.count}")
             self.count += 1
 
             # output_coordinates = []

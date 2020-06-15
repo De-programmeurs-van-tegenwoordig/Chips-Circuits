@@ -60,7 +60,7 @@ def check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_d
                 elif coordinates_from == net_to and coordinates_to == net_from:
                     check = False
                     return check, cross
-                elif coordinates_to in coordinates_gates and coordinates_to != coordinates_destination:
+                elif zone_heurestiek.zone_heurestiek(grid_file, coordinates_from, coordinates_to, coordinates_destination):
                     check = False
     
     return check, cross
