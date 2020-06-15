@@ -47,7 +47,7 @@ if __name__ == '__main__':
     counter = 0
 
     output.write(f"Dit is greedy weigth 5\n")
-    while counter != 10:
+    while counter != 100:
         
         while not reset:
             weigth = 5
@@ -58,6 +58,7 @@ if __name__ == '__main__':
         cost = test_grid.cost_of_route()
         output.write(f"{cost}\n")
         counter += 1
+        print(counter)
         reset = False
 
     output.write("\n\n")
@@ -69,7 +70,7 @@ if __name__ == '__main__':
     counter = 0
     
     output.write(f"Dit is greedy weigth 10\n")
-    while counter != 10:
+    while counter != 100:
 
         while not reset:
             weigth = 10
@@ -80,6 +81,7 @@ if __name__ == '__main__':
         cost = test_grid.cost_of_route()
         output.write(f"{cost}\n")
         counter += 1
+        print(counter)
         reset = False
 
     output.write("\n\n")
@@ -90,7 +92,7 @@ if __name__ == '__main__':
     counter = 0
 
     output.write(f"Dit is greedy weigth 20\n")
-    while counter != 10:
+    while counter != 100:
 
         while not reset:
             weigth = 20
@@ -101,6 +103,7 @@ if __name__ == '__main__':
         cost = test_grid.cost_of_route()
         output.write(f"{cost}\n")
         counter += 1
+        print(counter)
         reset = False
 
     print("Weigth 20 Done")
