@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import random
 from code.classes import grid
 
-def plot_grid(grid_file, chip_number, netlist_number):
+def plot_grid(grid_file, chip_number, netlist_number, cost):
     """ Plots the 3d graph """
     list_of_nets = grid_file.get_list_of_routes()
     size = grid_file.get_size()
@@ -65,7 +65,8 @@ def plot_grid(grid_file, chip_number, netlist_number):
     ax.set_ylabel('Y', fontsize = 10)
     ax.set_zlabel('Z', fontsize = 10)
     plt.legend()
-    plt.title(f"Chip {chip_number}  | Netlist: {netlist_number}")
+    plt.title(f"Chip {chip_number}  | Netlist: {netlist_number}  | Cost: {cost}")
+    # plt.savefig(f'C{chip_number}N{netlist_number}Cost{cost}.png')
     plt.show()
         
     # 2d plot

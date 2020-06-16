@@ -20,7 +20,7 @@ class Astar():
         length_netlists = []
 
         while len(netlist_distance) != 0:
-            min_distance = max(netlist_distance, key=lambda key: netlist_distance[key])
+            min_distance = min(netlist_distance, key=lambda key: netlist_distance[key])
             length_netlists.append(min_distance)
             del netlist_distance[min_distance]
         
@@ -50,13 +50,8 @@ class Astar():
             current_gate = []
 
             for item in netlists:
-                if int(item[0]) == gate_max:
+                if int(item[0]) == gate_max or int(item[1]) == gate_max:
                     populated_netlists.append(item)
-                    current_gate.append(item)
-
-                elif int(item[1]) == gate_max:
-                    new_item = (item[1], item[0])
-                    populated_netlists.append(new_item)
                     current_gate.append(item)
 
             for item in current_gate:
@@ -67,12 +62,15 @@ class Astar():
         return populated_netlists
     
     def run(self, output):
-        netlists = self.get_pop_netlists(self.grid_file)
+        netlists = self.get_length_netlists(self.grid_file)
         size = self.grid_file.get_size()
 
         counter = 0
 
         while len(netlists) != 0:
+            if counter == 30:
+                return True
+
             netlist = self.grid_file.get_coordinates_netlist(netlists[0])
             print("hoi", netlists[0][0], netlists[0][1], netlist)
             netlists.pop(0)
@@ -117,8 +115,7 @@ class Astar():
                 open_list.pop(current_index)
                 closed_list.append(current_node)
 
-                if len(open_list) > 100000:
-                    
+                if len(open_list) > 20000:
                     paths = []
                     
                     current = current_node
@@ -126,7 +123,9 @@ class Astar():
                         paths.append(current.position)
                         current = current.parent
                     
+                    print(paths)
                     paths.reverse()
+                    print("reverse", paths)
 
                     # Return reversed path
                     for i in range(len(paths)-1):
@@ -138,7 +137,7 @@ class Astar():
                             
                     self.grid_file.add_route(nets, self.crosses)
                     counter += 1
-                    print(f"Route connected 20000: {coordinates_origin}, {coordinates_destination}. Crosses: {self.crosses}. Nummer: {counter}")
+                    print(f"Route connected: {coordinates_origin}, {coordinates_destination}. Crosses: {self.crosses}. Nummer: {counter}")
                     break
 
                 if current_node.position == end_node.position:
@@ -148,8 +147,10 @@ class Astar():
                     while current is not None:
                         paths.append(current.position)
                         current = current.parent
-
+                    
+                    print(paths)
                     paths.reverse()
+                    print("reverse", paths)
 
                     # Return reversed path
                     for i in range(len(paths)-1):
@@ -172,16 +173,11 @@ class Astar():
 
                     if node_position[0] > size  or node_position[1] > size or node_position[2] > 7 or node_position[0] < 0 or node_position[1] < 0 or node_position[2] < 0:
                         continue
-                    
-                    check = check_constraints.check_constraints(self.grid_file, current_node.position, node_position, coordinates_destination, nets)
-                    if check[0]:
-                        if check[1]:
-                            new_node = node.Node(current_node, node_position)
-                            new_node.cross = True
-                            children.append(new_node)
-                        else:  
-                            new_node = node.Node(current_node, node_position)
-                            children.append(new_node)
+
+                    check = check_constraints.check_constraints(self.grid_file, current_node.position, node_position, coordinates_destination, nets)[0]
+                    if check:
+                        new_node = node.Node(current_node, node_position)
+                        children.append(new_node)
                 
                 for child in children:
                     for closed_child in closed_list:
@@ -190,11 +186,6 @@ class Astar():
                         
                     child.g = current_node.g + 1
                     child.h = abs(destination_x - child.position[0]) + abs(destination_y - child.position[1]) + abs(0 - child.position[2])
-                    
-                    # if crosses need to be avoided then use this below
-                    # if child.cross:
-                    #     child.h += 300
-
                     child.f = child.g + child.h
 
                     for open_node in open_list:
