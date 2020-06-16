@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import random
 from code.classes import grid
 
-def plot_grid(grid_file):
+def plot_grid(grid_file, chip_number, netlist_number):
     """ Plots the 3d graph """
     list_of_nets = grid_file.get_list_of_routes()
     size = grid_file.get_size()
@@ -34,17 +34,18 @@ def plot_grid(grid_file):
 
     # Get every line in the graph
     for count in range(len(list_of_nets)):
-        # colors = ['b','orange','g', 'purple', 'magenta', 'cyan', 'black', 'yellow']
         nets = list_of_nets[count]
+        
         r = random.random()
         b = random.random()
         g = random.random()
-        color = (r, g, b)   
+        color = (r, g, b)
+        
+        x = []
+        y = []
+        z = [] 
         
         for item in nets:
-            x = []
-            y = []
-            z = []
             a = item.get_coordinates_from()
             b = item.get_coordinates_to()
 
@@ -52,12 +53,19 @@ def plot_grid(grid_file):
             y.extend([a[1], b[1]])
             z.extend([a[2], b[2]])
 
-            # Plot the line
-            ax.plot3D(x, y, z, color=color)
+        coordinates_gate_a = nets[0].get_coordinates_from()
+        coordinates_gate_b = nets[-1].get_coordinates_to()
+        gate_a = grid_file.get_current_gate_number(coordinates_gate_a[0], coordinates_gate_a[1])
+        gate_b = grid_file.get_current_gate_number(coordinates_gate_b[0], coordinates_gate_b[1])
+
+        # Plot the line
+        ax.plot3D(x, y, z, color=color, label=f"{gate_a} to {gate_b}")
 
     ax.set_xlabel('X', fontsize = 10)
     ax.set_ylabel('Y', fontsize = 10)
     ax.set_zlabel('Z', fontsize = 10)
+    plt.legend()
+    plt.title(f"Chip {chip_number}  | Netlist: {netlist_number}")
     plt.show()
         
     # 2d plot

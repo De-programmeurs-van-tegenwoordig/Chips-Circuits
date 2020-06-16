@@ -8,7 +8,6 @@ class Greedy:
         The Greedy class looks for the cheapest possible path between two gates
         """
         self.grid_file = grid_file
-        self.cross_counter = 0
         self.count = 1
 
     def get_netlists(self, gridfile):
@@ -28,14 +27,16 @@ class Greedy:
         while len(netlists) != 0:
             netlist = self.grid_file.get_coordinates_netlist(netlists[0])
             netlists.pop(0)
+            self.cross_counter = 0
             reset = 1
             
             # if self.grid_file.cost_of_route() > best_net_score:
             #     break
 
-            while reset <= 50:
-                if reset == 50:
+            while reset <= 200:
+                if reset == 200:
                     return False
+
                 origin_x = netlist[0]
                 origin_y = netlist[1]
                 destination_x = netlist[2]
@@ -62,7 +63,6 @@ class Greedy:
  
                     lowest_distance = float("inf")
                     best_directions = []
-
                     for direction in directions:
                         coordinates_to = (coordinates_from[0] + direction[0], coordinates_from[1] + direction[1], coordinates_from[2] + direction[2])
                         results = check_constraints.check_constraints(self.grid_file, coordinates_from, coordinates_to, coordinates_destination, nets)
@@ -82,7 +82,7 @@ class Greedy:
                                 best_directions.append([direction, cross])
                     
                     if best_directions == []:
-                        # print(f"reset {reset}")
+                        best_directions.append()
                         reset += 1
                         break
                     
@@ -111,8 +111,10 @@ class Greedy:
                     break
             
             self.grid_file.add_route(nets, self.cross_counter)
-            coordinates_origin = (origin_x, origin_y, 0)
-            print(f"Origin: {coordinates_origin}, destination: {coordinates_destination}, current: {coordinates_from}, reset: {reset}, count: {self.count}")
+            if self.count > 1:
+                gate_a = self.grid_file.get_current_gate_number(origin_x, origin_y)
+                gate_b = self.grid_file.get_current_gate_number(destination_x, destination_y)
+                print(f"connected:{gate_a} to {gate_b} | Origin: {coordinates_origin}, destination: {coordinates_destination}, current: {coordinates_from}, reset: {reset}, count: {self.count}")
             self.count += 1
 
             # output_coordinates = []
