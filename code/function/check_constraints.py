@@ -26,7 +26,6 @@ def check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_d
                 check = False
                 return check, cross
         else:
-            # print(f"Hoi {coordinates_from} {coordinates_to} {coordinates_destination}")
             if coordinates_to == net_from or coordinates_to == net_to:
                 cross = True
             if coordinates_from == net_from and coordinates_to == net_to:
@@ -67,9 +66,9 @@ def check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_d
                 elif coordinates_to in coordinates_gates and coordinates_to != coordinates_destination:
                     check = False
                     return check, cross
-                # elif zone_heurestiek.zone_heurestiek(grid_file, coordinates_from, coordinates_to, coordinates_destination):
-                #     check = False
-                #     # print("Overlap Chip")
-                #     return check, cross
+                elif zone_heurestiek.zone_heurestiek(grid_file, coordinates_from, coordinates_to, coordinates_destination):
+                    check = False
+                    # print("Overlap Chip")
+                    return check, cross
     
     return check, cross

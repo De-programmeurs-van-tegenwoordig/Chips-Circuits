@@ -5,7 +5,7 @@ from code.classes import grid
 from code.classes import net
 from code.algorithms import random_solve
 from code.algorithms import greedy as gr
-from code.algorithms import astar
+from code.algorithms import astar as ast
 from code.algorithms import hillclimber as hc
 import csv
 import random
@@ -13,8 +13,8 @@ from mpl_toolkits import mplot3d
 
 if __name__ == '__main__':
     # Read multiple files
-    chip_number = "2"
-    netlist_number = "8"
+    chip_number = "1"
+    netlist_number = "4"
     size = 17
     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
 
@@ -25,8 +25,8 @@ if __name__ == '__main__':
     
     # random_solve.random_solve3D(test_grid)
 
-    reset = False
-    counter = 0
+    # reset = False
+    # counter = 0
 
     # while not reset:
     #     print(counter)
@@ -38,22 +38,22 @@ if __name__ == '__main__':
     # pop_greedy = gr.PopulationGreedy(test_grid)
     # pop_greedy.run(output)
 
-    while not reset:
-        print(counter)
-        test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
-        len_greedy = gr.LengthGreedy(test_grid)
-        reset = len_greedy.run(output)
-        counter += 1
+    # while not reset:
+    #     print(counter)
+    #     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
+    #     len_greedy = gr.LengthGreedy(test_grid)
+    #     reset = len_greedy.run(output)
+    #     counter += 1
 
     # cost = test_grid.cost_of_route()
 
     # output.write(f"chip_{0}_net_{1},{cost},{counter}")
     # output.close()
 
-    # astar = ast.Astar(test_grid)
-    # astar.run(output)
-    # cost = test_grid.cost_of_route()
-    # print(cost)
+    astar = ast.Astar(test_grid)
+    astar.run(output)
+    cost = test_grid.cost_of_route()
+    print(cost)
 
     # Plot the graph
     pg.plot_grid(test_grid, chip_number, netlist_number)

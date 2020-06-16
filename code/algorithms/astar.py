@@ -7,7 +7,10 @@ class Astar():
     def __init__(self, grid_file):
         self.grid_file = grid_file
 
-    def get_netlists(self, grid_file):
+    def get_lengthy_netlists(self, grid_file):
+        """
+        Counts how many connections each chip has and returns the order from high to low.
+        """
         netlists = list(grid_file.get_netlists())
 
         netlist_distance = {}
@@ -25,9 +28,38 @@ class Astar():
             del netlist_distance[min_distance]
         
         return length_netlists
+
+    def get_populated_netlists(self, grid_file):
+        """
+        Counts how many connections each chip has and returns the order from high to low.
+        """
+        netlists = list(grid_file.get_netlists())
+        counting = {}
+
+        for item in netlists:
+            counting[int(item[0])] = 0
+            counting[int(item[1])] = 0
+        for item in netlists:
+            counting[int(item[0])] += 1
+            counting[int(item[1])] += 1
+
+        populated_netlists = []
+
+        while len(counting) != 0:
+            gate_max = max(counting, key=lambda key: counting[key])
+            del counting[gate_max]
+
+            for item in netlists:
+                if int(item[0]) == gate_max or int(item[1]) == gate_max:
+                    populated_netlists.append(item)
+                    netlists.remove(item)
+
+        print(populated_netlists)
+        print(len(populated_netlists))
+        return populated_netlists
     
     def run(self, output):
-        netlists = self.get_netlists(self.grid_file)
+        netlists = self.get_lengthy_netlists(self.grid_file)
         size = self.grid_file.get_size()
 
         counter = 0
@@ -35,11 +67,11 @@ class Astar():
         while len(netlists) != 0:
             netlist = self.grid_file.get_coordinates_netlist(netlists[0])
             netlists.pop(0)
+            print(netlist)
             self.crosses = 0
 
             open_list = []
             closed_list = []
-            coordinates_successor = {}
 
             directions = [(0,0,1), (0,0,-1), (0,-1,0), (1,0,0), (0,1,0), (-1,0,0)]
 
@@ -61,10 +93,15 @@ class Astar():
 
             while len(open_list) != 0:
                 # Get the current node
-                current_node = open_list[0]
+                # current_node = open_list[0]
+                f = float("inf")
+
+                for item in open_list:
+                    if item.f < f:
+                        current_node = item
                 current_index = 0
                 nets = []
-                for index, item in enumerate(open_list):
+                for index, item in enumerate(open_list, 0):
                     if item.f < current_node.f:
                         current_node = item
                         current_index = index
@@ -74,12 +111,12 @@ class Astar():
                 closed_list.append(current_node)
                 
                 # Found the goal
-                if counter >= 19:
-                    print(current_node.position, end_node.position)
-                if counter == 25:
+                # if counter >= 40:
+                # print(current_node.position, end_node.position)
+                if counter == 2:
                     return True
 
-                if current_node.position == end_node.position:
+                if current_node == end_node:
                     paths = []
                     
                     current = current_node
@@ -89,13 +126,14 @@ class Astar():
                     # print(paths[::-1]) # Return reversed path
                     for i in range (len(paths)):
                         if i != len(paths) - 1:
-                            new_netlist = net.Net(paths[i], paths[i+1])
-                            nets.append(new_netlist)
                             cross = check_constraints.check_constraints(self.grid_file, paths[i], paths[i+1], coordinates_destination, nets)[1]
                             if cross:
                                 self.crosses += 1
+                            new_netlist = net.Net(paths[i], paths[i+1])
+                            nets.append(new_netlist)
                     self.grid_file.add_route(nets, self.crosses)
                     counter += 1
+                    print(len(open_list))
                     print(f"Route connected: {coordinates_origin}, {coordinates_destination}. Crosses: {self.crosses}. Nummer: {counter}")
                     break
                 
@@ -108,15 +146,23 @@ class Astar():
                     if node_position[0] > size  or node_position[1] > size or node_position[2] > 7 or node_position[0] < 0 or node_position[1] < 0 or node_position[2] < 0:
                         continue
 
-                    check = check_constraints.check_constraints(self.grid_file, current_node.position, node_position, coordinates_destination, nets)[0]
-                    if check:
-                        new_node = node.Node(current_node, node_position)
-                        children.append(new_node)
+                    check = check_constraints.check_constraints(self.grid_file, current_node.position, node_position, coordinates_destination, nets)
+                    if check[0]:
+                        if check[1]:
+                            ran = random.randint(0,101)
+                            if ran <= 5:
+                                new_node = node.Node(current_node, node_position)
+                                children.append(new_node)
+                            else:
+                                continue
+                        else:
+                            new_node = node.Node(current_node, node_position)
+                            children.append(new_node)
                 
                 for child in children:
 
                     for closed_child in closed_list:
-                        if child.position == closed_child.position:
+                        if child == closed_child:
                             continue
                         
                     child.g = current_node.g + 1
@@ -124,7 +170,7 @@ class Astar():
                     child.f = child.g + child.h
 
                     for open_node in open_list:
-                        if child.position == open_node.position and child.g > open_node.g:
+                        if child == open_node and child.g >= open_node.g:
                             continue
                     
 
