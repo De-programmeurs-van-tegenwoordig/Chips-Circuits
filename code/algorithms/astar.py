@@ -76,6 +76,7 @@ class Astar():
             netlist = self.grid_file.get_coordinates_netlist(netlists[0])
             print("hoi", netlists[0][0], netlists[0][1], netlist)
             netlists.pop(0)
+            print(netlist)
             self.crosses = 0
 
             open_list = []
@@ -104,7 +105,12 @@ class Astar():
                     print(f"open: {len(open_list)}   |||  closed: {len(closed_list)}")
 
                 # Get the current node
-                current_node = open_list[0]
+                # current_node = open_list[0]
+                f = float("inf")
+
+                for item in open_list:
+                    if item.f < f:
+                        current_node = item
                 current_index = 0
                 nets = []
 
@@ -141,7 +147,7 @@ class Astar():
                     print(f"Route connected 20000: {coordinates_origin}, {coordinates_destination}. Crosses: {self.crosses}. Nummer: {counter}")
                     break
 
-                if current_node.position == end_node.position:
+                if current_node == end_node:
                     paths = []
                     
                     current = current_node
@@ -161,6 +167,7 @@ class Astar():
                             
                     self.grid_file.add_route(nets, self.crosses)
                     counter += 1
+                    print(len(open_list))
                     print(f"Route connected: {coordinates_origin}, {coordinates_destination}. Crosses: {self.crosses}. Nummer: {counter}")
                     break
                 
@@ -185,7 +192,7 @@ class Astar():
                 
                 for child in children:
                     for closed_child in closed_list:
-                        if child.position == closed_child.position:
+                        if child == closed_child:
                             continue
                         
                     child.g = current_node.g + 1

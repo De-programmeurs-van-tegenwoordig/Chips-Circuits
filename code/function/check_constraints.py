@@ -70,5 +70,4 @@ def check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_d
                 if coordinates_to in grid_file.get_total_zones() and coordinates_to not in grid_file.get_zone(gate_number) and coordinates_from not in grid_file.get_total_gates():
                     check = False
                     return check, cross
-
     return check, cross

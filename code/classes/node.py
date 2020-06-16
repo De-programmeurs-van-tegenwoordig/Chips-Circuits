@@ -8,7 +8,6 @@ class Node():
         self.h = 0
         self.f = 0
 
-
     def __eq__(self, other):
         return self.position == other.position
 

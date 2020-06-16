@@ -5,7 +5,7 @@ from code.classes import grid
 from code.classes import net
 from code.algorithms import random_solve
 from code.algorithms import greedy as gr
-from code.algorithms import astar
+from code.algorithms import astar as ast
 from code.algorithms import hillclimber as hc
 import csv
 import random
@@ -14,7 +14,11 @@ from mpl_toolkits import mplot3d
 if __name__ == '__main__':
     # Read multiple files
     chip_number = "1"
+<<<<<<< HEAD
     netlist_number = "6"
+=======
+    netlist_number = "4"
+>>>>>>> 093b608510df9f4fa3d327a92c69f85ed10dbfc0
     size = 17
     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
 
@@ -25,8 +29,8 @@ if __name__ == '__main__':
     
     # random_solve.random_solve3D(test_grid)
 
-    reset = False
-    counter = 0
+    # reset = False
+    # counter = 0
 
     # while not reset:
     #     print(counter)
@@ -35,10 +39,22 @@ if __name__ == '__main__':
     #     reset = greedy.run(output)
     #     counter += 1
 
+<<<<<<< HEAD
     # while not reset:
     #     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
     #     pop_greedy = gr.PopulationGreedy(test_grid)
     #     reset = pop_greedy.run(output)
+=======
+    # pop_greedy = gr.PopulationGreedy(test_grid)
+    # pop_greedy.run(output)
+
+    # while not reset:
+    #     print(counter)
+    #     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
+    #     len_greedy = gr.LengthGreedy(test_grid)
+    #     reset = len_greedy.run(output)
+    #     counter += 1
+>>>>>>> 093b608510df9f4fa3d327a92c69f85ed10dbfc0
 
     # while not reset:
     #     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
@@ -51,7 +67,11 @@ if __name__ == '__main__':
     # output.write(f"chip_{0}_net_{1},{cost},{counter}")
     # output.close()
 
+<<<<<<< HEAD
     astar = astar.Astar(test_grid)
+=======
+    astar = ast.Astar(test_grid)
+>>>>>>> 093b608510df9f4fa3d327a92c69f85ed10dbfc0
     astar.run(output)
     cost = test_grid.cost_of_route()
     print(cost)
