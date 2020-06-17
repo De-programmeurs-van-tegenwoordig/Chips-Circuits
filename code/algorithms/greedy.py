@@ -82,7 +82,6 @@ class Greedy:
                                 best_directions.append([direction, cross])
                     
                     if best_directions == []:
-                        best_directions.append()
                         reset += 1
                         break
                     

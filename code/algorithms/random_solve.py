@@ -34,7 +34,7 @@ def random_solve3D2(grid_file, cross_counter, netlist, count):
         current_z = 0
 
         moves = 0
-        max_moves = 15
+        max_moves = 8
 
         # While line has not reached endpoint
         while current_x != destination_x or current_y != destination_y or current_z != destination_z:

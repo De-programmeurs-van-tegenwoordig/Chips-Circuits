@@ -6,6 +6,6 @@ class Node():
         self.g = 0
         self.h = 0
         self.f = 0
-    
+        self.cross = False
     def __eq__(self, other):
         return self.position == other.position

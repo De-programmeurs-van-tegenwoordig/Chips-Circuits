@@ -52,7 +52,7 @@ def plot_grid(grid_file, chip_number, netlist_number):
             x.extend([a[0], b[0]])
             y.extend([a[1], b[1]])
             z.extend([a[2], b[2]])
-
+        nets = list(nets)
         coordinates_gate_a = nets[0].get_coordinates_from()
         coordinates_gate_b = nets[-1].get_coordinates_to()
         gate_a = grid_file.get_current_gate_number(coordinates_gate_a[0], coordinates_gate_a[1])
@@ -67,28 +67,3 @@ def plot_grid(grid_file, chip_number, netlist_number):
     plt.legend()
     plt.title(f"Chip {chip_number}  | Netlist: {netlist_number}")
     plt.show()
-        
-    # 2d plot
-    # plt.plot(x_coordinates, y_coordinates, 'ro')
-    # plt.axis([0, size + 1, 0, size + 1])
-    # plt.grid(linestyle='-', linewidth=0.5)
-
-    # for count in range(len(list_of_nets)):
-        #     colors = ['b','r','g','bl']
-        #     nets = list_of_nets[count]
-            
-        #     for item in nets:
-        #         a = item.get_coordinates_from()
-        #         b = item.get_coordinates_to()
-        #         # print(a, b)
-
-        #         x.append(a[0])
-        #         x.append(b[0])
-        #         y.append(a[1])
-        #         y.append(b[1])
-        #         z.append(a[2])
-        #         z.append(b[2])
-                # c = (a[0], b[0], a[2])
-                # d = (a[1], b[1], b[2])
-
-            # .plot3D(x, y, z, color=colors[count])   
