@@ -73,4 +73,4 @@ def plot_grid(grid_file, chip_number, netlist_number, cost):
 
     plt.title(f"Chip {chip_number}  | Netlist: {netlist_number}  | Cost: {cost}")
     plt.savefig(f'C{chip_number}N{netlist_number}Cost{cost}.png', bbox_extra_artists=(lgd,), bbox_inches='tight')
-    plt.show()
+    # plt.show()

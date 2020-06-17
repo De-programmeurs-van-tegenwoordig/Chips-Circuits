@@ -19,13 +19,16 @@ if __name__ == '__main__':
     output = open("chip2netlistLength.csv", "a")
 
     reset = False
+    counter = 0
 
-    while not reset:
-        test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
-        astar = ast.PopAstar(test_grid)
-        reset = astar.run(output)
-        cost = test_grid.cost_of_route()
-        print(cost)
+    while counter < 5:
+        while not reset:
+            test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
+            astar = ast.PopAstar(test_grid)
+            reset = astar.run(output)
+            cost = test_grid.cost_of_route()
+            print(cost)
 
-    # Plot the graph
-    pg.plot_grid(test_grid, chip_number, netlist_number, cost)
+            # Plot the graph
+            pg.plot_grid(test_grid, chip_number, netlist_number, cost)
+            counter += 1
