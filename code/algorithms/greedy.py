@@ -182,6 +182,9 @@ class PopulationGreedy(Greedy):
         return populated_netlists
 
 class LengthGreedy(Greedy):
+    """
+    Returns netlists ordered by length of each netlist
+    """
     def get_netlists(self, grid_file):
         netlists = list(grid_file.get_netlists())
 

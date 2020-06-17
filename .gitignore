@@ -1,6 +1,9 @@
 output.txt
-greedyFUNC.py
+daan.py
 *.csv
+code/test/
+*.png
+code/algorithms/astar-copy.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

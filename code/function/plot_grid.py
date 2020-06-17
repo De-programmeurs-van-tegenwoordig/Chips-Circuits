@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from matplotlib.font_manager import FontProperties
 import random
 from code.classes import grid
 
@@ -64,32 +65,12 @@ def plot_grid(grid_file, chip_number, netlist_number, cost):
     ax.set_xlabel('X', fontsize = 10)
     ax.set_ylabel('Y', fontsize = 10)
     ax.set_zlabel('Z', fontsize = 10)
-    plt.legend()
+
+
+    fontP = FontProperties()
+    fontP.set_size('small')
+    lgd = plt.legend(bbox_to_anchor=(1.0,0.5), loc="center left", ncol=1, prop=fontP)
+
     plt.title(f"Chip {chip_number}  | Netlist: {netlist_number}  | Cost: {cost}")
-    # plt.savefig(f'C{chip_number}N{netlist_number}Cost{cost}.png')
+    plt.savefig(f'C{chip_number}N{netlist_number}Cost{cost}.png', bbox_extra_artists=(lgd,), bbox_inches='tight')
     plt.show()
-        
-    # 2d plot
-    # plt.plot(x_coordinates, y_coordinates, 'ro')
-    # plt.axis([0, size + 1, 0, size + 1])
-    # plt.grid(linestyle='-', linewidth=0.5)
-
-    # for count in range(len(list_of_nets)):
-        #     colors = ['b','r','g','bl']
-        #     nets = list_of_nets[count]
-            
-        #     for item in nets:
-        #         a = item.get_coordinates_from()
-        #         b = item.get_coordinates_to()
-        #         # print(a, b)
-
-        #         x.append(a[0])
-        #         x.append(b[0])
-        #         y.append(a[1])
-        #         y.append(b[1])
-        #         z.append(a[2])
-        #         z.append(b[2])
-                # c = (a[0], b[0], a[2])
-                # d = (a[1], b[1], b[2])
-
-            # .plot3D(x, y, z, color=colors[count])   
