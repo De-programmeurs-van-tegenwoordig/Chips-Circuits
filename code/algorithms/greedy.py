@@ -10,7 +10,7 @@ class Greedy:
         self.grid_file = grid_file
         self.count = 1
 
-    def get_netlists(self, gridfile):
+    def get_netlists(self, grid_file):
         """
         Returns the netlist in random order
         """
@@ -25,9 +25,6 @@ class Greedy:
         netlists = self.get_netlists(self.grid_file)
 
         while len(netlists) != 0:
-            if self.count == 10:
-                return True
-
             netlist = self.grid_file.get_coordinates_netlist(netlists[0])
             netlists.pop(0)
             self.cross_counter = 0
@@ -115,10 +112,10 @@ class Greedy:
                     break
             
             self.grid_file.add_route(nets, cross_counter)
-            # if self.count > 50:
-            gate_a = self.grid_file.get_current_gate_number(origin_x, origin_y)
-            gate_b = self.grid_file.get_current_gate_number(destination_x, destination_y)
-            print(f"connected:{gate_a} to {gate_b} | Origin: {coordinates_origin}, destination: {coordinates_destination}, current: {coordinates_from}, reset: {reset}, count: {self.count}")
+            if self.count % 10 == 0:
+                gate_a = self.grid_file.get_current_gate_number(origin_x, origin_y)
+                gate_b = self.grid_file.get_current_gate_number(destination_x, destination_y)
+                print(f"connected:{gate_a} to {gate_b} | Origin: {coordinates_origin}, destination: {coordinates_destination}, current: {coordinates_from}, reset: {reset}, count: {self.count}")
             self.count += 1
 
             # output_coordinates = []

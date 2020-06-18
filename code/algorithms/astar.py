@@ -33,7 +33,7 @@ class Astar():
             Define begin point and end point
             """
             netlist = self.grid_file.get_coordinates_netlist(netlists[0])
-            print("hoi", netlists[0][0], netlists[0][1], netlist)
+            # print("hoi", netlists[0][0], netlists[0][1], netlist)
             netlists.pop(0)
             self.crosses = 0
 
@@ -60,10 +60,6 @@ class Astar():
 
             # Run as long as there are nodes to be researched or till end point is reached
             while len(open_list) != 0:
-                if len(open_list) % 100 < 4:
-                    print(f"open: {len(open_list)}   |||  closed: {len(closed_list)}")
-
-                
                 # Set a current node and then get new "best" node from open list
                 current_node = open_list[0]
                 current_index = 0
@@ -99,7 +95,8 @@ class Astar():
                             
                     self.grid_file.add_route(nets, self.crosses)
                     counter += 1
-                    print(f"Route connected: {coordinates_origin}, {coordinates_destination}. Crosses: {self.crosses}. Nummer: {counter}")
+                    if counter % 10 == 0:
+                        print(f"Route connected: {coordinates_origin}, {coordinates_destination}. Crosses: {self.crosses}. Nummer: {counter}")
                     break
                 
                 # Generate children
@@ -156,7 +153,6 @@ class PopAstar(Astar):
         Counts how many connections each chip has and returns the order from high to low.
         """
         netlists = list(grid_file.get_netlists())
-        print("lengte", len(netlists))
         counting = {}
 
         for item in netlists:
@@ -187,10 +183,9 @@ class PopAstar(Astar):
             for item in current_gate:
                 netlists.remove(item)
 
-        # print(populated_netlists)
-        # print(len(populated_netlists))
+        print(populated_netlists)
+        print(len(populated_netlists))
         return populated_netlists
-
 
 class LengthAstar(Astar):
     """

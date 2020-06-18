@@ -4,7 +4,7 @@ import random
 from code.classes import grid
 import time
 
-def plot_grid(grid_file, chip_number, netlist_number, cost):
+def plot_grid(grid_file, chip_number, netlist_number, cost, algorithm):
     """ Plots the 3d graph """
     list_of_nets = grid_file.get_list_of_routes()
     size = grid_file.get_size()
@@ -73,5 +73,5 @@ def plot_grid(grid_file, chip_number, netlist_number, cost):
     t = time.localtime()
     current_time = time.strftime("%H:%M:%S", t)
     plt.title(f"Chip {chip_number}  | Netlist: {netlist_number}  | Cost: {cost}")
-    plt.savefig(f'Graphs/Astar/{chip_number}/{netlist_number}/Cost{cost}Time{current_time}.png', bbox_extra_artists=(lgd,), bbox_inches='tight')
+    plt.savefig(f'Graphs/{algorithm}/{chip_number}/{netlist_number}/Cost{cost}Time{current_time}.png', bbox_extra_artists=(lgd,), bbox_inches='tight')
     # plt.show()
