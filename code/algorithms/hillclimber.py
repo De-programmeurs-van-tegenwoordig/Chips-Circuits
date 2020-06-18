@@ -23,7 +23,7 @@ class HillClimber():
                 test_grid = grid.Grid(f"data/chip_{self.chip_number}/print_{self.chip_number}.csv", f"data/chip_{self.chip_number}/{self.netlistfile}", self.size)
                 greedy = gr.Greedy(test_grid)
                 netlist = test_grid.get_netlists()
-                reset = greedy.run(0, 10)
+                reset = greedy.run(10)
             
             new_score = test_grid.cost_of_route()
             if new_score > best_net_score:

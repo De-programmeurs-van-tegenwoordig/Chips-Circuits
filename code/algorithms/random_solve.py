@@ -8,6 +8,7 @@ def random_solve3D(grid_file):
     netlist = grid_file.get_new_netlist()
 
     random_solve3D2(grid_file, cross_counter, netlist, count)
+    return True
 
 def random_solve3D2(grid_file, cross_counter, netlist, count):
     """ Returns a random 3d solution of the given problem (netlist and chipset) """
@@ -17,7 +18,7 @@ def random_solve3D2(grid_file, cross_counter, netlist, count):
         origin_y = netlist[1]
         destination_x = netlist[2]
         destination_y = netlist[3]
-        nets = set()
+        nets = []
 
         # Declaring local variables
         tries = 0
@@ -56,7 +57,7 @@ def random_solve3D2(grid_file, cross_counter, netlist, count):
             if check[0]:
                 moves += 1
                 new_netlist = net.Net(coordinates_from, coordinates_to)
-                nets.add(new_netlist)
+                nets.append(new_netlist)
                 coordinates_from = coordinates_to 
                 current_x = coordinates_to[0]
                 current_y = coordinates_to[1]

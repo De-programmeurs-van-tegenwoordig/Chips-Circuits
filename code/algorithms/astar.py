@@ -33,7 +33,7 @@ class Astar():
             Define begin point and end point
             """
             netlist = self.grid_file.get_coordinates_netlist(netlists[0])
-            print("hoi", netlists[0][0], netlists[0][1], netlist)
+           # print("hoi", netlists[0][0], netlists[0][1], netlist)
             netlists.pop(0)
             self.crosses = 0
 
@@ -58,12 +58,7 @@ class Astar():
 
             open_list.append(start_node)
 
-            # Run as long as there are nodes to be researched or till end point is reached
             while len(open_list) != 0:
-                if len(open_list) % 100 < 4:
-                    print(f"open: {len(open_list)}   |||  closed: {len(closed_list)}")
-
-                
                 # Set a current node and then get new "best" node from open list
                 current_node = open_list[0]
                 current_index = 0
@@ -156,7 +151,6 @@ class PopAstar(Astar):
         Counts how many connections each chip has and returns the order from high to low.
         """
         netlists = list(grid_file.get_netlists())
-        print("lengte", len(netlists))
         counting = {}
 
         for item in netlists:
@@ -212,8 +206,10 @@ class LengthAstar(Astar):
             min_distance = min(netlist_distance, key=lambda key: netlist_distance[key])
             length_netlists.append(min_distance)
             del netlist_distance[min_distance]
+
+        length_netlists.reverse()
         
-        return length_netlists.reverse()
+        return length_netlists
 
 
 

@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
 import random
 from code.classes import grid
+import time
+import os
 
 def plot_grid(grid_file, chip_number, netlist_number, cost):
     """ Plots the 3d graph """
@@ -66,11 +68,13 @@ def plot_grid(grid_file, chip_number, netlist_number, cost):
     ax.set_ylabel('Y', fontsize = 10)
     ax.set_zlabel('Z', fontsize = 10)
 
-
     fontP = FontProperties()
     fontP.set_size('small')
     lgd = plt.legend(bbox_to_anchor=(1.0,0.5), loc="center left", ncol=1, prop=fontP)
-
+    t = time.localtime()
+    current_time = time.strftime("%H:%M:%S", t)
     plt.title(f"Chip {chip_number}  | Netlist: {netlist_number}  | Cost: {cost}")
-    plt.savefig(f'C{chip_number}N{netlist_number}Cost{cost}.png', bbox_extra_artists=(lgd,), bbox_inches='tight')
-    # plt.show()
+    filename = os.path.join(os.getcwd(), f'Graphs\Astar\{chip_number}\{netlist_number}\Cost{cost}Time.png')
+    plt.savefig(filename)
+
+    plt.show()
