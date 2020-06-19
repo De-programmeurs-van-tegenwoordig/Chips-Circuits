@@ -14,7 +14,7 @@ import random
 chip_number = float('inf')
 netlist_number = float('inf')
 algorithm = float('inf')
-while chip_number != "0" and chip_number != "1" and chip_number != "0":
+while chip_number != "0" and chip_number != "1" and chip_number != "2":
     chip_number = input("Welk chipnumber wilt u testen? 0, 1 of 2?    ")
 
 
