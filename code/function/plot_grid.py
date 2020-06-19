@@ -1,8 +1,10 @@
 import matplotlib.pyplot as plt
 import random
 from code.classes import grid
+import time
+import os
 
-def plot_grid(grid_file, chip_number, netlist_number):
+def plot_grid(grid_file, chip_number, netlist_number, cost, algorithm):
     """ Plots the 3d graph """
     list_of_nets = grid_file.get_list_of_routes()
     size = grid_file.get_size()
@@ -65,6 +67,12 @@ def plot_grid(grid_file, chip_number, netlist_number):
     ax.set_xlabel('X', fontsize = 10)
     ax.set_ylabel('Y', fontsize = 10)
     ax.set_zlabel('Z', fontsize = 10)
-    plt.legend()
-    plt.title(f"Chip {chip_number}  | Netlist: {netlist_number}")
-    plt.show()
+
+    fontP = FontProperties()
+    fontP.set_size('small')
+    lgd = plt.legend(bbox_to_anchor=(1.0,0.5), loc="center left", ncol=1, prop=fontP)
+    t = time.localtime()
+    current_time = time.strftime("%H:%M:%S", t)
+    plt.title(f"Chip {chip_number}  | Netlist: {netlist_number}  | Cost: {cost}")
+    plt.savefig(f'Graphs/{algorithm}/{chip_number}/{netlist_number}/PopCost{cost}Time{current_time}.png', bbox_extra_artists=(lgd,), bbox_inches='tight')
+    # plt.show()

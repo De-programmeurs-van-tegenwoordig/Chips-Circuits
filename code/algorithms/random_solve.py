@@ -8,6 +8,7 @@ def random_solve3D(grid_file):
     netlist = grid_file.get_new_netlist()
     
     random_solve3D2(grid_file, cross_counter, netlist, count)
+    return True
 
 def random_solve3D2(grid_file, cross_counter, netlist, count):
     """ Returns a random 3d solution of the given problem (netlist and chipset) """

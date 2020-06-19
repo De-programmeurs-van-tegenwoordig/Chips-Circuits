@@ -18,11 +18,12 @@ class Greedy:
         random.shuffle(netlists)
         return netlists
 
-    def run(self):
+    def run(self, output):
         """
         Greedily chooses cheapest paths to get to his destination
         """
         netlists = self.get_netlists(self.grid_file)
+        print(netlists)
 
         while len(netlists) != 0:
             netlist = self.grid_file.get_coordinates_netlist(netlists[0])
@@ -31,10 +32,7 @@ class Greedy:
             reset = 1
             cross_counter = 0
 
-            while reset <= 10:
-                if reset == 10:
-                    return False
-
+            while reset <= 100:
                 origin_x = netlist[0]
                 origin_y = netlist[1]
                 destination_x = netlist[2]
@@ -112,10 +110,9 @@ class Greedy:
                     break
             
             self.grid_file.add_route(nets, cross_counter)
-            if self.count % 10 == 0:
-                gate_a = self.grid_file.get_current_gate_number(origin_x, origin_y)
-                gate_b = self.grid_file.get_current_gate_number(destination_x, destination_y)
-                print(f"connected:{gate_a} to {gate_b} | Origin: {coordinates_origin}, destination: {coordinates_destination}, current: {coordinates_from}, reset: {reset}, count: {self.count}")
+            gate_a = self.grid_file.get_current_gate_number(origin_x, origin_y)
+            gate_b = self.grid_file.get_current_gate_number(destination_x, destination_y)
+            print(f"connected:{gate_a} to {gate_b} | Origin: {coordinates_origin}, destination: {coordinates_destination}, current: {coordinates_from}, reset: {reset}, count: {self.count}")
             self.count += 1
 
             # output_coordinates = []
@@ -200,14 +197,3 @@ class LengthGreedy(Greedy):
             del netlist_distance[min_distance]
         
         return length_netlists
-
-class BestScoreGreedy(Greedy):
-    def best_netlist(self):
-        best_netlist = [('15', '44'), ('13', '6'), ('31', '41'), ('22', '34'), ('25', '30'), ('22', '43'), ('4', '15'), ('15', '35'), ('35', '20'), ('31', '33'), ('40', '4'), ('9', '5'), ('50', '29'), ('38', '41'), ('34', '32'), ('4', '11'), ('35', '3'), ('1', '4'), ('27', '42'), ('39', '50'), ('28', '39'), ('2', '21'), ('45', '29'), ('31', '8'), ('17', '9'), ('47', '30'), ('30', '38'), ('19', '43'), ('45', '35'), ('6', '18'), ('33', '26'), ('41', '48'), ('48', '45'), ('14', '46'), ('34', '8'), ('50', '13'), ('17', '11'), ('28', '37'), ('6', '42'), ('49', '3'), ('47', '1'), ('13', '10'), ('38', '44'), ('12', '11'), ('37', '21'), ('38', '3'), ('15', '17'), ('28', '48'), ('46', '39'), ('27', '40'), ('40', '39'), 
-        ('7', '34'), ('44', '32'), ('23', '45'), ('2', '12'), ('16', '23'), ('2', '14'), ('13', '37'), ('26', '7'), ('2', '38'), ('4', '22'), ('18', '36'), ('12', '46'), ('15', '47'), ('39', '8'), ('1', '40'), ('49', '35'), ('33', '3'), ('6', '40'), ('26', '18')]
-        return best_netlist
-
-
-
-
-

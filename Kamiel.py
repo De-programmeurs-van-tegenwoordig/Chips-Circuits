@@ -42,13 +42,12 @@ if __name__ == '__main__':
     
     while counter <= 50:
         reset = False
+        print("Greedy")
         while not reset:
-            print("hoi")
             start_time = time.time()
             test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
-            greedy = gr.LengthGreedy(test_grid)
-            reset = greedy.run(output)
-            print(reset)
+            greedy = gr.Greedy(test_grid)
+            reset = greedy.run()
             times = (time.time() - start_time)
 
         print(f"--- {times }seconds ---")
@@ -56,15 +55,32 @@ if __name__ == '__main__':
         open_GrAs.write(f"Greedy, {times}, {cost} \n")
         reset = False
         
+        print("Astar_avoid_cross")
         while not reset:
             st_time = time.time()
             test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
-            astar = ast.LengthAstar(test_grid)
-            reset = astar.run(output)
+            astar = ast.Astar(test_grid)
+            reset = astar.run(True)
+            times = (time.time() - st_time)
+        
+        cost = test_grid.cost_of_route()
+        print("--- %s seconds ---" % (times))
+        print(f"The total cost is {cost}")
+        open_GrAs.write(f"Astar_avoid_crosses, {times}, {cost} \n")
+        counter += 1
+        reset = False
+        
+        print("Astar_cross")
+        while not reset:
+            st_time = time.time()
+            test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
+            astar = ast.Astar(test_grid)
+            reset = astar.run(False)
             times = (time.time() - st_time)
 
-        print("--- %s seconds ---" % (times))
         cost = test_grid.cost_of_route()
-        open_GrAs.write(f"Astar, {times}, {cost} \n")
+        print("--- %s seconds ---" % (times))
+        print(f"The total cost is {cost}")
+        open_GrAs.write(f"Astar_does_not_avoid_crosses, {times}, {cost} \n")
         counter += 1
  

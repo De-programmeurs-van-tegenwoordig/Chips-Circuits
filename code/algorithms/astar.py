@@ -14,12 +14,11 @@ class Astar():
         """
         Returns the netlist in random order
         """
-        netlists = list(self.grid_file.get_netlists())
-        random.shuffle(netlists)
+        netlists = self.grid_file.get_netlists()
 
         return netlists
     
-    def run(self, output):
+    def run(self, want_cross):
         """
         Seeks the best path between 2 gates
         """
@@ -33,7 +32,7 @@ class Astar():
             Define begin point and end point
             """
             netlist = self.grid_file.get_coordinates_netlist(netlists[0])
-           # print("hoi", netlists[0][0], netlists[0][1], netlist)
+            # print("hoi", netlists[0][0], netlists[0][1], netlist)
             netlists.pop(0)
             self.crosses = 0
 
@@ -94,7 +93,8 @@ class Astar():
                             
                     self.grid_file.add_route(nets, self.crosses)
                     counter += 1
-                    print(f"Route connected: {coordinates_origin}, {coordinates_destination}. Crosses: {self.crosses}. Nummer: {counter}")
+                    if counter % 10 == 0:
+                        print(f"Route connected: {coordinates_origin}, {coordinates_destination}. Crosses: {self.crosses}. Nummer: {counter}")
                     break
                 
                 # Generate children
@@ -127,8 +127,9 @@ class Astar():
                     child.h = abs(destination_x - child.position[0]) + abs(destination_y - child.position[1]) + abs(0 - child.position[2])
                     
                     # if crosses need to be avoided then use this below
-                    if child.cross:
-                        child.h += 300
+                    if want_cross:
+                        if child.cross:
+                            child.h += 300
 
                     child.f = child.g + child.h
 
@@ -150,7 +151,7 @@ class PopAstar(Astar):
         """
         Counts how many connections each chip has and returns the order from high to low.
         """
-        netlists = list(grid_file.get_netlists())
+        netlists = grid_file.get_netlists()
         counting = {}
 
         for item in netlists:
@@ -181,17 +182,16 @@ class PopAstar(Astar):
             for item in current_gate:
                 netlists.remove(item)
 
-        # print(populated_netlists)
-        # print(len(populated_netlists))
+        print(populated_netlists)
+        print(len(populated_netlists))
         return populated_netlists
-
 
 class LengthAstar(Astar):
     """
     Returns netlists ordered by length of each netlist
     """
     def get_netlists(self, grid_file):
-        netlists = list(grid_file.get_netlists())
+        netlists = grid_file.get_netlists()
 
         netlist_distance = {}
 
