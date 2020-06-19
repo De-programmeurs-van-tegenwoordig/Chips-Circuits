@@ -6,7 +6,6 @@ def check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_d
     check = True
     cross = False
     
-
     # Checks if line exceeds boundaries
     if coordinates_to[0] > size  or coordinates_to[1] > size or coordinates_to[2] > 7 or coordinates_to[0] < 0 or coordinates_to[1] < 0 or coordinates_to[2] < 0:
         check = False
@@ -43,8 +42,8 @@ def check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_d
                 check = False
                 return check, cross
 
-    for i in range(len(list_of_routes)):
-        for x in list_of_routes[i]:
+    for item in list_of_routes:
+        for x in list_of_routes[item]:
             net_from = x.get_coordinates_from()
             net_to = x.get_coordinates_to()
 

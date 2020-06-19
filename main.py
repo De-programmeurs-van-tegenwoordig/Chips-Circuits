@@ -9,7 +9,6 @@ from code.algorithms import astar as ast
 import csv
 import random
 
-
 # Read multiple files
 chip_number = float('inf')
 netlist_number = float('inf')
@@ -43,15 +42,14 @@ elif int(algorithm) == 2:
     while not reset:
         test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
         greedy = gr.LengthGreedy(test_grid)
-        reset = greedy.run(output)
+        reset = greedy.run()
 elif int(algorithm) == 3:
     reset = False
     while not reset:
         test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
         astar = ast.PopAstar(test_grid)
-        reset = astar.run(output)
+        reset = astar.run()
 
 cost = test_grid.cost_of_route()    
 print(f"De totale kost is: {cost}")
-pg.plot_grid(test_grid, chip_number, netlist_number, cost)
-
+pg.plot_grid(test_grid, chip_number, netlist_number, cost, "Astar")

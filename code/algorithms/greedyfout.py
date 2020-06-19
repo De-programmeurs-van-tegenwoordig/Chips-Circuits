@@ -18,7 +18,7 @@ class Greedy:
         random.shuffle(netlists)
         return netlists
 
-    def run(self):
+    def run(self, output):
         """
         Greedily chooses cheapest paths to get to his destination
         """
@@ -33,9 +33,6 @@ class Greedy:
             cross_counter = 0
 
             while reset <= 100:
-                if reset == 100:
-                    return False
-
                 origin_x = netlist[0]
                 origin_y = netlist[1]
                 destination_x = netlist[2]
@@ -113,10 +110,9 @@ class Greedy:
                     break
             
             self.grid_file.add_route(nets, cross_counter)
-            if self.count % 10 == 0:
-                gate_a = self.grid_file.get_current_gate_number(origin_x, origin_y)
-                gate_b = self.grid_file.get_current_gate_number(destination_x, destination_y)
-                print(f"connected:{gate_a} to {gate_b} | Origin: {coordinates_origin}, destination: {coordinates_destination}, current: {coordinates_from}, reset: {reset}, count: {self.count}")
+            gate_a = self.grid_file.get_current_gate_number(origin_x, origin_y)
+            gate_b = self.grid_file.get_current_gate_number(destination_x, destination_y)
+            print(f"connected:{gate_a} to {gate_b} | Origin: {coordinates_origin}, destination: {coordinates_destination}, current: {coordinates_from}, reset: {reset}, count: {self.count}")
             self.count += 1
 
             # output_coordinates = []
@@ -142,7 +138,7 @@ class Greedy:
 
             # output.write(f'{str(gate)},"{str(output_coordinates)}"\n')
 
-        # print("The total cost of the net is: ", self.grid_file.cost_of_route())
+        print("The total cost of the net is: ", self.grid_file.cost_of_route())
         return True
 
 class PopulationGreedy(Greedy):
