@@ -4,37 +4,149 @@ from code.function import check_constraints
 import random
 
 class Astar():
-    def __init__(self, grid_file, cros_):
-        self.cros_ = cros_
+    def __init__(self, grid_file):
+        """
+        Astar looks for the best route between 2 gates
+        """
         self.grid_file = grid_file
-
-    def get_lengthy_netlists(self, grid_file):
+    
+    def get_netlists(self, gridfile):
         """
-        Counts how many connections each chip has and returns the order from high to low.
+        Returns the netlist in random order
         """
-        netlists = list(grid_file.get_netlists())
+        netlists = list(self.grid_file.get_netlists())
+        random.shuffle(netlists)
 
-        netlist_distance = {}
+        return netlists
+    
+    def run(self, output):
+        """
+        Seeks the best path between 2 gates
+        """
+        netlists = self.get_netlists(self.grid_file)
 
-        for item in netlists:
-            coordinates_gates = grid_file.get_coordinates_netlist(item)
-            distance = abs(coordinates_gates[0] - coordinates_gates[2]) + abs(coordinates_gates[1] - coordinates_gates[3])
-            netlist_distance[item] = distance
+        counter = 0
 
-        length_netlists = []
+        while len(netlists) != 0:
+            """
+            As long as there are paths left in netlists it needs to run
+            Define begin point and end point
+            """
+            netlist = self.grid_file.get_coordinates_netlist(netlists[0])
+           # print("hoi", netlists[0][0], netlists[0][1], netlist)
+            netlists.pop(0)
+            self.crosses = 0
 
-        while len(netlist_distance) != 0:
-            min_distance = min(netlist_distance, key=lambda key: netlist_distance[key])
-            length_netlists.append(min_distance)
-            del netlist_distance[min_distance]
+            open_list = []
+            closed_list = []
 
-        # Reverses the list from long to small
-        print(netlists)
-        length_netlists.reverse()
+            directions = [(0,0,1), (0,0,-1), (0,-1,0), (1,0,0), (0,1,0), (-1,0,0)]
 
-        return length_netlists
+            origin_x = netlist[0]
+            origin_y = netlist[1]
+            destination_x = netlist[2]
+            destination_y = netlist[3]
 
-    def get_populated_netlists(self, grid_file):
+            coordinates_origin = (origin_x, origin_y, 0)
+            coordinates_destination = (destination_x, destination_y,0)
+
+            # Create start and end node
+            start_node = node.Node(None, coordinates_origin)
+            start_node.g = start_node.h = start_node.f = 0
+            end_node = node.Node(None, coordinates_destination)
+            end_node.g = end_node.h = end_node.f = 0
+
+            open_list.append(start_node)
+
+            while len(open_list) != 0:
+                # Set a current node and then get new "best" node from open list
+                current_node = open_list[0]
+                current_index = 0
+                nets = []
+
+                for index, item in enumerate(open_list, 0):
+                    if item.f <= current_node.f:
+                        current_node = item
+                        current_index = index
+                
+                # Pop current off open list, add to closed list
+                open_list.pop(current_index)
+                closed_list.append(current_node)
+
+                # if current node equals end node then start making the path
+                if current_node == end_node:
+                    paths = []
+                    
+                    current = current_node
+                    while current is not None:
+                        paths.append(current.position)
+                        current = current.parent
+
+                    # paths.reverse()
+
+                    # Return path
+                    for i in range(len(paths)-1):
+                        cross = check_constraints.check_constraints(self.grid_file, paths[i], paths[i+1], coordinates_destination, nets)[1]
+                        if cross:
+                            self.crosses += 1
+                        new_netlist = net.Net(paths[i], paths[i+1])
+                        nets.append(new_netlist)
+                            
+                    self.grid_file.add_route(nets, self.crosses)
+                    counter += 1
+                    print(f"Route connected: {coordinates_origin}, {coordinates_destination}. Crosses: {self.crosses}. Nummer: {counter}")
+                    break
+                
+                # Generate children
+                children = []
+
+                for direction in directions:
+                    node_position = (current_node.position[0] + direction[0], current_node.position[1] + direction[1], current_node.position[2] + direction[2])
+
+                    # Check if node is within the constraints
+                    check = check_constraints.check_constraints(self.grid_file, current_node.position, node_position, coordinates_destination, nets)
+                    if check[0]:
+                        if check[1]:
+                            new_node = node.Node(current_node, node_position)
+                            new_node.cross = True
+                            children.append(new_node)
+                        else:  
+                            new_node = node.Node(current_node, node_position)
+                            children.append(new_node)
+                
+                # Check if children are new or if a "better" route has been found
+                for child in children:
+                    check = False
+
+                    for closed_node in closed_list:
+                        if child == closed_node:
+                            check = True
+                            continue
+                        
+                    child.g = current_node.g + 1
+                    child.h = abs(destination_x - child.position[0]) + abs(destination_y - child.position[1]) + abs(0 - child.position[2])
+                    
+                    # if crosses need to be avoided then use this below
+                    if child.cross:
+                        child.h += 300
+
+                    child.f = child.g + child.h
+
+                    for open_node in open_list:
+                        if child.position == open_node.position and child.g >= open_node.g:
+                            check = True
+                            continue
+                    
+                    if not check:
+                        open_list.append(child)
+                
+                # abort if length equals 0 but end not found
+                if len(open_list) == 0:
+                    return False
+        return True
+
+class PopAstar(Astar):
+    def get_netlists(self, grid_file):
         """
         Counts how many connections each chip has and returns the order from high to low.
         """
@@ -54,136 +166,47 @@ class Astar():
             gate_max = max(counting, key=lambda key: counting[key])
             del counting[gate_max]
 
+            current_gate = []
+
             for item in netlists:
-                if int(item[0]) == gate_max or int(item[1]) == gate_max:
+                if int(item[0]) == gate_max:
                     populated_netlists.append(item)
-                    netlists.remove(item)
+                    current_gate.append(item)
 
-        print(populated_netlists)
-        print(len(populated_netlists))
+                elif int(item[1]) == gate_max:
+                    new_item = (item[1], item[0])
+                    populated_netlists.append(new_item)
+                    current_gate.append(item)
+
+            for item in current_gate:
+                netlists.remove(item)
+
+        # print(populated_netlists)
+        # print(len(populated_netlists))
         return populated_netlists
-    
-    def run(self, output):
-        netlists = list(self.grid_file.get_netlists())
-        random.shuffle(netlists)
-        print(netlists)
+
+
+class LengthAstar(Astar):
+    """
+    Returns netlists ordered by length of each netlist
+    """
+    def get_netlists(self, grid_file):
+        netlists = list(grid_file.get_netlists())
+
+        netlist_distance = {}
+
+        for item in netlists:
+            coordinates_gates = grid_file.get_coordinates_netlist(item)
+            distance = abs(coordinates_gates[0] - coordinates_gates[2]) + abs(coordinates_gates[1] - coordinates_gates[3])
+            netlist_distance[item] = distance
+
+        length_netlists = []
+
+        while len(netlist_distance) != 0:
+            min_distance = min(netlist_distance, key=lambda key: netlist_distance[key])
+            length_netlists.append(min_distance)
+            del netlist_distance[min_distance]
+
+        length_netlists.reverse()
         
-        size = self.grid_file.get_size()
-
-        counter = 0
-
-        while len(netlists) != 0:
-            netlist = self.grid_file.get_coordinates_netlist(netlists[0])
-            netlists.pop(0)
-            print(netlist)
-            self.crosses = 0
-
-            open_list = []
-            closed_list = []
-
-            directions = [(0,0,1), (0,0,-1), (0,-1,0), (1,0,0), (0,1,0), (-1,0,0)]
-
-            origin_x = netlist[0]
-            origin_y = netlist[1]
-            destination_x = netlist[2]
-            destination_y = netlist[3]
-
-            coordinates_origin = (origin_x,origin_y,0)
-            coordinates_destination = (destination_x, destination_y,0)
-
-            # Create start and end node
-            start_node = node.Node(None, coordinates_origin)
-            start_node.g = start_node.h = start_node.f = 0
-            end_node = node.Node(None, coordinates_destination)
-            end_node.g = end_node.h = end_node.f = 0
-
-            open_list.append(start_node)
-
-            while len(open_list) != 0:
-   
-                # Get the current node
-                current_node = open_list[0]
-                current_index = 0
-                nets = []
-                for index, item in enumerate(open_list, 0):
-                    if item.f <= current_node.f:
-                        current_node = item
-                        current_index = index
-                
-                # Pop current off open list, add to closed list
-                open_list.pop(current_index)
-                closed_list.append(current_node)
-
-                if current_node == end_node:
-                    paths = []
-                    
-                    current = current_node
-                    while current is not None:
-                        paths.append(current.position)
-                        current = current.parent
-                    paths.reverse()
-
-                    for i in range (len(paths)):
-                        if i != len(paths) - 1:
-                            cross = check_constraints.check_constraints(self.grid_file, paths[i], paths[i+1], coordinates_destination, nets)[1]
-                            if cross:
-                                self.crosses += 1
-                            new_netlist = net.Net(paths[i], paths[i+1])
-                            nets.append(new_netlist)
-
-                    self.grid_file.add_route(nets, self.crosses)
-                    counter += 1
-                    print(len(open_list))
-
-                    print(f"Route connected: {coordinates_origin}, {coordinates_destination}. Crosses: {self.crosses}. Nummer: {counter}")
-
-                    break
-                
-                # Generate children
-                children = []
-
-                for direction  in directions:
-                    node_position = (current_node.position[0] + direction[0], current_node.position[1] + direction[1], current_node.position[2] + direction[2])
-                    
-                    if node_position[0] > size  or node_position[1] > size or node_position[2] > 7 or node_position[0] < 0 or node_position[1] < 0 or node_position[2] < 0:
-                        continue
-
-                    check = check_constraints.check_constraints(self.grid_file, current_node.position, node_position, coordinates_destination, nets)
-                    if check[0]:
-                        if check[1]:
-                                new_node = node.Node(current_node, node_position)
-                                new_node.cross = True
-                                children.append(new_node)
-
-                        else:
-                            new_node = node.Node(current_node, node_position)
-                            children.append(new_node)
-                
-                for child in children:
-                    d = False
-                    for closed_child in closed_list:
-                        if child == closed_child:
-                            d = True
-                            continue
-
-                
-                    child.g = current_node.g + 1
-                    child.h = abs(destination_x - child.position[0]) + abs(destination_y - child.position[1]) + abs(0 - child.position[2])
-
-                    if self.cros_ == True:    
-                        if child.cross:
-                            child.h += 300
-
-                    child.f = child.g + child.h
-
-                    for open_node in open_list:
-                        if child == open_node and child.g >= open_node.g:
-                            d = True
-                            
-                    if d == True:
-                        continue
-
-                    open_list.append(child)
-                            
-                    
-            
+        return length_netlists

@@ -6,7 +6,7 @@ def random_solve3D(grid_file):
     cross_counter = 0
     count = 0
     netlist = grid_file.get_new_netlist()
-
+    
     random_solve3D2(grid_file, cross_counter, netlist, count)
 
 def random_solve3D2(grid_file, cross_counter, netlist, count):
@@ -17,7 +17,7 @@ def random_solve3D2(grid_file, cross_counter, netlist, count):
         origin_y = netlist[1]
         destination_x = netlist[2]
         destination_y = netlist[3]
-        nets = set()
+        nets = []
 
         # Declaring local variables
         tries = 0
@@ -34,7 +34,7 @@ def random_solve3D2(grid_file, cross_counter, netlist, count):
         current_z = 0
 
         moves = 0
-        max_moves = 8
+        max_moves = 50
 
         # While line has not reached endpoint
         while current_x != destination_x or current_y != destination_y or current_z != destination_z:
@@ -56,7 +56,7 @@ def random_solve3D2(grid_file, cross_counter, netlist, count):
             if check[0]:
                 moves += 1
                 new_netlist = net.Net(coordinates_from, coordinates_to)
-                nets.add(new_netlist)
+                nets.append(new_netlist)
                 coordinates_from = coordinates_to 
                 current_x = coordinates_to[0]
                 current_y = coordinates_to[1]
@@ -72,6 +72,7 @@ def random_solve3D2(grid_file, cross_counter, netlist, count):
         count += 1
         
     print("The total cost of the net is: ", grid_file.cost_of_route())
+    return grid_file.cost_of_route()
 
 
 def random_solve(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, counter, list_of_coordinates):

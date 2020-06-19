@@ -1,5 +1,3 @@
-from code.function import zone_heurestiek
-
 def check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_destination, nets):
     
     # Checks if the line doesnt break rules
@@ -11,7 +9,7 @@ def check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_d
     # Checks if line exceeds boundaries
     if coordinates_to[0] > size  or coordinates_to[1] > size or coordinates_to[2] > 7 or coordinates_to[0] < 0 or coordinates_to[1] < 0 or coordinates_to[2] < 0:
         check = False
-
+    
     if coordinates_to in coordinates_gates and coordinates_to != coordinates_destination:
         check = False
         return check, cross
@@ -30,13 +28,17 @@ def check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_d
         else:
             if coordinates_to == net_from or coordinates_to == net_to:
                 cross = True
+
             if coordinates_from == net_from and coordinates_to == net_to:
                 check = False
                 return check, cross
+
             if coordinates_from == net_to and coordinates_to == net_from:
                 check = False
                 return check, cross
-            if zone_heurestiek.zone_heurestiek(grid_file, coordinates_from, coordinates_to, coordinates_destination):
+
+            gate_number = grid_file.get_current_gate_number(coordinates_destination[0], coordinates_destination[1])
+            if coordinates_to in grid_file.get_total_zones() and coordinates_to not in grid_file.get_zone(gate_number) and coordinates_from not in grid_file.get_total_gates():
                 check = False
                 return check, cross
 
@@ -61,7 +63,10 @@ def check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_d
                 elif coordinates_from == net_to and coordinates_to == net_from:
                     check = False
                     return check, cross
-                elif zone_heurestiek.zone_heurestiek(grid_file, coordinates_from, coordinates_to, coordinates_destination):
+
+                gate_number = grid_file.get_current_gate_number(coordinates_destination[0], coordinates_destination[1])
+                if coordinates_to in grid_file.get_total_zones() and coordinates_to not in grid_file.get_zone(gate_number) and coordinates_from not in grid_file.get_total_gates():
                     check = False
                     return check, cross
+    
     return check, cross

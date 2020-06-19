@@ -23,18 +23,18 @@ class Greedy:
         Greedily chooses cheapest paths to get to his destination
         """
         netlists = self.get_netlists(self.grid_file)
+        print(netlists)
 
         while len(netlists) != 0:
+            print("in greedy")
             netlist = self.grid_file.get_coordinates_netlist(netlists[0])
             netlists.pop(0)
             self.cross_counter = 0
             reset = 1
-            
-            # if self.grid_file.cost_of_route() > best_net_score:
-            #     break
+            cross_counter = 0
 
-            while reset <= 200:
-                if reset == 200:
+            while reset <= 10:
+                if reset == 10:
                     return False
 
                 origin_x = netlist[0]
@@ -60,9 +60,10 @@ class Greedy:
 
                 # While line has not reached endpoint
                 while current_x != destination_x or current_y != destination_y or current_z != destination_z:
- 
-                    lowest_distance = float("inf")
+
+                    lowest_distance = 10000000
                     best_directions = []
+
                     for direction in directions:
                         coordinates_to = (coordinates_from[0] + direction[0], coordinates_from[1] + direction[1], coordinates_from[2] + direction[2])
                         results = check_constraints.check_constraints(self.grid_file, coordinates_from, coordinates_to, coordinates_destination, nets)
@@ -75,22 +76,25 @@ class Greedy:
                             if cross:
                                 distance += 300
                             if distance < lowest_distance:
+                                # print("k", best_directions)
                                 best_directions.clear()
+                                # print("n", best_directions)
                                 lowest_distance = distance
                                 best_directions.append([direction, cross])
                             if distance == lowest_distance:
                                 best_directions.append([direction, cross])
                     
                     if best_directions == []:
+                        # print(f"reset {reset}")
                         reset += 1
                         break
                     
                     move_direction = random.choice(best_directions)
                     while move_direction[1]:
                         ran = random.randint(0,101)
-                        if ran < 10 * reset:
+                        if ran < 5 * reset:
                             # print(f"hoi {reset}")
-                            self.cross_counter += 1
+                            cross_counter += 1
                             break
                         else:
                             move_direction = random.choice(best_directions)
@@ -109,11 +113,11 @@ class Greedy:
                 if coordinates_to == coordinates_destination:
                     break
             
-            self.grid_file.add_route(nets, self.cross_counter)
-            if self.count > 1:
-                gate_a = self.grid_file.get_current_gate_number(origin_x, origin_y)
-                gate_b = self.grid_file.get_current_gate_number(destination_x, destination_y)
-                print(f"connected:{gate_a} to {gate_b} | Origin: {coordinates_origin}, destination: {coordinates_destination}, current: {coordinates_from}, reset: {reset}, count: {self.count}")
+            self.grid_file.add_route(nets, cross_counter)
+            # if self.count > 50:
+            gate_a = self.grid_file.get_current_gate_number(origin_x, origin_y)
+            gate_b = self.grid_file.get_current_gate_number(destination_x, destination_y)
+            print(f"connected:{gate_a} to {gate_b} | Origin: {coordinates_origin}, destination: {coordinates_destination}, current: {coordinates_from}, reset: {reset}, count: {self.count}")
             self.count += 1
 
             # output_coordinates = []
@@ -177,6 +181,9 @@ class PopulationGreedy(Greedy):
         return populated_netlists
 
 class LengthGreedy(Greedy):
+    """
+    Returns netlists ordered by length of each netlist
+    """
     def get_netlists(self, grid_file):
         netlists = list(grid_file.get_netlists())
 
