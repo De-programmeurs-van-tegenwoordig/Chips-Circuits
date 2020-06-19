@@ -41,11 +41,13 @@ if int(algorithm) == 1:
 elif int(algorithm) == 2:
     reset = False
     while not reset:
+        test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
         greedy = gr.LengthGreedy(test_grid)
         reset = greedy.run(output)
 elif int(algorithm) == 3:
     reset = False
     while not reset:
+        test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
         astar = ast.PopAstar(test_grid)
         reset = astar.run(output)
 
