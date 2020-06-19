@@ -75,6 +75,6 @@ def plot_grid(grid_file, chip_number, netlist_number, cost):
     current_time = time.strftime("%H:%M:%S", t)
     plt.title(f"Chip {chip_number}  | Netlist: {netlist_number}  | Cost: {cost}")
     filename = os.path.join(os.getcwd(), f'Graphs\Astar\{chip_number}\{netlist_number}\Cost{cost}Time.png')
-    plt.savefig(filename)
+    plt.savefig(filename, bbox_extra_artists=(lgd,), bbox_inches='tight')
 
     plt.show()

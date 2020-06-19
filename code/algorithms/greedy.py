@@ -25,8 +25,6 @@ class Greedy:
         netlists = self.get_netlists(self.grid_file)
 
         while len(netlists) != 0:
-            if self.count == 10:
-                return True
 
             netlist = self.grid_file.get_coordinates_netlist(netlists[0])
             netlists.pop(0)
@@ -144,7 +142,7 @@ class Greedy:
 
             # output.write(f'{str(gate)},"{str(output_coordinates)}"\n')
 
-        print("The total cost of the net is: ", self.grid_file.cost_of_route())
+        # print("The total cost of the net is: ", self.grid_file.cost_of_route())
         return True
 
 class PopulationGreedy(Greedy):

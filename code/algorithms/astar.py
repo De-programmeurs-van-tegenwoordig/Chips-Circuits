@@ -127,8 +127,8 @@ class Astar():
                     child.h = abs(destination_x - child.position[0]) + abs(destination_y - child.position[1]) + abs(0 - child.position[2])
                     
                     # if crosses need to be avoided then use this below
-                    if child.cross:
-                        child.h += 300
+                    # if child.cross:
+                    #     child.h += 300
 
                     child.f = child.g + child.h
 
