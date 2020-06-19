@@ -181,8 +181,8 @@ class PopAstar(Astar):
             for item in current_gate:
                 netlists.remove(item)
 
-        print(populated_netlists)
-        print(len(populated_netlists))
+        # print(populated_netlists)
+        # print(len(populated_netlists))
         return populated_netlists
 
 class LengthAstar(Astar):
