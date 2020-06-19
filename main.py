@@ -6,6 +6,7 @@ from code.classes import net
 from code.algorithms import random_solve as rs
 from code.algorithms import greedy as gr
 from code.algorithms import astar as ast
+from code.algorithms import simannealing as siman
 import csv
 import random
 
@@ -13,6 +14,7 @@ import random
 chip_number = float('inf')
 netlist_number = float('inf')
 algorithm = float('inf')
+annealing = float('inf')
 while chip_number != "0" and chip_number != "1" and chip_number != "2":
     chip_number = input("Welk chipnumber wilt u testen? 0, 1 of 2?    ")
 
@@ -44,12 +46,29 @@ elif int(algorithm) == 2:
         greedy = gr.LengthGreedy(test_grid)
         reset = greedy.run()
 elif int(algorithm) == 3:
-    reset = False
-    while not reset:
-        test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
-        astar = ast.PopAstar(test_grid)
-        reset = astar.run()
+    while annealing != "1" and annealing != "0":
+        annealing = input("Wil je dat er simulated annealing wordt toegepast na het algoritme? 0:nee 1:ja   ")
+    if annealing == "0":
+        reset = False
+        while not reset:
+            test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
+            astar = ast.PopAstar(test_grid)
+            reset = astar.run()
+    if annealing == "1":
+        reset = False
+        while not reset:
+            test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
+            astar = ast.PopAstar(test_grid)
+            reset = astar.run()
 
-cost = test_grid.cost_of_route()    
+        simA = siman.SimulatedAnnealing(test_grid)
+        cost = test_grid.cost_of_route()
+        print(cost)
+        run = simA.run(cost)
+        cost = run[0]
+        pg.plot_graph(run[1])
+        print(cost)
+
+  
 print(f"De totale kost is: {cost}")
 pg.plot_grid(test_grid, chip_number, netlist_number, cost, "Astar")

@@ -78,3 +78,7 @@ def plot_grid(grid_file, chip_number, netlist_number, cost, algorithm):
     plt.savefig(filename, bbox_extra_artists=(lgd,), bbox_inches='tight')
 
     plt.show()
+
+def plot_graph(all_cost):
+    plt.plot(all_cost)
+    plt.show()
