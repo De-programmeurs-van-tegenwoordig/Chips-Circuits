@@ -14,12 +14,11 @@ class Astar():
         """
         Returns the netlist in random order
         """
-        netlists = list(self.grid_file.get_netlists())
-        random.shuffle(netlists)
+        netlists = self.grid_file.get_netlists()
 
         return netlists
     
-    def run(self, output):
+    def run(self):
         """
         Seeks the best path between 2 gates
         """
@@ -58,7 +57,6 @@ class Astar():
 
             open_list.append(start_node)
 
-            # Run as long as there are nodes to be researched or till end point is reached
             while len(open_list) != 0:
                 # Set a current node and then get new "best" node from open list
                 current_node = open_list[0]
@@ -152,7 +150,7 @@ class PopAstar(Astar):
         """
         Counts how many connections each chip has and returns the order from high to low.
         """
-        netlists = list(grid_file.get_netlists())
+        netlists = grid_file.get_netlists()
         counting = {}
 
         for item in netlists:
@@ -192,7 +190,7 @@ class LengthAstar(Astar):
     Returns netlists ordered by length of each netlist
     """
     def get_netlists(self, grid_file):
-        netlists = list(grid_file.get_netlists())
+        netlists = grid_file.get_netlists()
 
         netlist_distance = {}
 
@@ -207,8 +205,10 @@ class LengthAstar(Astar):
             min_distance = min(netlist_distance, key=lambda key: netlist_distance[key])
             length_netlists.append(min_distance)
             del netlist_distance[min_distance]
+
+        length_netlists.reverse()
         
-        return length_netlists.reverse()
+        return length_netlists
 
 
 

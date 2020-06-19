@@ -3,6 +3,7 @@ from matplotlib.font_manager import FontProperties
 import random
 from code.classes import grid
 import time
+import os
 
 def plot_grid(grid_file, chip_number, netlist_number, cost, algorithm):
     """ Plots the 3d graph """
@@ -73,5 +74,5 @@ def plot_grid(grid_file, chip_number, netlist_number, cost, algorithm):
     t = time.localtime()
     current_time = time.strftime("%H:%M:%S", t)
     plt.title(f"Chip {chip_number}  | Netlist: {netlist_number}  | Cost: {cost}")
-    plt.savefig(f'Graphs/{algorithm}/{chip_number}/{netlist_number}/Cost{cost}Time{current_time}.png', bbox_extra_artists=(lgd,), bbox_inches='tight')
+    plt.savefig(f'Graphs/{algorithm}/{chip_number}/{netlist_number}/PopCost{cost}Time{current_time}.png', bbox_extra_artists=(lgd,), bbox_inches='tight')
     # plt.show()

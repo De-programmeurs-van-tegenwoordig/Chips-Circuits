@@ -9,7 +9,7 @@ from code.algorithms import astar as ast
 import csv
 import random
 
-if __name__ == '__main__':
+def run():
     # Read multiple files
     chip_number = "2"
     netlist_number = "8"

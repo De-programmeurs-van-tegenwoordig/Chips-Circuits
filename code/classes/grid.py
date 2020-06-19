@@ -1,11 +1,12 @@
 import csv
+import random
 from .gate import Gate
 
 class Grid():
     def __init__(self, gate_file, netlist_file, size):
         """Reads the given files"""
         self.size = size
-        self.amount_of_crosses = 0
+        self.amount_of_crosses = {}
         self.coordinates_gates = []
         self.zones = {}
         self.total_zones = []
@@ -17,6 +18,7 @@ class Grid():
         # Read the netlist file
         self.netlists = self.load_netlists(netlist_file)
         self.list_of_nets = {}
+        self.order_of_nets = {}
         self.key = 0
         
     def load_gates(self, gate_file):
@@ -47,8 +49,20 @@ class Grid():
                 self.total_zones.append((int(row['x']), int(row['y']), 1))
 
                 self.zones[count] = zone
-
         return gates
+
+    def load_netlists(self, netlist_file):
+        # Declare local variables
+        netlists = []
+        
+        # Opens netlist file and puts every netlist in list
+        with open(netlist_file, 'r') as input_file:
+            reader = csv.DictReader(input_file)
+        
+            for row in reader:
+                new_connection = (row['chip_a'], row['chip_b'])
+                netlists.append(new_connection)   
+        return netlists
 
     def get_total_zones(self):
         return self.total_zones
@@ -61,19 +75,6 @@ class Grid():
 
     def get_coordinates_gates(self):
         return self.coordinates_gates
-
-    def load_netlists(self, netlist_file):
-        # Declare local variables
-        netlists = set()
-        
-        # Opens netlist file and puts every netlist in list
-        with open(netlist_file, 'r') as input_file:
-            reader = csv.DictReader(input_file)
-        
-            for row in reader:
-                new_connection = (row['chip_a'], row['chip_b'])
-                netlists.add(new_connection)   
-        return netlists
         
     def get_current_gate_number(self, coordinate_x, coordinate_y):
         """
@@ -91,6 +92,7 @@ class Grid():
 
     def get_netlists(self):
         # Returns all netlists
+        random.shuffle(self.netlists)
         return self.netlists
 
     def get_new_netlist(self):
@@ -137,9 +139,14 @@ class Grid():
 
     def add_route(self, nets, amount_of_crosses):
         self.list_of_nets[self.key] = nets
+        self.amount_of_crosses[self.key] = amount_of_crosses
         self.key += 1
-        self.amount_of_crosses += amount_of_crosses
-    
+
+    def remove_route(self, key):
+        key = key
+        del self.list_of_nets[key]
+        del self.amount_of_crosses[key]
+        
     def get_list_of_routes(self):
         return self.list_of_nets
 
@@ -148,12 +155,15 @@ class Grid():
 
         list_of_routes = self.get_list_of_routes()
 
-        for i in range(len(list_of_routes)):
-            cost += len(list_of_routes[i])
+        for item in list_of_routes:
+            cost += len(list_of_routes[item])
         
-        cost += (300 * self.amount_of_crosses)
+        for item in self.amount_of_crosses:
+            cost += (300 * self.amount_of_crosses[item])
+        
         return cost
 
     def get_size(self):
         return self.size
+
 
