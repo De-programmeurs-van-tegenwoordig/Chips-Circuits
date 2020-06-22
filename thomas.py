@@ -12,8 +12,8 @@ import random
 
 
 # Read multiple files
-chip_number = "0"
-netlist_number = "1"
+chip_number = "2"
+netlist_number = "8"
 size = 17
 test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
 counter = 0
@@ -29,17 +29,17 @@ while counter != 25:
     print("cost after astar", cost)
 
     # # to load a previously saved test grid
-    # filehandler = open(f'Netlist{netlist_number}.obj', 'rb')
-    # saved_grid = pickle.load(filehandler)
-    # cost_saved_grid = saved_grid.cost_of_route()
+    filehandler = open(f'Netlist{netlist_number}.obj', 'rb')
+    saved_grid = pickle.load(filehandler)
+    cost_saved_grid = saved_grid.cost_of_route()
 
     # # print(cost_saved_grid)
     # # to save the test grid
-    # if cost < cost_saved_grid:
-    #     filehandler = open(f'Netlist{netlist_number}.obj', 'wb')
-    #     pickle.dump(test_grid, filehandler)
-    pg.plot_grid(test_grid, chip_number, netlist_number, cost, "Astar")
-    #     print("dumped")
+    if cost < cost_saved_grid:
+        filehandler = open(f'Netlist{netlist_number}.obj', 'wb')
+        pickle.dump(test_grid, filehandler)
+        pg.plot_grid(test_grid, chip_number, netlist_number, cost, "Astar")
+        print("dumped")
     
     counter += 1
     print(counter)
