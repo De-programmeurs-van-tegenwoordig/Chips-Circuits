@@ -19,17 +19,22 @@ class SimulatedAnnealing():
         self.grid_file = copy.deepcopy(grid_file)
 
     def run(self, cost):
-        max_iteraties = 30
+        max_iteraties = 20
         start_temp = 1000
         amount_of_redirects = 3
         all_cost = []
+        all_temps = []
+        all_cost.append(cost)
         
         for iteratie in range(max_iteraties):
             if iteratie % 10 == 0:
                 print("nu bij iteratie:", iteratie)
+
             routes = self.grid_file.get_list_of_routes()
             redirect = {}
             current_temp = start_temp - (start_temp/max_iteraties) * iteratie
+            all_temps.append(current_temp)
+            backup_grid = copy.deepcopy(self.grid_file)
 
             for i in range(amount_of_redirects):
                 redirect_route, route = random.choice(list(routes.items()))
@@ -60,25 +65,28 @@ class SimulatedAnnealing():
 
                 self.grid_file.netlists.append((gate_a, gate_b))
             
-            print("netlists die opnieuw gelegd gaan worden", self.grid_file.netlists)
+            # print("netlists die opnieuw gelegd gaan worden", self.grid_file.netlists)
+            
+            astar = ast.Astar(self.grid_file)
+            reset = astar.run()
 
-            reset = False
-            while not reset:
-                astar = ast.Astar(self.grid_file)
-                reset = astar.run()
-                print("hoi")
+            if reset:
+                new_cost = self.grid_file.cost_of_route()
+                all_cost.append(new_cost)
+                # print(f"oude cost: {cost} vs {new_cost} nieuw cost")
 
-            new_cost = self.grid_file.cost_of_route()
-            all_cost.append(new_cost)
-            # print(f"oude cost: {cost} vs {new_cost} nieuw cost")
+                probability = acceptance_probability(cost, new_cost, current_temp)
 
-            probability = acceptance_probability(cost, new_cost, current_temp)
-
-            # random tussen 0 en 1
-            if random.uniform(0, 1) < probability:
-                cost = new_cost
-                self.grid_file = copy.deepcopy(self.grid_file)
+                # random tussen 0 en 1
+                if random.uniform(0, 1) < probability:
+                    cost = new_cost
+                else:
+                    self.grid_file = backup_grid
+            else:
+                print("fout")
+                self.grid_file = backup_grid
         
+        print("all temp", all_temps)
         return cost, all_cost
                 
 

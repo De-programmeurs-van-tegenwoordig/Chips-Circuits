@@ -19,6 +19,7 @@ chip_a, chip_b
 4,2
 4,5
 ##### Wat er vervolgens op deze manier uit komt te zien:
+![Voorbeeld chip 0 netlist 1:](Graphs/Astar/0/1/shortest/Shortest.png)
 
 ### Echter zijn er constricties waaraan voldaan moet worden
 * Draden mogen niet overlappen
