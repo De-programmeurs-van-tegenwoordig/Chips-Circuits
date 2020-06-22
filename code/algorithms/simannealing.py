@@ -8,6 +8,9 @@ import numpy as np
 import random
 
 def acceptance_probability(cost, new_cost, temperature):
+    """
+    Calculate probability of accepting new cost
+    """
     if new_cost < cost:
         return 1
     else:
@@ -21,10 +24,12 @@ class SimulatedAnnealing():
     def run(self, cost):
         max_iteraties = 100
         start_temp = 1000
-        amount_of_redirects = 3
+        amount_of_redirects = 5
         all_cost = []
+        lowest_cost = []
         all_temps = []
         all_cost.append(cost)
+        lowest_cost.append(cost)
         
         for iteratie in range(max_iteraties):
             if iteratie % 10 == 0:
@@ -45,7 +50,6 @@ class SimulatedAnnealing():
 
                 redirect[redirect_route] = [start, end]
 
-                # del routes[redirect_route]
                 self.grid_file.remove_route(redirect_route)
 
             self.grid_file.netlists = []
@@ -65,17 +69,16 @@ class SimulatedAnnealing():
 
                 self.grid_file.netlists.append((gate_a, gate_b))
             
-            # print("netlists die opnieuw gelegd gaan worden", self.grid_file.netlists)
-            
             astar = ast.Astar(self.grid_file)
             reset = astar.run()
 
             if reset:
                 new_cost = self.grid_file.cost_of_route()
                 all_cost.append(new_cost)
-                # print(f"oude cost: {cost} vs {new_cost} nieuw cost")
+                print(f"oude cost: {cost} vs {new_cost} nieuw cost")
 
                 probability = acceptance_probability(cost, new_cost, current_temp)
+                print(probability)
 
                 # random tussen 0 en 1
                 if random.uniform(0, 1) < probability:
@@ -83,10 +86,8 @@ class SimulatedAnnealing():
                 else:
                     self.grid_file = backup_grid
             else:
-                print("fout")
                 self.grid_file = backup_grid
+            
+            lowest_cost.append(cost)
         
-        print("all temp", all_temps)
-        return cost, all_cost
-                
-
+        return cost, all_cost, self.grid_file, lowest_cost          

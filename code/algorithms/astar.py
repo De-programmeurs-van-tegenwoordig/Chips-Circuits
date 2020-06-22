@@ -23,7 +23,6 @@ class Astar():
         Seeks the best path between 2 gates
         """
         netlists = self.get_netlists(self.grid_file)
-
         counter = 0
 
         while len(netlists) != 0:
@@ -32,9 +31,8 @@ class Astar():
             Define begin point and end point
             """
             netlist = self.grid_file.get_coordinates_netlist(netlists[0])
-            # print("hoi", netlists[0][0], netlists[0][1], netlist)
             netlists.pop(0)
-            self.crosses = 0
+            crosses = 0
 
             open_list = []
             closed_list = []
@@ -72,7 +70,7 @@ class Astar():
                 open_list.pop(current_index)
                 closed_list.append(current_node)
 
-                # if current node equals end node then start making the path
+                # If current node equals end node then start making the path
                 if current_node == end_node:
                     paths = []
                     
@@ -81,20 +79,18 @@ class Astar():
                         paths.append(current.position)
                         current = current.parent
 
-                    # paths.reverse()
-
                     # Return path
                     for i in range(len(paths)-1):
                         cross = check_constraints.check_constraints(self.grid_file, paths[i], paths[i+1], coordinates_destination, nets)[1]
                         if cross:
-                            self.crosses += 1
+                            crosses += 1
                         new_netlist = net.Net(paths[i], paths[i+1])
                         nets.append(new_netlist)
                             
-                    self.grid_file.add_route(nets, self.crosses)
+                    self.grid_file.add_route(nets, crosses)
                     counter += 1
                     if counter % 10 == 0:
-                        print(f"Route connected: {coordinates_origin}, {coordinates_destination}. Crosses: {self.crosses}. Nummer: {counter}")
+                        print(f"Route connected: {coordinates_origin}, {coordinates_destination}. Crosses: {crosses}. Nummer: {counter}")
                     break
                 
                 # Generate children
@@ -126,12 +122,13 @@ class Astar():
                     child.g = current_node.g + 1
                     child.h = abs(destination_x - child.position[0]) + abs(destination_y - child.position[1]) + abs(0 - child.position[2])
                     
-                    # if crosses need to be avoided then use this below
+                    # Check if node crosses a different node
                     if child.cross:
                         child.h += 300
 
                     child.f = child.g + child.h
 
+                    # Check if position has already been generated and compare the cost
                     for open_node in open_list:
                         if child.position == open_node.position and child.g >= open_node.g:
                             check = True
@@ -140,12 +137,16 @@ class Astar():
                     if not check:
                         open_list.append(child)
                 
-                # abort if length equals 0 but end not found
+                # Abort if length equals 0 but end not found
                 if len(open_list) == 0:
                     return False
         return True
 
 class PopAstar(Astar):
+    """
+    The PopAstar Class sorts the gates by amount of connections
+    The gates with the most connections come first
+    """
     def get_netlists(self, grid_file):
         """
         Counts how many connections each chip has and returns the order from high to low.
@@ -153,6 +154,7 @@ class PopAstar(Astar):
         netlists = grid_file.get_netlists()
         counting = {}
 
+        # Count the connections each gate has
         for item in netlists:
             counting[int(item[0])] = 0
             counting[int(item[1])] = 0
@@ -162,38 +164,38 @@ class PopAstar(Astar):
 
         populated_netlists = []
 
+        # Sort the gates by connections, most connections first
         while len(counting) != 0:
             gate_max = max(counting, key=lambda key: counting[key])
             del counting[gate_max]
 
-            current_gate = []
+            current_connections = []
 
+            # Add route to netlist, if current gate_max is the destination, change it to origin
             for item in netlists:
                 if int(item[0]) == gate_max:
                     populated_netlists.append(item)
-                    current_gate.append(item)
-
+                    current_connections.append(item)
                 elif int(item[1]) == gate_max:
                     new_item = (item[1], item[0])
                     populated_netlists.append(new_item)
-                    current_gate.append(item)
+                    current_connections.append(item)
 
-            for item in current_gate:
+            for item in current_connections:
                 netlists.remove(item)
 
-        # print(populated_netlists)
-        # print(len(populated_netlists))
         return populated_netlists
 
 class LengthAstar(Astar):
     """
-    Returns netlists ordered by length of each netlist
+    Returns netlists ordered by length
     """
     def get_netlists(self, grid_file):
         netlists = grid_file.get_netlists()
 
         netlist_distance = {}
 
+        # Calculate distance of all netlists
         for item in netlists:
             coordinates_gates = grid_file.get_coordinates_netlist(item)
             distance = abs(coordinates_gates[0] - coordinates_gates[2]) + abs(coordinates_gates[1] - coordinates_gates[3])
@@ -201,11 +203,13 @@ class LengthAstar(Astar):
 
         length_netlists = []
 
+        # Sort netlists from shortest to longest
         while len(netlist_distance) != 0:
             min_distance = min(netlist_distance, key=lambda key: netlist_distance[key])
             length_netlists.append(min_distance)
             del netlist_distance[min_distance]
 
+        # Reverses netlists, ordered from longest to shortest
         length_netlists.reverse()
         
         return length_netlists

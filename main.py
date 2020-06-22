@@ -16,7 +16,6 @@ algorithm = float('inf')
 while chip_number != "0" and chip_number != "1" and chip_number != "2":
     chip_number = input("Welk chipnumber wilt u testen? 0, 1 of 2?    ")
 
-
 if chip_number == "0":
     while netlist_number != "1" and netlist_number != "2" and netlist_number != "3": 
         netlist_number = input("Welke netlist wilt u gebruiken? 1, 2 of 3?   ")
