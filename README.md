@@ -8,11 +8,11 @@ De case bestaat uit het vormen van een chip. De chip bestaat uit verschillende g
 
 | chip | coordinaten |
 |---|---|
-| 1 | (1,5) |
-| 2 | (6,5) |
-| 3 | (4,4) |
-| 4 | (6,2) |
-| 5 | (3,1) |
+| 1 | (1, 5) |
+| 2 | (6, 5) |
+| 3 | (4, 4) |
+| 4 | (6, 2) |
+| 5 | (3, 1) |
 
 ##### En de gates moeten verbonden zijn volgens de netlist:
 | chip_a | chip_b |
@@ -50,4 +50,7 @@ lastige chip en netlists kan greedy niet oplossen, omdat hij zichzelf vastloopt.
 Bij dit algoritme wordt bij elke stap gekeken naar de afstand tussen het doel en het huidige punt, maar wordt elke mogelijke richting die eerder nog open stond opgeslagen, zodat 
 wanneer de lijn vast komt te liggen hij altijd nog terug kan naar een eerdere directie. Dit zorgt ervoor dat de moeilijkste chips en netlist een oplossing kan krijgen. Bij dit algoritme
 wordt het kruizen van kabels zo veel mogelijk voorkomen (tenzij er geen andere mogelijkheid is), om zo kosten te minimaliseren. 
+
+## Simulated Annealing
+Simulated Annealing is een methode voor het oplossen van optimisatie problemen. Hierbij staat temperatuur centraal. De temperatuur/energie begint hoog en neemt lineair af. Deze energie zorgt ervoor dat het accepteren van minder goede states ook mogelijk is. Dit zorgt ervoor dat de kans om in een lokaal optimum te blijven hangen, zoals bij bijvoorbeeld een hillclimber, minder vaak voor komt. 
 
