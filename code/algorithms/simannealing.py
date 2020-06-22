@@ -22,7 +22,7 @@ class SimulatedAnnealing():
         self.grid_file = copy.deepcopy(grid_file)
 
     def run(self, cost):
-        max_iteraties = 100
+        max_iteraties = 20
         start_temp = 1000
         amount_of_redirects = 5
         all_cost = []

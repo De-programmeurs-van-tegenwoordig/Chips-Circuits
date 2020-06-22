@@ -113,7 +113,7 @@ class Greedy:
             if count % 10 == 0:
                 print(f"Route connected: {coordinates_origin}, {coordinates_destination}. Crosses: {cross_counter}. Nummer: {count}")
 
-        print("The total cost of the net is: ", self.grid_file.cost_of_route())
+        # print("The total cost of the net is: ", self.grid_file.cost_of_route())
         return True
 
 class PopulationGreedy(Greedy):

@@ -15,9 +15,15 @@ import random
 if __name__ == '__main__':
     # Read multiple files
     chip_number = "1"
+<<<<<<< HEAD
     netlist_number = "5"
     size = 17
     # test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
+=======
+    netlist_number = "4"
+    size = 17
+    test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
+>>>>>>> 7b87a5ef88a3b14c706f793787595d9b8d447561
 
     # --------------------------------------------Perform the desired algoritm--------------------------------------------------------------
     
@@ -51,6 +57,7 @@ if __name__ == '__main__':
     # plt.plot(result[3], color= "b")
     # plt.show()
 
+<<<<<<< HEAD
     # dit is voor gewoon een normale run, die door de sim gooien en dan de cost te plotten
     # reset = False
     # while not reset:
@@ -123,6 +130,32 @@ if __name__ == '__main__':
     plt.plot(result[1], color = "r")
     plt.plot(result[3], color= "b")
     plt.show()
+=======
+    reset = False
+    while not reset:
+        test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
+        astar = ast.PopAstar(test_grid)
+        reset = astar.run()
+
+    cost = test_grid.cost_of_route()
+    print("cost after astar", cost)
+    # filehandler = open(f'Netlist{netlist_number}.obj', 'wb')
+    # pickle.dump(test_grid, filehandler)
+    # print("dumped")
+
+    # filehandler = open(f'Netlist{netlist_number}.obj', 'rb')
+    # test_grid = pickle.load(filehandler)
+    # cost = test_grid.cost_of_route()
+    # print("kostte voor sima", cost)
+    # simA = siman.SimulatedAnnealing(test_grid)
+    # result = simA.run(cost)
+    # cost = result[0]
+    # print("kostte uit sima", cost)
+    
+    # print(result[1])
+    # plt.plot(result[1])
+    # plt.show()
+>>>>>>> 7b87a5ef88a3b14c706f793787595d9b8d447561
     
     # Plot the graph
     # pg.plot_grid(saved_grid, chip_number, netlist_number, cost_saved_grid, "Astar")

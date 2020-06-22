@@ -73,5 +73,12 @@ def plot_grid(grid_file, chip_number, netlist_number, cost, algorithm):
     t = time.localtime()
     current_time = time.strftime("%H:%M:%S", t)
     plt.title(f"Chip {chip_number}  | Netlist: {netlist_number}  | Cost: {cost}")
-    plt.savefig(f'Graphs/{algorithm}/{chip_number}/{netlist_number}/PopCost{cost}Time{current_time}.png', bbox_extra_artists=(lgd,), bbox_inches='tight')
+    # filename = os.path.join(os.getcwd(), f'Graphs\Astar\{chip_number}\{netlist_number}\Cost{cost}Time.png')
+    filename = os.path.join(os.getcwd(), f'Graphs\Astar\{chip_number}\{netlist_number}\shortest\Shortest.png')
+    plt.savefig(filename, bbox_extra_artists=(lgd,), bbox_inches='tight')
+
     # plt.show()
+
+def plot_graph(all_cost):
+    plt.plot(all_cost)
+    plt.show()

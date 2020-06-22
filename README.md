@@ -5,20 +5,26 @@ De case bestaat uit het vormen van een chip. De chip bestaat uit verschillende g
 
 ### Voorbeeld:
 ##### Chip bestaat uit gates:
-chip, coordinaten
-1, (1,5)
-2, (6,5)
-3, (4,4)
-4, (6,2)
-5, (3,1)
+
+| chip | coordinaten |
+|---|---|
+| 1 | (1,5) |
+| 2 | (6,5) |
+| 3 | (4,4) |
+| 4 | (6,2) |
+| 5 | (3,1) |
+
 ##### En de gates moeten verbonden zijn volgens de netlist:
-chip_a, chip_b
-1,2
-1,3
-3,5
-4,2
-4,5
+| chip_a | chip_b |
+|---|---|
+| 1 | 2 |
+| 1 | 3 |
+| 3 | 5 |
+| 4 | 2 |
+| 4 | 5 |
+
 ##### Wat er vervolgens op deze manier uit komt te zien:
+![Voorbeeld chip 0 netlist 1:](Graphs/Astar/0/1/shortest/Shortest.png)
 
 ### Echter zijn er constricties waaraan voldaan moet worden
 * Draden mogen niet overlappen

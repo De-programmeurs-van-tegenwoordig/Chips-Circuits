@@ -75,6 +75,21 @@ class Grid():
 
     def get_coordinates_gates(self):
         return self.coordinates_gates
+
+    def load_netlists(self, netlist_file):
+        # Declare local variables
+        netlists = []
+        
+        # Opens netlist file and puts every netlist in list
+        with open(netlist_file, 'r') as input_file:
+            reader = csv.DictReader(input_file)
+        
+            for row in reader:
+                new_connection = (row['chip_a'], row['chip_b'])
+                netlists.append(new_connection) 
+
+        random.shuffle(netlists)  
+        return netlists
         
     def get_current_gate_number(self, coordinate_x, coordinate_y):
         """
