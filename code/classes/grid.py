@@ -158,12 +158,14 @@ class Grid():
         self.key += 1
 
     def remove_route(self, key):
-        key = key
         del self.list_of_nets[key]
         del self.amount_of_crosses[key]
         
     def get_list_of_routes(self):
         return self.list_of_nets
+    
+    def get_list_of_crosses(self):
+        return self.amount_of_crosses
 
     def cost_of_route(self):
         cost = 0

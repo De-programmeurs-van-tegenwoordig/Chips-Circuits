@@ -1,11 +1,8 @@
 output.txt
 thomas.py
 kamiel.py
-<<<<<<< HEAD
 daan.py
-=======
-*.obj
->>>>>>> 7b87a5ef88a3b14c706f793787595d9b8d447561
+
 *.csv
 code/test/
 code/algorithms/astar-copy.py
