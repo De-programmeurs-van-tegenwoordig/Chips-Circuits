@@ -15,7 +15,7 @@ import random
 if __name__ == '__main__':
     # Read multiple files
     chip_number = "1"
-    netlist_number = "5"
+    netlist_number = "4"
     size = 17
     # test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
 
@@ -103,7 +103,7 @@ if __name__ == '__main__':
     """
 
     # to load a previously saved test grid
-    filehandler = open(f'Netlist{netlist_number}Sim2.obj', 'rb')
+    filehandler = open(f'Netlist{netlist_number}.obj', 'rb')
     saved_grid = pickle.load(filehandler)
     cost_saved_grid = saved_grid.cost_of_route()
     print(cost_saved_grid)
@@ -111,18 +111,18 @@ if __name__ == '__main__':
     cost = saved_grid.cost_of_route()
     print("kostte voor sima", cost)
     simA = siman.SimulatedAnnealing(saved_grid)
-    result = simA.run2(cost)
+    result = simA.run(cost)
     cost = result[0]
     print("kostte uit sima", cost)
 
-    filehandler = open(f'Netlist{netlist_number}SimRun2.obj', 'wb')
-    pickle.dump(result[2], filehandler)
+    # filehandler = open(f'Netlist{netlist_number}Sim2Run2.obj', 'wb')
+    # pickle.dump(result[2], filehandler)
 
-    print(result[1])
-    print(result[3])
-    plt.plot(result[1], color = "r")
-    plt.plot(result[3], color= "b")
-    plt.show()
+    # print(result[1])
+    # print(result[3])
+    # plt.plot(result[1], color = "r")
+    # plt.plot(result[3], color= "b")
+    # plt.show()
     
     # Plot the graph
     # pg.plot_grid(saved_grid, chip_number, netlist_number, cost_saved_grid, "Astar")

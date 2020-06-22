@@ -25,6 +25,7 @@ class SimulatedAnnealing():
         max_iteraties = 20
         start_temp = 1000
         amount_of_redirects = 5
+
         all_cost = []
         lowest_cost = []
         all_temps = []
@@ -36,6 +37,7 @@ class SimulatedAnnealing():
                 print("nu bij iteratie:", iteratie)
 
             routes = self.grid_file.get_list_of_routes()
+
             redirect = {}
             current_temp = start_temp - (start_temp/max_iteraties) * iteratie
             all_temps.append(current_temp)
@@ -51,6 +53,7 @@ class SimulatedAnnealing():
                 redirect[redirect_route] = [start, end]
 
                 self.grid_file.remove_route(redirect_route)
+                self.grid_file.remove_crosses(redirect_route)
 
             self.grid_file.netlists = []
 
@@ -95,7 +98,7 @@ class SimulatedAnnealing():
     def run2(self, cost):
         max_iteraties = 20
         start_temp = 1000
-        amount_of_redirects = 5
+        amount_of_redirects = 3
         all_cost = []
         lowest_cost = []
         all_temps = []

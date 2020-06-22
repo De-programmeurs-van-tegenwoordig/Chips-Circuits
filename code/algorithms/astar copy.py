@@ -32,7 +32,7 @@ class Astar():
             """
             netlist = self.grid_file.get_coordinates_netlist(netlists[0])
             netlists.pop(0)
-            crosses = []
+            crosses = 0
 
             open_list = []
             closed_list = []
@@ -82,15 +82,15 @@ class Astar():
                     # Return path
                     for i in range(len(paths)-1):
                         cross = check_constraints.check_constraints(self.grid_file, paths[i], paths[i+1], coordinates_destination, nets)[1]
-                        if cross is not None:
-                            crosses.append(cross)
+                        if cross:
+                            crosses += 1
                         new_netlist = net.Net(paths[i], paths[i+1])
                         nets.append(new_netlist)
                             
                     self.grid_file.add_route(nets, crosses)
                     counter += 1
                     if counter % 10 == 0:
-                        print(f"Route connected: {coordinates_origin}, {coordinates_destination}. Crosses: {crosses} len(crosses): {len(crosses)}. Nummer: {counter}")
+                        print(f"Route connected: {coordinates_origin}, {coordinates_destination}. Crosses: {crosses}. Nummer: {counter}")
                     break
                 
                 # Generate children
@@ -102,9 +102,9 @@ class Astar():
                     # Check if node is within the constraints
                     check = check_constraints.check_constraints(self.grid_file, current_node.position, node_position, coordinates_destination, nets)
                     if check[0]:
-                        if check[1] is not None:
+                        if check[1]:
                             new_node = node.Node(current_node, node_position)
-                            new_node.cross = check[1]
+                            new_node.cross = True
                             children.append(new_node)
                         else:  
                             new_node = node.Node(current_node, node_position)
@@ -123,14 +123,14 @@ class Astar():
                     child.h = abs(destination_x - child.position[0]) + abs(destination_y - child.position[1]) + abs(0 - child.position[2])
                     
                     # Check if node crosses a different node
-                    if child.cross is not None:
+                    if child.cross:
                         child.h += 300
 
                     child.f = child.g + child.h
 
                     # Check if position has already been generated and compare the cost
                     for open_node in open_list:
-                        if child == open_node and child.g >= open_node.g:
+                        if child.position == open_node.position and child.g >= open_node.g:
                             check = True
                             continue
                     
