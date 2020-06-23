@@ -123,6 +123,12 @@ class Grid():
         random.shuffle(self.netlists)
         return self.netlists
 
+    def empty_netlists(self):
+        """
+        Empty netlists
+        """
+        self.netlists = []
+
     def get_new_netlist(self):
         """
         Makes a new part of the route
