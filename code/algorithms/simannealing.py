@@ -33,7 +33,6 @@ class SimulatedAnnealing():
 
         amount_of_netlists = len(self.grid_file.get_list_of_routes())
         amount_of_redirects = amount_of_netlists // 10
-        print("hoiii", amount_of_redirects)
 
         all_cost = []
         lowest_cost = []
