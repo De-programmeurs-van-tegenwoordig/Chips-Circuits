@@ -8,6 +8,13 @@ pip install -r requirements.txt
 
 ```
 
+Zodra dit is gelukt, kan de applicatie gebruikt worden. Om bij het interface te komen, zal de volgende code in de terminal moeten worden ingevoerd:
+```python
+
+python main.py
+
+```
+
 ## Case
 De case bestaat uit het vormen van een chip. De chip bestaat uit verschillende gates die op een bepaalde manier met elkaar verbonden staan. Deze manier komt voort uit de netlist.
 
