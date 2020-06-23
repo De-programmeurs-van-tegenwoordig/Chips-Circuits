@@ -75,7 +75,6 @@ def random_solve3D2(grid_file, cross_counter, netlist, count):
     print("The total cost of the net is: ", grid_file.cost_of_route())
     return grid_file.cost_of_route()
 
-
 def random_solve(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, counter, list_of_coordinates):
     tries = 0
     directions = [(0,1), (1,0), (0,-1), (-1,0)]

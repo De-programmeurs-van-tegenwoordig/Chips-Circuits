@@ -104,7 +104,7 @@ class Astar():
                     if check[0]:
                         if check[1] is not None:
                             new_node = node.Node(current_node, node_position)
-                            new_node.cross = check[1]
+                            new_node.cross = True
                             children.append(new_node)
                         else:  
                             new_node = node.Node(current_node, node_position)
@@ -123,7 +123,7 @@ class Astar():
                     child.h = abs(destination_x - child.position[0]) + abs(destination_y - child.position[1]) + abs(0 - child.position[2])
                     
                     # Check if node crosses a different node
-                    if child.cross is not None:
+                    if child.cross:
                         child.h += 300
 
                     child.f = child.g + child.h
