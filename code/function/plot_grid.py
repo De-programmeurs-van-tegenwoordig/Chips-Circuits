@@ -9,6 +9,7 @@ def plot_grid(grid_file, chip_number, netlist_number, cost, algorithm):
     """ 
     Plots the 3d graph 
     """
+    
     list_of_nets = grid_file.get_list_of_routes()
     size = grid_file.get_size()
 
@@ -17,6 +18,7 @@ def plot_grid(grid_file, chip_number, netlist_number, cost, algorithm):
 
     coordinates_gates = grid_file.get_coordinates_gates()
 
+    # Put all x and y coordinates in list
     for item in coordinates_gates:
         x_coordinate = int(item[0])
         y_coordinate = int(item[1])
@@ -40,6 +42,7 @@ def plot_grid(grid_file, chip_number, netlist_number, cost, algorithm):
     for count in range(len(list_of_nets)):
         nets = list_of_nets[count]
         
+        # Get random color
         r = random.random()
         b = random.random()
         g = random.random()
@@ -49,6 +52,7 @@ def plot_grid(grid_file, chip_number, netlist_number, cost, algorithm):
         y = []
         z = [] 
         
+        # Form the lines
         for item in nets:
             a = item.get_coordinates_from()
             b = item.get_coordinates_to()
@@ -66,20 +70,14 @@ def plot_grid(grid_file, chip_number, netlist_number, cost, algorithm):
         # Plot the line
         ax.plot3D(x, y, z, color=color, label=f"{gate_a} to {gate_b}")
 
+    # Set labels
     ax.set_xlabel('X', fontsize = 10)
     ax.set_ylabel('Y', fontsize = 10)
     ax.set_zlabel('Z', fontsize = 10)
 
+    # Set up legend and title
     fontP = FontProperties()
     fontP.set_size('small')
-    lgd = plt.legend(bbox_to_anchor=(1.0,0.5), loc="center left", ncol=1, prop=fontP)
-    t = time.localtime()
-    current_time = time.strftime("%H:%M:%S", t)
+    plt.legend(bbox_to_anchor=(1.0,0.5), loc="center left", ncol=1, prop=fontP)
     plt.title(f"Chip {chip_number}  | Netlist: {netlist_number}  | Cost: {cost}")
-
-    # plt.savefig(f'Graphs/{algorithm}/{chip_number}/{netlist_number}/PopCost{cost}Time{current_time}.png', bbox_extra_artists=(lgd,), bbox_inches='tight')
-    # plt.show()
-    
-    filename = os.path.join(os.getcwd(), f'Graphs\Astar\{chip_number}\{netlist_number}\shortest\Shortest.png')
-    plt.savefig(filename, bbox_extra_artists=(lgd,), bbox_inches='tight')
-    # plt.show()
+    plt.show()

@@ -40,26 +40,30 @@ if __name__ == "__main__":
 
     # Perform desired algorithm: Random
     if int(algorithm) == 1:
-        test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
-        rs.random_solve3D(test_grid)
+        print(f"U hebt gekozen voor:") 
+        print(f"Algoritme: Random Chip: {chip_number} Netlist: {netlist_number}")
+        generated_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
+        rs.random_solve3D(generated_grid)
         
         # Print results and plot graph  
-        cost = test_grid.cost_of_route()
+        cost = generated_grid.cost_of_route()
         print(f"De totale kost is: {cost}")
-        pg.plot_grid(test_grid, chip_number, netlist_number, cost, "Random")
+        pg.plot_grid(generated_grid, chip_number, netlist_number, cost, "Random")
 
     # Perform desired algorithm : Greedy    
     elif int(algorithm) == 2:
+        print(f"U hebt gekozen voor:") 
+        print(f"Algoritme: Greedy Chip: {chip_number} Netlist: {netlist_number}")
         reset = False
         while not reset:
-            test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
-            greedy = gr.LengthGreedy(test_grid)
+            generated_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
+            greedy = gr.LengthGreedy(generated_grid)
             reset = greedy.run()
         
         # Print results and plot graph
-        cost = test_grid.cost_of_route()  
+        cost = generated_grid.cost_of_route()  
         print(f"De totale kost is: {cost}")
-        pg.plot_grid(test_grid, chip_number, netlist_number, cost, "Greedy")
+        pg.plot_grid(generated_grid, chip_number, netlist_number, cost, "Greedy")
 
     # Perform desired algorithm: A*       
     elif int(algorithm) == 3:
@@ -68,15 +72,19 @@ if __name__ == "__main__":
         
         # Perform without simulated annealing
         if annealing == "nee":
+            print(f"U hebt gekozen voor:") 
+            print(f"Algoritme: A* Chip: {chip_number} Netlist: {netlist_number} Simulated Annealing: Nee")
             reset = False
             while not reset:
-                test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
-                astar = ast.PopAstar(test_grid)
+                generated_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
+                astar = ast.PopAstar(generated_grid)
                 reset = astar.run()
-            cost = test_grid.cost_of_route()
+            cost = generated_grid.cost_of_route()
         
         # Perform with simulated annealing
         if annealing == "ja":
+            print(f"U hebt gekozen voor:") 
+            print(f"Algoritme: A* Chip: {chip_number} Netlist: {netlist_number} Simulated Annealing: Nee")
             while True:
                 try:
                     iterations = int(input("Hoeveel iteraties wilt u gebruiken? (standaard is 100, maar bij hogere netlists kan dit voor zeer hoge verwerkingstijden zorgen. Netlist 9 met 100 iteraties kan ongeveer 10 uur duren.)    "))
@@ -87,16 +95,17 @@ if __name__ == "__main__":
                     break
             reset = False
             while not reset:
-                test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
-                astar = ast.PopAstar(test_grid)
+                generated_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
+                astar = ast.PopAstar(generated_grid)
                 reset = astar.run()
 
-            cost = test_grid.cost_of_route()
+            cost = generated_grid.cost_of_route()
             print(f"Kosten voor Simulated Annealing: {cost}")
-            simA = siman.SimulatedAnnealing(test_grid)
+            simA = siman.SimulatedAnnealing(generated_grid)
             result = simA.run(cost, iterations)
             cost = result[0]
 
+            # Plots difference in costs before and after simulated annealing
             plt.plot(result[1], color = "r", label="Newly calculated cost")
             plt.plot(result[2], color= "b", label="Current cost")
             plt.style.use('ggplot')
@@ -105,4 +114,4 @@ if __name__ == "__main__":
 
         # Print results and plot graph  
         print(f"De totale kost is: {cost}")
-        pg.plot_grid(test_grid, chip_number, netlist_number, cost, "Astar")
+        pg.plot_grid(generated_grid, chip_number, netlist_number, cost, "Astar")

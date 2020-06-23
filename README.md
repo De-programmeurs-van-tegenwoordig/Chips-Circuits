@@ -18,6 +18,9 @@ python main.py
 Nu komt u in het menu, en kunt u een keuze maken uit een chip nummer, een netlist nummer, en het geprefereerde algoritme! Na het uitvoeren van het algoritme zal er een grafiek omhoog komen
 met de kosten van de samenstelling en de manier waarop het gestructureerd is.
 
+## Structuur
+Alle python scripts staan in de map code. Data bevat alle chips met de bijbehorende netlists en doc bevat verschillende voorbeelden van uitkomsten die wij hebben verkregen.
+
 ## Case
 De case bestaat uit het vormen van een chip. De chip bestaat uit verschillende gates die op een bepaalde manier met elkaar verbonden staan. Deze manier komt voort uit de netlist.
 
@@ -42,7 +45,7 @@ De case bestaat uit het vormen van een chip. De chip bestaat uit verschillende g
 | 4 | 5 |
 
 ##### Wat er vervolgens op deze manier uit komt te zien:
-![Voorbeeld chip 0 netlist 1:](Graphs/Astar/0/1/shortest/Shortest.png)
+![Voorbeeld chip 0 netlist 1:](doc/Readme.png)
 
 ### Echter zijn er constricties waaraan voldaan moet worden
 * Draden mogen niet overlappen
