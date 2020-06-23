@@ -30,9 +30,7 @@ class SimulatedAnnealing():
         """
         max_iterations = iterations
         start_temp = 1000
-
-        amount_of_netlists = len(self.grid_file.get_list_of_routes())
-        amount_of_redirects = amount_of_netlists // 10
+        amount_of_redirects = 3
 
         all_cost = []
         lowest_cost = []
