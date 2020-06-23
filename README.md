@@ -19,7 +19,7 @@ Nu komt u in het menu, en kunt u een keuze maken uit een chip nummer, een netlis
 met de kosten van de samenstelling en de manier waarop het gestructureerd is.
 
 ## Structuur
-Alle python scripts staan in de map code. Data bevat alle chips met de bijbehorende netlists en doc bevat verschillende voorbeelden van uitkomsten die wij hebben verkregen.
+Alle python scripts staan in de map code. Data bevat alle chips met de bijbehorende netlists en doc bevat verschillende voorbeelden van uitkomsten die wij hebben verkregen. Results bevat een gedeelte van de resultaten die we hebben gevonden tijdens het gehele proces.
 
 ## Case
 De case bestaat uit het vormen van een chip. De chip bestaat uit verschillende gates die op een bepaalde manier met elkaar verbonden staan. Deze manier komt voort uit de netlist.
