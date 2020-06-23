@@ -3,7 +3,7 @@ thomas.py
 kamiel.py
 *.obj
 *.csv
-*.png
+# *.png
 code/test/
 code/algorithms/astar-copy.py
 
