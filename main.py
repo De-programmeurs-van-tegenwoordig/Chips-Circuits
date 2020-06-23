@@ -25,6 +25,7 @@ while chip_number != "0" and chip_number != "1" and chip_number != "2":
 if chip_number == "0":
     while netlist_number != "1" and netlist_number != "2" and netlist_number != "3": 
         netlist_number = input("Welke netlist wilt u gebruiken? 1, 2 of 3?   ")
+        size = 7
 elif chip_number == "1":
     while netlist_number != "4" and netlist_number != "5" and netlist_number != "6": 
         netlist_number = input("Welke netlist wilt u gebruiken? 4, 5 of 6?   ")  
@@ -61,11 +62,11 @@ elif int(algorithm) == 2:
 
 # Perform desired algorithm: A*       
 elif int(algorithm) == 3:
-    while annealing != "1" and annealing != "0":
-        annealing = input("Wil je dat er simulated annealing wordt toegepast na het algoritme? 0:nee 1:ja   ")
+    while annealing != "ja" and annealing != "nee":
+        annealing = input("Wil je dat er simulated annealing wordt toegepast na het algoritme? ja of nee  ")
     
     # Perform without simulated annealing
-    if annealing == "0":
+    if annealing == "nee":
         reset = False
         while not reset:
             test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
@@ -74,10 +75,10 @@ elif int(algorithm) == 3:
         cost = test_grid.cost_of_route()
     
     # Perform with simulated annealing
-    if annealing == "1":
+    if annealing == "ja":
         while True:
             try:
-                iterations = int(input("Hoeveel iteraties wilt u gebruiken? (standaard is 80)    "))
+                iterations = int(input("Hoeveel iteraties wilt u gebruiken? (standaard is 100, maar bij hogere netlists kan dit voor zeer hoge verwerkingstijden zorgen. Netlist 9 met 100 iteraties kan ongeveer 10 uur duren.)    "))
             except ValueError:
                 print("Dit is geen Integer")
                 continue

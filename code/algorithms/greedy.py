@@ -63,13 +63,16 @@ class Greedy:
                     lowest_distance = 10000000
                     best_directions = []
 
+                    # Look at every direction 
                     for direction in directions:
                         coordinates_to = (coordinates_from[0] + direction[0], coordinates_from[1] + direction[1], coordinates_from[2] + direction[2])
+                        
+                        # Check if the line is possible
                         results = check_constraints.check_constraints(self.grid_file, coordinates_from, coordinates_to, coordinates_destination, nets)
-
                         check = results[0]
                         cross = results[1]
 
+                        # Selects the best direction
                         if check:
                             distance = abs(coordinates_to[0] - coordinates_destination[0]) + abs(coordinates_to[1] - coordinates_destination[1]) + abs(coordinates_to[2] - coordinates_destination[2])
                             if cross is not None:
@@ -81,10 +84,12 @@ class Greedy:
                             if distance == lowest_distance:
                                 best_directions.append([direction, cross])
                     
+                    # If there is no direction, break
                     if best_directions == []:
                         reset += 1
                         break
                     
+                    # Randomly choose a best direction
                     move_direction = random.choice(best_directions)
                     while move_direction[1] is not None:
                         ran = random.randint(0,101)
@@ -94,6 +99,7 @@ class Greedy:
                         else:
                             move_direction = random.choice(best_directions)
 
+                    # Move in direction
                     coordinates_to = (coordinates_from[0] + move_direction[0][0], coordinates_from[1] + move_direction[0][1], coordinates_from[2] + move_direction[0][2])
 
                     moves += 1
@@ -108,6 +114,7 @@ class Greedy:
                 if coordinates_to == coordinates_destination:
                     break
             
+            # Puts line into grid
             self.grid_file.add_route(nets, cross_counter)
             count += 1
             if count % 10 == 0:
@@ -128,6 +135,7 @@ class PopulationGreedy(Greedy):
         netlists = list(grid_file.get_netlists())
         counting = {}
 
+        # Counts the amount of connections
         for item in netlists:
             counting[int(item[0])] = 0
             counting[int(item[1])] = 0
@@ -137,6 +145,7 @@ class PopulationGreedy(Greedy):
 
         populated_netlists = []
 
+        # Appends in the right order the netlist
         while len(counting) != 0:
             gate_max = max(counting, key=lambda key: counting[key])
             del counting[gate_max]
@@ -173,11 +182,6 @@ class LengthGreedy(Greedy):
         
         return length_netlists
 
-class BestScoreGreedy(Greedy):
-    def best_netlist(self):
-        best_netlist = [('15', '44'), ('13', '6'), ('31', '41'), ('22', '34'), ('25', '30'), ('22', '43'), ('4', '15'), ('15', '35'), ('35', '20'), ('31', '33'), ('40', '4'), ('9', '5'), ('50', '29'), ('38', '41'), ('34', '32'), ('4', '11'), ('35', '3'), ('1', '4'), ('27', '42'), ('39', '50'), ('28', '39'), ('2', '21'), ('45', '29'), ('31', '8'), ('17', '9'), ('47', '30'), ('30', '38'), ('19', '43'), ('45', '35'), ('6', '18'), ('33', '26'), ('41', '48'), ('48', '45'), ('14', '46'), ('34', '8'), ('50', '13'), ('17', '11'), ('28', '37'), ('6', '42'), ('49', '3'), ('47', '1'), ('13', '10'), ('38', '44'), ('12', '11'), ('37', '21'), ('38', '3'), ('15', '17'), ('28', '48'), ('46', '39'), ('27', '40'), ('40', '39'), 
-        ('7', '34'), ('44', '32'), ('23', '45'), ('2', '12'), ('16', '23'), ('2', '14'), ('13', '37'), ('26', '7'), ('2', '38'), ('4', '22'), ('18', '36'), ('12', '46'), ('15', '47'), ('39', '8'), ('1', '40'), ('49', '35'), ('33', '3'), ('6', '40'), ('26', '18')]
-        return best_netlist
 
 
 
