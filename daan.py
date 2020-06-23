@@ -14,8 +14,8 @@ import random
 
 if __name__ == '__main__':
     # Read multiple files
-    chip_number = "2"
-    netlist_number = "9"
+    chip_number = "1"
+    netlist_number = "4"
     size = 17
     # test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
 
@@ -25,31 +25,31 @@ if __name__ == '__main__':
 
     
     # om gewoon een netlist te runnen en dan te dumpen met pickle
-    # reset = False
-    # while not reset:
-    #     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
-    #     astar = ast.PopAstar(test_grid)
-    #     reset = astar.run()
+    reset = False
+    while not reset:
+        test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
+        astar = ast.PopAstar(test_grid)
+        reset = astar.run()
 
-    # filehandler = open(f'Netlist{netlist_number}.obj', 'wb')
-    # pickle.dump(test_grid, filehandler)
-    # print("dumped")
+    filehandler = open(f'Netlist{netlist_number}.obj', 'wb')
+    pickle.dump(test_grid, filehandler)
+    print("dumped")
 
-    # cost = test_grid.cost_of_route()
-    # print(cost)
-    # simA = siman.SimulatedAnnealing(test_grid)
-    # result = simA.run(cost)
-    # cost = result[0]
-    # print("kostte uit sima", cost)
+    cost = test_grid.cost_of_route()
+    print(cost)
+    simA = siman.SimulatedAnnealing(test_grid)
+    result = simA.run(cost)
+    cost = result[0]
+    print("kostte uit sima", cost)
 
-    # filehandler = open(f'Netlist{netlist_number}Sim.obj', 'wb')
-    # pickle.dump(result[2], filehandler)
+    filehandler = open(f'Netlist{netlist_number}Sim.obj', 'wb')
+    pickle.dump(result[2], filehandler)
 
-    # print(result[1])
-    # print(result[3])
-    # plt.plot(result[1], color = "r")
-    # plt.plot(result[3], color= "b")
-    # plt.show()
+    print(result[1])
+    print(result[3])
+    plt.plot(result[1], color = "r")
+    plt.plot(result[3], color= "b")
+    plt.show()
 
     # dit is voor gewoon een normale run, die door de sim gooien en dan de cost te plotten
     # reset = False

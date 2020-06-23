@@ -2,6 +2,7 @@ output.txt
 thomas.py
 kamiel.py
 daan.py
+*.png
 
 *.csv
 code/test/
