@@ -21,8 +21,8 @@ class SimulatedAnnealing():
     def __init__(self, grid_file):
         self.grid_file = copy.deepcopy(grid_file)
 
-    def run(self, cost):
-        max_iteraties = 80
+    def run(self, cost, iterations):
+        max_iteraties = iterations
         start_temp = 1000
         amount_of_redirects = 3
 
@@ -72,13 +72,15 @@ class SimulatedAnnealing():
 
                 self.grid_file.netlists.append((gate_a, gate_b))
             
+            # print("netlists die opnieuw gelegd gaan worden", self.grid_file.netlists)
+            
             astar = ast.Astar(self.grid_file)
             reset = astar.run()
 
             if reset:
                 new_cost = self.grid_file.cost_of_route()
                 all_cost.append(new_cost)
-                print(f"oude cost: {cost} vs {new_cost} nieuw cost")
+                # print(f"oude cost: {cost} vs {new_cost} nieuw cost")
 
                 probability = acceptance_probability(cost, new_cost, current_temp)
                 print(probability)

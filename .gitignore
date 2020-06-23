@@ -2,7 +2,9 @@ output.txt
 thomas.py
 Kamiel.py
 daan.py
+data_visualization.py
 *.png
+cost-lists.txt
 
 *.csv
 code/test/

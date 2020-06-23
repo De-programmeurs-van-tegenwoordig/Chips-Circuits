@@ -16,7 +16,6 @@ netlist_number = float('inf')
 algorithm = float('inf')
 annealing = float('inf')
 size = 17
-test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
 
 # Request user input: chip number
 while chip_number != "0" and chip_number != "1" and chip_number != "2":
@@ -39,7 +38,13 @@ while algorithm != "1" and algorithm != "2" and algorithm != "3":
 
 # Perform desired algorithm: Random
 if int(algorithm) == 1:
+    test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
     rs.random_solve3D(test_grid)
+    
+    # Print results and plot graph  
+    cost = test_grid.cost_of_route()
+    print(f"De totale kost is: {cost}")
+    pg.plot_grid(test_grid, chip_number, netlist_number, cost, "Random")
 
 # Perform desired algorithm : Greedy    
 elif int(algorithm) == 2:
@@ -48,6 +53,11 @@ elif int(algorithm) == 2:
         test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
         greedy = gr.LengthGreedy(test_grid)
         reset = greedy.run()
+    
+    # Print results and plot graph
+    cost = test_grid.cost_of_route()  
+    print(f"De totale kost is: {cost}")
+    pg.plot_grid(test_grid, chip_number, netlist_number, cost, "Greedy")
 
 # Perform desired algorithm: A*       
 elif int(algorithm) == 3:
@@ -61,22 +71,32 @@ elif int(algorithm) == 3:
             test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
             astar = ast.PopAstar(test_grid)
             reset = astar.run()
+        cost = test_grid.cost_of_route()
     
     # Perform with simulated annealing
     if annealing == "1":
+        while True:
+            try:
+                iterations = int(input("Hoeveel iteraties wilt u gebruiken? (standaard is 80)    "))
+            except ValueError:
+                print("Dit is geen Integer")
+                continue
+            else:
+                break
         reset = False
         while not reset:
             test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
             astar = ast.PopAstar(test_grid)
             reset = astar.run()
 
-        simA = siman.SimulatedAnnealing(test_grid)
         cost = test_grid.cost_of_route()
-        run = simA.run(cost)
+        print(f"Kosten voor Simulated Annealing: {cost}")
+        simA = siman.SimulatedAnnealing(test_grid)
+        run = simA.run(cost, iterations)
         cost = run[0]
         pg.plot_graph(run[1])
 
   
-# Print results and plot graph
-print(f"De totale kost is: {cost}")
-pg.plot_grid(test_grid, chip_number, netlist_number, cost, "Astar")
+    # Print results and plot graph  
+    print(f"De totale kost is: {cost}")
+    pg.plot_grid(test_grid, chip_number, netlist_number, cost, "Astar")
