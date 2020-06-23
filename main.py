@@ -41,6 +41,8 @@ if __name__ == "__main__":
 
     # Perform desired algorithm: Random
     if int(algorithm) == 1:
+        print(f"U hebt gekozen voor:") 
+        print(f"Algoritme: Random Chip: {chip_number} Netlist: {netlist_number}")
         test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
         rs.random_solve3D(test_grid)
         
@@ -51,6 +53,8 @@ if __name__ == "__main__":
 
     # Perform desired algorithm : Greedy    
     elif int(algorithm) == 2:
+        print(f"U hebt gekozen voor:") 
+        print(f"Algoritme: Greedy Chip: {chip_number} Netlist: {netlist_number}")
         reset = False
         while not reset:
             test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
@@ -69,6 +73,8 @@ if __name__ == "__main__":
         
         # Perform without simulated annealing
         if annealing == "nee":
+            print(f"U hebt gekozen voor:") 
+            print(f"Algoritme: A* Chip: {chip_number} Netlist: {netlist_number} Simulated Annealing: Nee")
             reset = False
             while not reset:
                 test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
@@ -78,6 +84,8 @@ if __name__ == "__main__":
         
         # Perform with simulated annealing
         if annealing == "ja":
+            print(f"U hebt gekozen voor:") 
+            print(f"Algoritme: A* Chip: {chip_number} Netlist: {netlist_number} Simulated Annealing: Nee")
             while True:
                 try:
                     iterations = int(input("Hoeveel iteraties wilt u gebruiken? (standaard is 100, maar bij hogere netlists kan dit voor zeer hoge verwerkingstijden zorgen. Netlist 9 met 100 iteraties kan ongeveer 10 uur duren.)    "))
@@ -97,6 +105,8 @@ if __name__ == "__main__":
             simA = siman.SimulatedAnnealing(test_grid)
             result = simA.run(cost, iterations)
             cost = result[0]
+
+            # Plots difference in costs before and after simulated annealing
             plt.plot(result[1], color = "r", label="Newly calculated cost")
             plt.plot(result[2], color= "b", label="Current cost")
             plt.legend()

@@ -1,7 +1,7 @@
 class Node():
     def __init__(self, parent=None, position=None):
         """
-            Node used in A*
+        Node used in A*
         """
         self.parent = parent
         self.position = position
@@ -13,7 +13,7 @@ class Node():
 
     def __eq__(self, other):
         """
-            Compares the position of two nodes
+        Compares the position of two nodes
         """
         return self.position == other.position
 

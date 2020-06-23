@@ -97,7 +97,6 @@ class SimulatedAnnealing():
             if reset:
                 new_cost = self.grid_file.cost_of_route()
                 all_cost.append(new_cost)
-                print(f"oude cost: {cost} vs {new_cost} nieuw cost")
 
                 current_temp = start_temp - (start_temp/max_iterations) * iteration
                 probability = acceptance_probability(cost, new_cost, current_temp)
