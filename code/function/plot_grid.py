@@ -6,7 +6,11 @@ import time
 import os
 
 def plot_grid(grid_file, chip_number, netlist_number, cost, algorithm):
-    """ Plots the 3d graph """
+    """ 
+    Plots the 3d graph 
+    """
+    plt.style.use('ggplot')
+    
     list_of_nets = grid_file.get_list_of_routes()
     size = grid_file.get_size()
 
@@ -75,12 +79,12 @@ def plot_grid(grid_file, chip_number, netlist_number, cost, algorithm):
     current_time = time.strftime("%H:%M:%S", t)
     plt.title(f"Chip {chip_number}  | Netlist: {netlist_number}  | Cost: {cost}")
 
-    # plt.savefig(f'Graphs/{algorithm}/{chip_number}/{netlist_number}/PopCost{cost}Time{current_time}.png', bbox_extra_artists=(lgd,), bbox_inches='tight')
+    plt.savefig(f'Graphs/{algorithm}/{chip_number}/{netlist_number}/PopCost{cost}Time{current_time}.png', bbox_extra_artists=(lgd,), bbox_inches='tight')
     # plt.show()
     
     # filename = os.path.join(os.getcwd(), f'Graphs\Astar\{chip_number}\{netlist_number}\shortest\Shortest.png')
     # plt.savefig(filename, bbox_extra_artists=(lgd,), bbox_inches='tight')
-    plt.show()
+    # plt.show()
 
 def plot_graph(all_cost):
     plt.plot(all_cost)
