@@ -22,9 +22,9 @@ class SimulatedAnnealing():
         self.grid_file = copy.deepcopy(grid_file)
 
     def run(self, cost):
-        max_iteraties = 20
+        max_iteraties = 80
         start_temp = 1000
-        amount_of_redirects = 5
+        amount_of_redirects = 3
 
         all_cost = []
         lowest_cost = []
@@ -96,7 +96,7 @@ class SimulatedAnnealing():
         return cost, all_cost, self.grid_file, lowest_cost          
 
     def run2(self, cost):
-        max_iteraties = 20
+        max_iteraties = 10
         start_temp = 1000
         amount_of_redirects = 3
         all_cost = []
@@ -104,6 +104,7 @@ class SimulatedAnnealing():
         all_temps = []
         all_cost.append(cost)
         lowest_cost.append(cost)
+        counter = 0
         
         for iteratie in range(max_iteraties):
             if iteratie % 10 == 0:
@@ -117,10 +118,15 @@ class SimulatedAnnealing():
             backup_grid = copy.deepcopy(self.grid_file)
 
             for i in range(amount_of_redirects):
-                redirect_route = max(amount_of_crosses, key=lambda key: amount_of_crosses[key])
-                route = routes[redirect_route]
-                
+                if counter % 5 == 0:
+                    redirect_route = max(amount_of_crosses, key=lambda key: amount_of_crosses[key])
+                    route = routes[redirect_route]
+                else:
+                    redirect_route, route = random.choice(list(routes.items()))
+        
                 redirect_route = int(redirect_route)
+
+                counter += 1
 
                 start = route[0].get_coordinates_from()
                 end = route[-1].get_coordinates_to()
@@ -128,6 +134,7 @@ class SimulatedAnnealing():
                 redirect[redirect_route] = [start, end]
 
                 self.grid_file.remove_route(redirect_route)
+                self.grid_file.remove_crosses(redirect_route)
 
             self.grid_file.netlists = []
 
