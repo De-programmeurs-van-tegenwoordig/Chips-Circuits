@@ -42,6 +42,7 @@ if int(algorithm) == 1:
     rs.random_solve3D(test_grid)
     
     # Print results and plot graph  
+    cost = test_grid.cost_of_route()
     print(f"De totale kost is: {cost}")
     pg.plot_grid(test_grid, chip_number, netlist_number, cost, "Random")
 
@@ -53,7 +54,8 @@ elif int(algorithm) == 2:
         greedy = gr.LengthGreedy(test_grid)
         reset = greedy.run()
     
-    # Print results and plot graph  
+    # Print results and plot graph
+    cost = test_grid.cost_of_route()  
     print(f"De totale kost is: {cost}")
     pg.plot_grid(test_grid, chip_number, netlist_number, cost, "Greedy")
 
@@ -69,6 +71,7 @@ elif int(algorithm) == 3:
             test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
             astar = ast.PopAstar(test_grid)
             reset = astar.run()
+        cost = test_grid.cost_of_route()
     
     # Perform with simulated annealing
     if annealing == "1":
