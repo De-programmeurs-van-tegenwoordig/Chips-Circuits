@@ -97,8 +97,8 @@ class SimulatedAnnealing():
         
         return cost, all_cost, self.grid_file, lowest_cost          
 
-    def run2(self, cost):
-        max_iteraties = 10
+    def run2(self, cost, iterations):
+        max_iteraties = iterations
         start_temp = 1000
         amount_of_redirects = 3
         all_cost = []

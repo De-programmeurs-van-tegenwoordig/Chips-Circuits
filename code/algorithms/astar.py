@@ -86,7 +86,8 @@ class Astar():
                             crosses.append(cross)
                         new_netlist = net.Net(paths[i], paths[i+1])
                         nets.append(new_netlist)
-                            
+                    
+                    print(crosses)
                     self.grid_file.add_route(nets, crosses)
                     counter += 1
                     if counter % 10 == 0:
@@ -104,7 +105,7 @@ class Astar():
                     if check[0]:
                         if check[1] is not None:
                             new_node = node.Node(current_node, node_position)
-                            new_node.cross = check[1]
+                            new_node.cross = True
                             children.append(new_node)
                         else:  
                             new_node = node.Node(current_node, node_position)
@@ -121,16 +122,18 @@ class Astar():
                         
                     child.g = current_node.g + 1
                     child.h = abs(destination_x - child.position[0]) + abs(destination_y - child.position[1]) + abs(0 - child.position[2])
+
+                   #print(child.cross)
                     
                     # Check if node crosses a different node
-                    if child.cross is not None:
+                    if child.cross:
                         child.h += 300
 
                     child.f = child.g + child.h
 
                     # Check if position has already been generated and compare the cost
                     for open_node in open_list:
-                        if child == open_node and child.g >= open_node.g:
+                        if child == open_node and child.f >= open_node.f:
                             check = True
                             continue
                     
