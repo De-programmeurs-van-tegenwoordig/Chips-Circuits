@@ -2,7 +2,7 @@ class Node():
     def __init__(self, parent=None, position=None):
         self.parent = parent
         self.position = position
-        self.cross = False
+        self.cross = None
 
         self.g = 0
         self.h = 0

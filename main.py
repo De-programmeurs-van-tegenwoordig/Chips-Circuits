@@ -21,7 +21,6 @@ size = 17
 while chip_number != "0" and chip_number != "1" and chip_number != "2":
     chip_number = input("Welk chipnumber wilt u testen? 0, 1 of 2?    ")
 
-
 # Request user input: netlist number
 if chip_number == "0":
     while netlist_number != "1" and netlist_number != "2" and netlist_number != "3": 
@@ -41,6 +40,10 @@ while algorithm != "1" and algorithm != "2" and algorithm != "3":
 if int(algorithm) == 1:
     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
     rs.random_solve3D(test_grid)
+    
+    # Print results and plot graph  
+    print(f"De totale kost is: {cost}")
+    pg.plot_grid(test_grid, chip_number, netlist_number, cost, "Random")
 
 # Perform desired algorithm : Greedy    
 elif int(algorithm) == 2:
@@ -49,6 +52,10 @@ elif int(algorithm) == 2:
         test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
         greedy = gr.LengthGreedy(test_grid)
         reset = greedy.run()
+    
+    # Print results and plot graph  
+    print(f"De totale kost is: {cost}")
+    pg.plot_grid(test_grid, chip_number, netlist_number, cost, "Greedy")
 
 # Perform desired algorithm: A*       
 elif int(algorithm) == 3:
@@ -65,6 +72,14 @@ elif int(algorithm) == 3:
     
     # Perform with simulated annealing
     if annealing == "1":
+        while True:
+            try:
+                iterations = int(input("Hoeveel iteraties wilt u gebruiken? (standaard is 80)    "))
+            except ValueError:
+                print("Dit is geen Integer")
+                continue
+            else:
+                break
         reset = False
         while not reset:
             test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
@@ -74,11 +89,11 @@ elif int(algorithm) == 3:
         cost = test_grid.cost_of_route()
         print(f"Kosten voor Simulated Annealing: {cost}")
         simA = siman.SimulatedAnnealing(test_grid)
-        run = simA.run(cost)
+        run = simA.run(cost, iterations)
         cost = run[0]
         pg.plot_graph(run[1])
 
   
-# Print results and plot graph
-print(f"De totale kost is: {cost}")
-pg.plot_grid(test_grid, chip_number, netlist_number, cost, "Astar")
+    # Print results and plot graph  
+    print(f"De totale kost is: {cost}")
+    pg.plot_grid(test_grid, chip_number, netlist_number, cost, "Astar")
