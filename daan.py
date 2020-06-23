@@ -15,7 +15,7 @@ import random
 if __name__ == '__main__':
     # Read multiple files
     chip_number = "1"
-    netlist_number = "4"
+    netlist_number = "5"
     size = 17
     # test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
 
@@ -25,31 +25,31 @@ if __name__ == '__main__':
 
     
     # om gewoon een netlist te runnen en dan te dumpen met pickle
-    reset = False
-    while not reset:
-        test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
-        astar = ast.PopAstar(test_grid)
-        reset = astar.run()
+    # reset = False
+    # while not reset:
+    #     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
+    #     astar = ast.PopAstar(test_grid)
+    #     reset = astar.run()
 
-    filehandler = open(f'Netlist{netlist_number}.obj', 'wb')
-    pickle.dump(test_grid, filehandler)
-    print("dumped")
+    # filehandler = open(f'Netlist{netlist_number}.obj', 'wb')
+    # pickle.dump(test_grid, filehandler)
+    # print("dumped")
 
-    cost = test_grid.cost_of_route()
-    print(cost)
-    simA = siman.SimulatedAnnealing(test_grid)
-    result = simA.run(cost)
-    cost = result[0]
-    print("kostte uit sima", cost)
+    # cost = test_grid.cost_of_route()
+    # print(cost)
+    # simA = siman.SimulatedAnnealing(test_grid)
+    # result = simA.run(cost)
+    # cost = result[0]
+    # print("kostte uit sima", cost)
 
-    filehandler = open(f'Netlist{netlist_number}Sim.obj', 'wb')
-    pickle.dump(result[2], filehandler)
+    # filehandler = open(f'Netlist{netlist_number}Sim.obj', 'wb')
+    # pickle.dump(result[2], filehandler)
 
-    print(result[1])
-    print(result[3])
-    plt.plot(result[1], color = "r")
-    plt.plot(result[3], color= "b")
-    plt.show()
+    # print(result[1])
+    # print(result[3])
+    # plt.plot(result[1], color = "r")
+    # plt.plot(result[3], color= "b")
+    # plt.show()
 
     # dit is voor gewoon een normale run, die door de sim gooien en dan de cost te plotten
     # reset = False
@@ -103,26 +103,26 @@ if __name__ == '__main__':
     """
 
     # to load a previously saved test grid
-    filehandler = open(f'Netlist{netlist_number}.obj', 'rb')
-    saved_grid = pickle.load(filehandler)
-    cost_saved_grid = saved_grid.cost_of_route()
-    print(cost_saved_grid)
+    # filehandler = open(f'Netlist{netlist_number}.obj', 'rb')
+    # saved_grid = pickle.load(filehandler)
+    # cost_saved_grid = saved_grid.cost_of_route()
+    # print(cost_saved_grid)
 
-    cost = saved_grid.cost_of_route()
-    print("kostte voor sima", cost)
-    simA = siman.SimulatedAnnealing(saved_grid)
-    result = simA.run2(cost)
-    cost = result[0]
-    print("kostte uit sima", cost)
+    # cost = saved_grid.cost_of_route()
+    # print("kostte voor sima", cost)
+    # simA = siman.SimulatedAnnealing(saved_grid)
+    # result = simA.run2(cost)
+    # cost = result[0]
+    # print("kostte uit sima", cost)
 
-    filehandler = open(f'Netlist{netlist_number}SimRun2.obj', 'wb')
-    pickle.dump(result[2], filehandler)
+    # filehandler = open(f'Netlist{netlist_number}SimRun2.obj', 'wb')
+    # pickle.dump(result[2], filehandler)
 
-    print(result[1])
-    print(result[3])
-    plt.plot(result[1], color = "r")
-    plt.plot(result[3], color= "b")
-    plt.show()
+    # print(result[1])
+    # print(result[3])
+    # plt.plot(result[1], color = "r")
+    # plt.plot(result[3], color= "b")
+    # plt.show()
     
     # Plot the graph
     # pg.plot_grid(saved_grid, chip_number, netlist_number, cost_saved_grid, "Astar")
@@ -131,20 +131,18 @@ if __name__ == '__main__':
     
     # ------------------------------While loops to run till solution
     
-    # reset = False
-    # counter = 0
+    reset = False
+    counter = 0
 
-    # while counter != 50:
+    while counter != 50:
         
-    #     while not reset:
-    #         test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/{netlistfile}", size)
-    #         greedy = gr.Greedy(test_grid)
-    #         reset = greedy.run()
+        while not reset:
+            test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
+            greedy = gr.PopulationGreedy(test_grid)
+            reset = greedy.run()
 
-    #     cost = test_grid.cost_of_route()
-    #     output.write(f"Greedy,{cost},{counter}\n")
-    #     counter += 1
-    #     reset = False
+        cost = test_grid.cost_of_route()
+        counter += 1
+        reset = False
 
-    # output.write("\n\n")
-    # print("normal greedy done")
+    print("normal greedy done")
