@@ -93,11 +93,13 @@ elif int(algorithm) == 3:
         cost = test_grid.cost_of_route()
         print(f"Kosten voor Simulated Annealing: {cost}")
         simA = siman.SimulatedAnnealing(test_grid)
-        run = simA.run2(cost, iterations)
-        cost = run[0]
-        pg.plot_graph(run[1])
+        result = simA.run(cost, iterations)
+        cost = result[0]
+        plt.plot(result[1], color = "r", label="Newly calculated cost")
+        plt.plot(result[2], color= "b", label="Current cost")
+        plt.legend()
+        plt.show()
 
-  
     # Print results and plot graph  
     print(f"De totale kost is: {cost}")
     pg.plot_grid(test_grid, chip_number, netlist_number, cost, "Astar")

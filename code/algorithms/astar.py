@@ -121,8 +121,6 @@ class Astar():
                         
                     child.g = current_node.g + 1
                     child.h = abs(destination_x - child.position[0]) + abs(destination_y - child.position[1]) + abs(0 - child.position[2])
-
-                   #print(child.cross)
                     
                     # Check if node crosses a different node
                     if child.cross :

@@ -5,12 +5,11 @@ class Node():
         """
         self.parent = parent
         self.position = position
-        self.cross = None
+        self.cross = False
 
         self.g = 0
         self.h = 0
         self.f = 0
-        self.cross = False
 
     def __eq__(self, other):
         """
