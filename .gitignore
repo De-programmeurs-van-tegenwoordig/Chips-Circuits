@@ -3,6 +3,7 @@ thomas.py
 kamiel.py
 daan.py
 *.png
+cost-lists.txt
 
 *.csv
 code/test/

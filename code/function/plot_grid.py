@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import random
 from code.classes import grid
+from matplotlib.font_manager import FontProperties
 import time
 import os
 
