@@ -18,7 +18,7 @@ class HillClimber():
         counter = 0
         reset = False
 
-        while counter < 50:
+        while counter < 200:
             while not reset:
                 test_grid = grid.Grid(f"data/chip_{self.chip_number}/print_{self.chip_number}.csv", f"data/chip_{self.chip_number}/{self.netlistfile}", self.size)
                 greedy = gr.Greedy(test_grid)

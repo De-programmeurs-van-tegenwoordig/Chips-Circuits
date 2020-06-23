@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-from matplotlib.font_manager import FontProperties
 import random
 from code.classes import grid
 import time
@@ -55,6 +54,7 @@ def plot_grid(grid_file, chip_number, netlist_number, cost, algorithm):
             y.extend([a[1], b[1]])
             z.extend([a[2], b[2]])
 
+        nets = list(nets)
         coordinates_gate_a = nets[0].get_coordinates_from()
         coordinates_gate_b = nets[-1].get_coordinates_to()
         gate_a = grid_file.get_current_gate_number(coordinates_gate_a[0], coordinates_gate_a[1])
