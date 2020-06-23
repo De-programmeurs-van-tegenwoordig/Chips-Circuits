@@ -126,7 +126,11 @@ class Astar():
                    #print(child.cross)
                     
                     # Check if node crosses a different node
+<<<<<<< HEAD
                     if child.cross:
+=======
+                    if child.cross :
+>>>>>>> 5b3cedaf84d442fda313d18aae31a2675c9b1f76
                         child.h += 300
 
                     child.f = child.g + child.h
