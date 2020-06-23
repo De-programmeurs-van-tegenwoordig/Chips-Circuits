@@ -6,7 +6,7 @@ def random_solve3D(grid_file):
     """
     Sets variables to begin value and runs the random algorithm
     """
-    cross_counter = 0
+    cross_counter = []
     count = 0
     netlist = grid_file.get_new_netlist()
     
@@ -17,7 +17,7 @@ def random_solve3D2(grid_file, cross_counter, netlist, count):
     """ 
     Returns a random 3d solution of the given problem (netlist and chipset)
     """
-    cross_counter = 0
+    cross_counter = []
 
     # Loops till netlist is empty
     while netlist is not None:
@@ -81,7 +81,6 @@ def random_solve3D2(grid_file, cross_counter, netlist, count):
         
     print("The total cost of the net is: ", grid_file.cost_of_route())
     return grid_file.cost_of_route()
-
 
 def random_solve(origin_x, origin_y, destination_x,  destination_y, size, list_of_nets, counter, list_of_coordinates, grid_file):
     """ 

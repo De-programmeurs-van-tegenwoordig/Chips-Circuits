@@ -123,7 +123,7 @@ class Greedy:
         # print("The total cost of the net is: ", self.grid_file.cost_of_route())
         return True
 
-class PopulationGreedy(Greedy):
+class PopGreedy(Greedy):
     """
     The PopulationGreedy Class sorts the gates by amount of connections
     The gates with the most connections come first

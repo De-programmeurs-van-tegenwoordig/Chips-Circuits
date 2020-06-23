@@ -5,6 +5,7 @@ daan.py
 data_visualization.py
 *.png
 cost-lists.txt
+.DS_Store
 
 *.csv
 code/test/
