@@ -18,7 +18,7 @@ class Astar():
 
         return netlists
     
-    def run(self, want_cross):
+    def run(self, x):
         """
         Seeks the best path between 2 gates
         """
@@ -127,7 +127,7 @@ class Astar():
                     child.h = abs(destination_x - child.position[0]) + abs(destination_y - child.position[1]) + abs(0 - child.position[2])
                     
                     # if crosses need to be avoided then use this below
-                    if want_cross:
+                    if x == True:
                         if child.cross:
                             child.h += 300
 

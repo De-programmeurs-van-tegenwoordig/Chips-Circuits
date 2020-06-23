@@ -14,9 +14,9 @@ import random
 
 if __name__ == '__main__':
     # Read multiple files
-    chip_number = "0"
-    netlist_number = "3"
-    size = 7
+    chip_number = "1"
+    netlist_number = "4"
+    size = 17
     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
 
     # --------------------------------------------Perform the desired algoritm--------------------------------------------------------------
@@ -34,17 +34,17 @@ if __name__ == '__main__':
     # cost = test_grid.cost_of_route()
     # pg.plot_grid(test_grid, chip_number, netlist_number, cost, "greedy")
 
-    # reset = False
-    # while not reset:
-    #     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
-    #     astar = ast.PopAstar(test_grid)
-    #     reset = astar.run()
+    reset = False
+    while not reset:
+        test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
+        astar = ast.PopAstar(test_grid)
+        reset = astar.run()
 
-    # cost = test_grid.cost_of_route()
-    # print("cost after astar", cost)
-    # filehandler = open(f'Netlist{netlist_number}.obj', 'wb')
-    # pickle.dump(test_grid, filehandler)
-    # print("dumped")
+    cost = test_grid.cost_of_route()
+    print("cost after astar", cost)
+    filehandler = open(f'Netlist{netlist_number}.obj', 'wb')
+    pickle.dump(test_grid, filehandler)
+    print("dumped")
 
     filehandler = open(f'Netlist{netlist_number}.obj', 'rb')
     test_grid = pickle.load(filehandler)
@@ -60,7 +60,7 @@ if __name__ == '__main__':
     plt.show()
     
     # Plot the graph
-    # pg.plot_grid(test_grid, chip_number, netlist_number, cost, "Astar")
+    pg.plot_grid(test_grid, chip_number, netlist_number, cost, "Astar")
 
     # --------------------------While loops to run till solution
     

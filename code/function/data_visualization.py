@@ -1,45 +1,66 @@
 import matplotlib.pyplot as plt
+import statistics
 import csv
 
-file_name_1 = "Cost"
-file_name_2 = "Time"
+file_name = "Greedy_Astar"
+data = open(f'..\\..\\{file_name}.csv')
 
-file_list_1 = []
-file_list_2 = []
-for i in range(2):
-    if i == 0:
-        file_name = file_name_1
-        file_list = file_list_1
-    else:
-        file_name= file_name_2
-        file_list = file_list_2
-
-    with open(f'..\\..\\{file_name}.csv') as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
-        line_count = 0
-        for count, data in enumerate(csv_reader):
-            if count == 0:
-                continue
-            file_list.append(int(float(data[0])))
+plt.style.use('ggplot')
 
 a = []
 b = []
 c = []
 d = []
+e = []
+f = []
+# g = []
+# h = []
 
-print(len(file_list_1), len(file_list_2))
-for i in range(len(file_list)):
-    if file_list_1[i] > 10000:
-        a.append(file_list_1[i])
-        b.append(file_list_2[i])
-    else:
-        c.append(file_list_1[i])
-        d.append(file_list_2[i])
+reader = csv.reader(data)
+count = 0
+for Algorithm, time, cost in (reader):
+    if count > 0:    
+        if Algorithm == "Greedy":
+            print("0")
+            a.append(int(float(time)))
+            b.append(int(cost))
+        elif Algorithm == "Astar_avoid_crosses":
+            print("1")
+            c.append(int(float(time)))
+            d.append(int(cost))
+        elif Algorithm == "Astar_does_not_avoid_crosses":
+            print("2")
+            e.append(int(float(time)))
+            f.append(int(cost))
+        # else:
+        #     g.append(int(float(time)))
+        #     h.append(int(cost))
+    count += 1
 
-plt.plot(a, b, "ro", label= "Avoid crosses")
-plt.plot(c, d, "bo", label = "Crosses" )
+plt.bar("A star(Crosses)", statistics.mean(f), label = "Crosses")
+plt.bar("A star(Avoid crosses)", statistics.mean(d), label = "Avoid crosses")
+plt.bar("Greedy", statistics.mean(b), label= "Greedy")
+# plt.bar("Random", statistics.mean(h), label= "Random")
+plt.xlabel("Algorithm")
+plt.ylabel("Cost")
+plt.show()
+
+plt.bar("A star(Cross)", statistics.mean(e), label = "Crosses")
+plt.bar("A star(Avoid Crosses)", statistics.mean(c), label = "Avoid crosses")
+plt.bar("Greedy", statistics.mean(a), label= "Greedy")
+# plt.bar("Random", statistics.mean(g), label = "Random")
+
 plt.title("Low time versus Low cost")
-plt.legend()
-plt.xlabel("time(m)")
+plt.xlabel("Algorithm")
+plt.ylabel("Time")
+plt.show()
+
+plt.plot(a, b,".",  color = "green", label= "Greedy")
+plt.plot(c, d,".", color = "blue", label = "Astar (avoid crosses)")
+plt.plot(e, f, ".",  color = "orange", label = "Astar (Crosses)")
+# plt.plot(g, h, ".", color = "red", label = "Random")
+plt.xlabel("time")
 plt.ylabel("cost")
+plt.legend()
+
 plt.show()
