@@ -42,7 +42,7 @@ De case bestaat uit het vormen van een chip. De chip bestaat uit verschillende g
 | 4 | 5 |
 
 ##### Wat er vervolgens op deze manier uit komt te zien:
-![Voorbeeld chip 0 netlist 1:](doc/readme.png)
+![Voorbeeld chip 0 netlist 1:](doc/Readme.png)
 
 ### Echter zijn er constricties waaraan voldaan moet worden
 * Draden mogen niet overlappen
