@@ -1,5 +1,23 @@
 # Chips-Circuits
 
+## Gebruik
+Voor het gebruik van de applicatie, zal eerst de requirements moeten worden geïnstalleerd, aan de hand van onderstaande code.
+```python
+
+pip install -r requirements.txt
+
+```
+
+Zodra dit is gelukt, kan de applicatie gebruikt worden. Om bij het interface te komen, zal de volgende code in de terminal moeten worden ingevoerd:
+```python
+
+python main.py
+
+```
+
+Nu komt u in het menu, en kunt u een keuze maken uit een chip nummer, een netlist nummer, en het geprefereerde algoritme! Na het uitvoeren van het algoritme zal er een grafiek omhoog komen
+met de kosten van de samenstelling en de manier waarop het gestructureerd is.
+
 ## Case
 De case bestaat uit het vormen van een chip. De chip bestaat uit verschillende gates die op een bepaalde manier met elkaar verbonden staan. Deze manier komt voort uit de netlist.
 
