@@ -18,7 +18,7 @@ class Astar():
 
         return netlists
     
-    def run(self):
+    def run(self, x):
         """
         Seeks the best path between 2 gates
         """
@@ -213,22 +213,3 @@ class LengthAstar(Astar):
         length_netlists.reverse()
         
         return length_netlists
-
-
-
-                
-
-
-
-
-
-        
-                
-            
-
-            
-            
-
-
-        
-
