@@ -14,7 +14,7 @@ import random
 if __name__ == '__main__':
     # Read multiple files
     chip_number = "1"
-    netlist_number = "4"
+    netlist_number = "6"
     size = 17
     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
 
@@ -35,21 +35,21 @@ if __name__ == '__main__':
     #     print(cost)
     #     pg.plot_grid(test_grid, chip_number, netlist_number, cost)
     
-    open_GrAs = open("Greedy_heuresiek.csv", "a")
+    open_GrAs = open("Greedy_heuresiek2.csv", "a")
     
     while counter <= 50:    
-        reset = False
-        print("None")
-        while not reset:
-            start_time = time.time()
-            test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
-            greedy = gr.Greedy(test_grid)
-            reset = greedy.run()
-            times = (time.time() - start_time)
+        # reset = False
+        # print("None")
+        # while not reset:
+        #     start_time = time.time()
+        #     test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
+        #     greedy = gr.Greedy(test_grid)
+        #     reset = greedy.run()
+        #     times = (time.time() - start_time)
 
-        print(f"--- {times }seconds ---")
-        cost = test_grid.cost_of_route()
-        open_GrAs.write(f"Length, {times}, {cost} \n")
+        # print(f"--- {times }seconds ---")
+        # cost = test_grid.cost_of_route()
+        # open_GrAs.write(f"None, {times}, {cost} \n")
 
         reset = False
         print("Length")
@@ -62,7 +62,7 @@ if __name__ == '__main__':
 
         print(f"--- {times }seconds ---")
         cost = test_grid.cost_of_route()
-        open_GrAs.write(f"Length, {times}, {cost} \n")
+        # open_GrAs.write(f"Length, {times}, {cost} \n")
 
         reset = False
         print("Populated")
@@ -75,7 +75,7 @@ if __name__ == '__main__':
 
         print(f"--- {times}seconds ---")
         cost = test_grid.cost_of_route()
-        open_GrAs.write(f"Populated, {times}, {cost} \n")
+        # open_GrAs.write(f"Populated, {times}, {cost} \n")
         
         counter += 1  
         # reset = False
