@@ -1,5 +1,13 @@
 # Chips-Circuits
 
+## Gebruik
+Voor het gebruik van de applicatie, zal eerst de requirements moeten worden geïnstalleerd, aan de hand van onderstaande code.
+```python
+
+pip install -r requirements.txt
+
+```
+
 ## Case
 De case bestaat uit het vormen van een chip. De chip bestaat uit verschillende gates die op een bepaalde manier met elkaar verbonden staan. Deze manier komt voort uit de netlist.
 

@@ -18,7 +18,7 @@ class Astar():
 
         return netlists
     
-    def run(self, x):
+    def run(self):
         """
         Seeks the best path between 2 gates
         """
