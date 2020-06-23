@@ -1,10 +1,13 @@
 output.txt
 thomas.py
 kamiel.py
-*.csv
+daan.py
 *.png
+
+*.csv
 code/test/
 code/algorithms/astar-copy.py
+*.obj
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

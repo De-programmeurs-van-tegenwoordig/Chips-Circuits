@@ -137,18 +137,26 @@ class Grid():
 
         return origin_x, origin_y, destination_x, destination_y
 
-    def add_route(self, nets, amount_of_crosses):
+    def add_route(self, nets, crosses):
         self.list_of_nets[self.key] = nets
-        self.amount_of_crosses[self.key] = amount_of_crosses
+        self.amount_of_crosses[self.key] = crosses
         self.key += 1
 
     def remove_route(self, key):
-        key = key
         del self.list_of_nets[key]
         del self.amount_of_crosses[key]
         
     def get_list_of_routes(self):
         return self.list_of_nets
+    
+    def get_list_of_crosses(self):
+        return self.amount_of_crosses
+
+    def remove_crosses(self, netlist):
+        for item in self.amount_of_crosses:
+            list_of_crosses = self.amount_of_crosses[item]
+            if netlist in list_of_crosses:
+                list_of_crosses.remove(netlist)
 
     def cost_of_route(self):
         cost = 0
@@ -159,11 +167,9 @@ class Grid():
             cost += len(list_of_routes[item])
         
         for item in self.amount_of_crosses:
-            cost += (300 * self.amount_of_crosses[item])
+            cost += (300 * len(self.amount_of_crosses[item]))
         
         return cost
 
     def get_size(self):
         return self.size
-
-
