@@ -98,6 +98,7 @@ elif int(algorithm) == 3:
         plt.plot(result[1], color = "r", label="Newly calculated cost")
         plt.plot(result[2], color= "b", label="Current cost")
         plt.legend()
+        plt.style.use('ggplot')
         plt.show()
 
     # Print results and plot graph  

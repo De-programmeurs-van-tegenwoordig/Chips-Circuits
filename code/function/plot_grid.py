@@ -6,7 +6,11 @@ import time
 import os
 
 def plot_grid(grid_file, chip_number, netlist_number, cost, algorithm):
-    """ Plots the 3d graph """
+    """ 
+    Plots the 3d graph 
+    """
+    plt.style.use('ggplot')
+    
     list_of_nets = grid_file.get_list_of_routes()
     size = grid_file.get_size()
 

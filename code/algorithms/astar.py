@@ -90,7 +90,7 @@ class Astar():
                     self.grid_file.add_route(nets, crosses)
                     counter += 1
                     if counter % 10 == 0:
-                        print(f"Route connected: {coordinates_origin}, {coordinates_destination}. Crosses: {crosses} len(crosses): {len(crosses)}. Nummer: {counter}")
+                        print(f"Route connected: {coordinates_origin}, {coordinates_destination}, Crosses: {len(crosses)}, Nummer: {counter}")
                     break
                 
                 # Generate children

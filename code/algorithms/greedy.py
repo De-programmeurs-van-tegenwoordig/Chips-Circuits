@@ -60,7 +60,7 @@ class Greedy:
                 # While line has not reached endpoint
                 while current_x != destination_x or current_y != destination_y or current_z != destination_z:
 
-                    lowest_distance = 10000000
+                    lowest_distance = float("inf")
                     best_directions = []
 
                     # Look at every direction 
