@@ -16,7 +16,6 @@ netlist_number = float('inf')
 algorithm = float('inf')
 annealing = float('inf')
 size = 17
-test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
 
 # Request user input: chip number
 while chip_number != "0" and chip_number != "1" and chip_number != "2":
@@ -40,6 +39,7 @@ while algorithm != "1" and algorithm != "2" and algorithm != "3":
 
 # Perform desired algorithm: Random
 if int(algorithm) == 1:
+    test_grid = grid.Grid(f"data/chip_{chip_number}/print_{chip_number}.csv", f"data/chip_{chip_number}/netlist_{netlist_number}.csv", size)
     rs.random_solve3D(test_grid)
 
 # Perform desired algorithm : Greedy    
@@ -71,8 +71,9 @@ elif int(algorithm) == 3:
             astar = ast.PopAstar(test_grid)
             reset = astar.run()
 
-        simA = siman.SimulatedAnnealing(test_grid)
         cost = test_grid.cost_of_route()
+        print(f"Kosten voor Simulated Annealing: {cost}")
+        simA = siman.SimulatedAnnealing(test_grid)
         run = simA.run(cost)
         cost = run[0]
         pg.plot_graph(run[1])
