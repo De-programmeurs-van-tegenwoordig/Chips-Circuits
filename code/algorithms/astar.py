@@ -87,7 +87,6 @@ class Astar():
                         new_netlist = net.Net(paths[i], paths[i+1])
                         nets.append(new_netlist)
                     
-                    print(crosses)
                     self.grid_file.add_route(nets, crosses)
                     counter += 1
                     if counter % 10 == 0:

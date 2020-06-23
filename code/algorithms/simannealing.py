@@ -31,8 +31,8 @@ class SimulatedAnnealing():
         max_iterations = iterations
         start_temp = 1000
 
-        amount_of_netlists = len(self.grid_file.get_netlists())
-        amount_of_redirects = 0.1 * amount_of_netlists
+        amount_of_netlists = len(self.grid_file.get_list_of_routes())
+        amount_of_redirects = amount_of_netlists // 10
         print("hoiii", amount_of_redirects)
 
         all_cost = []
@@ -40,14 +40,14 @@ class SimulatedAnnealing():
         all_cost.append(cost)
         lowest_cost.append(cost)
 
-        # 
+        # Run simulated annealing for every iteration
         for iteration in range(max_iterations):
             backup_grid = copy.deepcopy(self.grid_file)
             counter = 0
 
             # Progression notifier
             if iteration % 10 == 0:
-                print("nu bij iteratie:", iteration)
+                print("Nu bij iteratie:", iteration)
 
             # Get all routes and amount of crosses
             routes = self.grid_file.get_list_of_routes()
@@ -72,7 +72,7 @@ class SimulatedAnnealing():
 
                 counter += 1
 
-            self.grid_file.netlists = []
+            self.grid_file.empty_netlists()
 
             # Formulate the removed routes into a netlist for Astar
             for item in redirect:
@@ -102,7 +102,6 @@ class SimulatedAnnealing():
 
                 current_temp = start_temp - (start_temp/max_iterations) * iteration
                 probability = acceptance_probability(cost, new_cost, current_temp)
-                print(probability)
 
                 # Calculates if new state should be accepted
                 if random.uniform(0, 1) < probability:
