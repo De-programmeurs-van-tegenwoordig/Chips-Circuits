@@ -15,6 +15,9 @@ python main.py
 
 ```
 
+Nu komt u in het menu, en kunt u een keuze maken uit een chip nummer, een netlist nummer, en het geprefereerde algoritme! Na het uitvoeren van het algoritme zal er een grafiek omhoog komen
+met de kosten van de samenstelling en de manier waarop het gestructureerd is.
+
 ## Case
 De case bestaat uit het vormen van een chip. De chip bestaat uit verschillende gates die op een bepaalde manier met elkaar verbonden staan. Deze manier komt voort uit de netlist.
 
