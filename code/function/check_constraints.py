@@ -26,9 +26,9 @@ def check_constraints(grid_file, coordinates_from, coordinates_to, coordinates_d
                 check = False
                 return check, cross
         else:
-            # dit betekent zichzelf kruizen wat raar is
             if coordinates_to == net_from or coordinates_to == net_to:
-                cross = True
+                check = False
+                return check, cross
 
             if coordinates_from == net_from and coordinates_to == net_to:
                 check = False

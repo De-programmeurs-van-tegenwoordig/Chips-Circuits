@@ -28,7 +28,7 @@ class Greedy:
             netlist = self.grid_file.get_coordinates_netlist(netlists[0])
             netlists.pop(0)
 
-            cross_counter = 0
+            cross_counter = []
             reset = 1
 
             # Greedy resets up to a 100 times if it gets stuck
@@ -72,7 +72,7 @@ class Greedy:
 
                         if check:
                             distance = abs(coordinates_to[0] - coordinates_destination[0]) + abs(coordinates_to[1] - coordinates_destination[1]) + abs(coordinates_to[2] - coordinates_destination[2])
-                            if cross:
+                            if cross is not None:
                                 distance += 300
                             if distance < lowest_distance:
                                 best_directions.clear()
@@ -86,10 +86,10 @@ class Greedy:
                         break
                     
                     move_direction = random.choice(best_directions)
-                    while move_direction[1]:
+                    while move_direction[1] is not None:
                         ran = random.randint(0,101)
                         if ran < 5 * reset:
-                            cross_counter += 1
+                            cross_counter.append(move_direction[1])
                             break
                         else:
                             move_direction = random.choice(best_directions)
